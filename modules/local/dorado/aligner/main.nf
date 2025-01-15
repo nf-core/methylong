@@ -22,14 +22,14 @@ process DORADO_ALIGNER {
     task.ext.when == null || task.ext.when
 
     script:
+    def args        = task.ext.args ?: ''
 
     """
     dorado aligner \\
         -t $task.cpus \\
         $ref \\
         $reads \\
-        --emit-summary \\
-        --output-dir ${meta}
+        $args
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

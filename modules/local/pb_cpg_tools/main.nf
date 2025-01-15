@@ -21,7 +21,7 @@ process PB_CPG_TOOLS {
 
     script:
 
-    def pileup_mode = params.model == null ? "--pileup-mode count" : "--model /bin/models/pileup_calling_model.v1.tflite"
+    def pileup_mode = params.model == null ? "--model /bin/models/pileup_calling_model.v1.tflite" : "--pileup-mode count" 
 
     """
 
