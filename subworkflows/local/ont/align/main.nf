@@ -24,27 +24,37 @@ workflow ALIGN {
 
   // Alignment with dorado 
   DORADO_ALIGNER(ch_ont)
-  bam_file = DORADO_ALIGNER.out.bam
-  bai_file = DORADO_ALIGNER.out.bai
+
+  // Preapre inputds for downstream 
+  DORADO_ALIGNER.out.bam
+                    .set{bam_file}
+
+  DORADO_ALIGNER.out.bai
+                    .set{bai_file}
   
   // Prepare input for samtool flagstat 
   bam_file
-    .join(ch_ont) { bam_meta, ont_meta -> bam_meta.meta == ont_meta.meta }
-    .map { it[0].bam, it[1].method, "alignment" }
+    .join(ch_ont){ bam_meta, ont_meta -> bam_meta.meta == ont_meta.meta }
+    .map { [it[0].meta, it[0].bam, it[1].method, "alignment"] }
     .set { flagstat_in }
 
   // check alignment stat 
   SAMTOOLS_FLAGSTAT(flagstat_in)
   
-  // Prepare input for modkit pileup 
+  // Prepare inputs for modkit pileup 
   bam_file
     .join(bai_file) { bam_meta, bai_meta -> bam_meta.meta == bai_meta.meta }
-    .join(ch_ont) { bam_meta, ont_meta -> bam_meta.meta == ont_meta.meta }
-    .map { it[0].bam, it[1].bai, it[2].ref, it[2].method}
-    .set { ch_pileup_in }
+    .map { [it[0].meta, it[0].bam, it[1].bai] }
+    .set { ch_pile_in1 }
+
+  ch_ont
+    .join(bam_file) { ont_meta, bam_meta -> ont_meta.meta == bam_meta.meta }
+    .map {[it[0].meta, it[0].ref]}
+    .set { ch_pile_in2 }
 
   emit:
 
-    ch_pileup_in
+    ch_pile_in1
+    ch_pile_in2
 
 }

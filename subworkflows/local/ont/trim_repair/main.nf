@@ -94,18 +94,33 @@ workflow TRIM_REPAIR {
   SAMTOOLS_FASTQ(fastq_input)
 
 
-  PORECHOP(SAMTOOLS_FASTQ.out.other)
-  
+  PORECHOP(SAMTOOLS_FASTQ.out.other)  // might have problems here, double check 
+
   SAMTOOLS_IMPORT(PORECHOP.out.reads)
-  ch_modkit_in = SAMTOOLS_SORT.out.bam.join(SAMTOOLS_IMPORT.out.bam) 
-  MODKIT_REPAIR(ch_modkit_in)
+
+  // Prepare input for modkit repair 
+  SAMTOOLS_SORT.out.bam
+                   .join(SAMTOOLS_IMPORT.out.bam) { sort_meta, import_meta -> sort_meta.meta == import_meta.meta }
+                   .map{ [it[0].meta, it[0].bam, it[1].bam]}
+                   .set { ch_repair_in }
+
+  MODKIT_REPAIR(ch_repair_in)
+
+  // Prepare input for alignment step
+
   MODKIT_REPAIR.out.bam
                    .join(refs)
                    .join(method)
                    .set { dorado_in }
 
+  MODKIT_REPAIR.out.bam
+                   .join(input){ repair_meta, input_meta -> repair_meta.meta == input_meta.meta }
+                   .map{ [it[0].meta, it[0].bam, it[1].ref, it[1].method]}
+                   .set { dorado_in }
+
+
   emit: 
     dorado_in  
-    refs
-    method
 } 
+
+
