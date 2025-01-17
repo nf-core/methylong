@@ -1,5 +1,5 @@
 process DORADO_ALIGNER {
-    tag "$meta"
+    tag "$meta.id"
     label 'process_medium'
     //publishDir "${params.out}", mode: 'copy', overwrite: false
     publishDir(
