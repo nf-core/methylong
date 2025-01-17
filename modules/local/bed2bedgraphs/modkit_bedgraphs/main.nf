@@ -7,13 +7,8 @@
 
 
 process MODKIT_BEDGRAPH {
-    tag "$meta"
+    tag "$meta.id"
     label 'process_medium'
-    publishDir(
-        path: "${params.outdir}/${method}/modkit_bedgraph",
-        mode: 'copy',
-        saveAs: { fn -> fn.substring(fn.lastIndexOf('/')+1) },
-    )
 
     input:
     tuple val(meta), path(in_bed), val(method)

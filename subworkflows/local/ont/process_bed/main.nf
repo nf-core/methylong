@@ -4,7 +4,7 @@
  ===========================================
  */
 
-include { MODKIT_BEDGRAPH } from '../../../modules/bed2bedgraph/modkit_bedgraphs/main'
+include { MODKIT_BEDGRAPH } from '../../../../modules/local/bed2bedgraphs/modkit_bedgraphs/main'
 
 /*
  ===========================================

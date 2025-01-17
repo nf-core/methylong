@@ -5,7 +5,7 @@
  */
 
 
-include { MODKIT_PILEUP } from '../../../modules/modkit/pileup/main'
+include { MODKIT_PILEUP } from '../../../../modules/nf-core/modkit/pileup/main'
 
 /*
  ===========================================

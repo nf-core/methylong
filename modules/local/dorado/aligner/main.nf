@@ -1,20 +1,15 @@
 process DORADO_ALIGNER {
     tag "$meta.id"
     label 'process_medium'
-    //publishDir "${params.out}", mode: 'copy', overwrite: false
-    publishDir(
-        path:  "${params.outdir}/${method}/alignment/${meta}",
-        mode: 'copy',
-        saveAs: { fn -> fn.substring(fn.lastIndexOf('/')+1) },
-    )
+
 
     input:
     tuple val(meta), path(reads), path(ref), val(method)
 
     output:
-    tuple val(meta), path("${meta}/*.bam"), emit: bam
-    tuple val(meta), path("${meta}/*.bai"), emit: bai
-    tuple val(meta), path("${meta}/*.txt"), emit: summary
+    tuple val(meta), path("${meta.id}/*.bam"), emit: bam
+    tuple val(meta), path("${meta.id}/*.bai"), emit: bai
+    tuple val(meta), path("${meta.id}/*.txt"), emit: summary
 
     path "versions.yml"       , emit: versions
 

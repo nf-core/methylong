@@ -1,12 +1,6 @@
 process MODKIT_REPAIR {
-    tag "$meta"
+    tag "$meta.id"
     label 'process_medium'
-    //publishDir "${params.out}", mode: 'copy', overwrite: false
-    publishDir(
-        path: "${params.outdir}/ont/repair",
-        mode: 'copy',
-        saveAs: { fn -> fn.substring(fn.lastIndexOf('/')+1) },
-    )
 
     input:
     tuple val(meta), path(before_trim), path(after_trim)
@@ -28,6 +22,7 @@ process MODKIT_REPAIR {
         -a $after_trim \\
         -o ${meta}_repaired.bam \\
         --log-filepath ./${meta}_repair.log
+        
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         modkit: \$( modkit --version )

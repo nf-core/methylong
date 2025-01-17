@@ -5,8 +5,8 @@
  */
 
 
-include { DORADO_ALIGNER } from '../../../modules/dorado/aligner/main'
-include { SAMTOOLS_FLAGSTAT } from '../../../modules/samtools/flagstat/main'
+include { DORADO_ALIGNER } from '../../../../modules/local/dorado/aligner/main'
+include { SAMTOOLS_FLAGSTAT } from '../../../../modules/nf-core/samtools/flagstat/main'
 
 /*
  ===========================================
