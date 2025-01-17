@@ -32,16 +32,7 @@ workflow ALIGN {
   DORADO_ALIGNER.out.bai
                     .set{bai_file}
   
-  // Prepare input for samtool flagstat 
-  bam_file
-    .join(ch_ont){ bam_meta, ont_meta -> bam_meta.meta == ont_meta.meta }
-    .map { [it[0].meta, it[0].bam, it[1].method, "alignment"] }
-    .set { flagstat_in }
-
-  // check alignment stat 
-  SAMTOOLS_FLAGSTAT(flagstat_in)
-  
-  // Prepare inputs for modkit pileup 
+  // Prepare input for samtool flagstat and modkit pileup
   bam_file
     .join(bai_file) { bam_meta, bai_meta -> bam_meta.meta == bai_meta.meta }
     .map { [it[0].meta, it[0].bam, it[1].bai] }
@@ -51,6 +42,10 @@ workflow ALIGN {
     .join(bam_file) { ont_meta, bam_meta -> ont_meta.meta == bam_meta.meta }
     .map {[it[0].meta, it[0].ref]}
     .set { ch_pile_in2 }
+
+  // check alignment stat 
+  SAMTOOLS_FLAGSTAT(ch_pile_in1)
+
 
   emit:
 

@@ -1,12 +1,6 @@
 process MINIMAP2 {
-    tag "$meta"
+    tag "$meta.id"
     label 'process_medium'
-    //publishDir "${params.out}", mode: 'copy', overwrite: false
-    publishDir(
-        path:  "${params.outdir}/pacbio/aligned_minimap2/${meta}",
-        mode: 'copy',
-        saveAs: { fn -> fn.substring(fn.lastIndexOf('/')+1) },
-    )
 
     input:
     tuple val(meta), path(reads), path(ref)
@@ -28,7 +22,7 @@ process MINIMAP2 {
         --secondary=no \\
         | samtools sort \\
         --write-index --threads $task.cpus \\
-        -o ${meta}_pacbio_aligned.bam
+        -o ${meta.id}_pacbio_aligned.bam
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

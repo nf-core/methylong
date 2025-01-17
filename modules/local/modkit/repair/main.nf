@@ -20,8 +20,8 @@ process MODKIT_REPAIR {
         -t $task.cpus \\
         -d $before_trim  \\
         -a $after_trim \\
-        -o ${meta}_repaired.bam \\
-        --log-filepath ./${meta}_repair.log
+        -o ${meta.id}_repaired.bam \\
+        --log-filepath ./${meta.id}_repair.log
         
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

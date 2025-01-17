@@ -1,5 +1,5 @@
 process SAMTOOLS_MERGE {
-    tag "$meta"
+    tag "$meta.id"
     label 'process_medium'
 
     input:
@@ -14,8 +14,15 @@ process SAMTOOLS_MERGE {
     script:
 
     """
-    samtools merge -@ $task.cpus $forwardbam $reversebam -o - \\
-        | samtools sort - -o sorted_${meta}_tagged.bam --write-index
+    samtools \\
+        merge \\
+        -@ ${task.cpus} \\
+        $forwardbam \\
+        $reversebam \\
+        -o - \\
+        | samtools \\
+        sort - -o sorted_${meta.id}_tagged.bam \\
+        --write-index
     
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

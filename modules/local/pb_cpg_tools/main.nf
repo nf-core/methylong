@@ -1,19 +1,14 @@
 process PB_CPG_TOOLS {
-    tag "$meta"
+    tag "$meta.id"
     label 'process_medium'
-    publishDir(
-        path:  "${params.outdir}/${method}/pileup/pb_cpg_tools/${meta}",
-        mode: 'copy',
-        saveAs: { fn -> fn.substring(fn.lastIndexOf('/')+1) },
-    )
 
     input:
-    tuple val(meta), path(bam), path(index), path(ref), val(method)
-
+    tuple val(meta), path(bam), path(index)
+    tuple val(meta2), path(ref)
 
     output:
-    tuple val(meta), path("*hap1.bed"), emit: forwardbed
-    tuple val(meta), path("*hap2.bed"), emit: reversebed
+    tuple val(meta), path("*positive.bed"), emit: forwardbed
+    tuple val(meta), path("*negative.bed"), emit: reversebed
     tuple val(meta), path("*.bw"), emit: bw
     tuple val(meta), path("*.log"), emit: log
     path "versions.yml"       , emit: versions
@@ -27,11 +22,15 @@ process PB_CPG_TOOLS {
 
     aligned_bam_to_cpg_scores \\
         --bam $bam \\
-        --output-prefix ${meta} \\
+        --output-prefix ${meta.id} \\
         --min-coverage 5 \\
-        --threads $task.cpus \\
+        --threads ${task.cpus} \\
         --ref $ref \\
         $pileup_mode
+
+    # Rename output files
+    mv ${meta.id}.hap1.bed ${meta.id}_positive.bed
+    mv ${meta.id}.hap2.bed ${meta.id}_negative.bed
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
