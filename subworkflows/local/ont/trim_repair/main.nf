@@ -45,12 +45,12 @@ workflow TRIM_REPAIR {
                           [meta, in_bam, ""] } // Add an empty string to satisfy samtools fastq input requirement 
                    .set { fastq_input }
   
-  SAMTOOLS_FASTQ(fastq_input)
+  SAMTOOLS_FASTQ(fastq_input, ch_sort_dummy)
 
 
   PORECHOP_PORECHOP(SAMTOOLS_FASTQ.out.other)  // might have problems here, double check 
 
-  SAMTOOLS_IMPORT(PORECHOP.out.reads)
+  SAMTOOLS_IMPORT(PORECHOP_PORECHOP.out.reads)
 
   // Prepare input for modkit repair 
   SAMTOOLS_SORT.out.bam

@@ -8,7 +8,7 @@
 
 include { SAMTOOLS_FLAGSTAT } from '../../../../modules/nf-core/samtools/flagstat/main'
 include { SAMTOOLS_INDEX } from '../../../../modules/nf-core/samtools/index/main'
-include { PBMM2 } from '../../../../modules/nf-core/pbmm2/main'
+include { PBMM2_ALIGN } from '../../../../modules/nf-core/pbmm2/align/main'
 
 /*
  ===========================================
@@ -27,16 +27,16 @@ workflow MAP_PBMM2 {
   main:
 
     input
-      .map(row -> [row.meta, row.modbam])
+      .map{row -> [row.id, row.modbam]}
       .set{ reads_in }
 
     input
-      .map(row -> [row.meta, row.ref])
+      .map{row -> [row.id, row.ref]}
       .set{ ref_in }
 
     PBMM2_ALIGN(reads_in, ref_in)
 
-    SAMTOOLS_INDEX(PBMM2.out.bam)
+    SAMTOOLS_INDEX(PBMM2_ALIGN.out.bam)
 
     // Prepare input for samtool flagstat and modkit pileup
     PBMM2_ALIGN.out.bam
