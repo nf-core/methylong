@@ -27,12 +27,12 @@ workflow MAP_PBMM2 {
   main:
 
     input
-      .map{row -> [row.id, row.modbam]}
-      .set{ reads_in }
+        .map{ meta, modbam, _ref -> [meta, modbam]}
+        .set{ reads_in }
 
     input
-      .map{row -> [row.id, row.ref]}
-      .set{ ref_in }
+        .map{ meta, _modbam, ref -> [meta, ref]}
+        .set{ ref_in }
 
     PBMM2_ALIGN(reads_in, ref_in)
 
@@ -42,12 +42,11 @@ workflow MAP_PBMM2 {
     PBMM2_ALIGN.out.bam
                 .join(SAMTOOLS_INDEX.out.bai)
                 .set { ch_pile_in1 }
-
+    
     input
-        .join(PBMM2_ALIGN.out.bam) { input_meta, pbmm_meta -> input_meta.meta == pbmm_meta.meta }
-        .map {[it[0].meta, it[0].ref]}
+        .join(ch_pile_in1)
+        .map {meta, _modbam, ref, _alignmodbam, _index -> [meta, ref]}
         .set { ch_pile_in2 }
-
 
     SAMTOOLS_FLAGSTAT(ch_pile_in1)
                                   
@@ -55,6 +54,7 @@ workflow MAP_PBMM2 {
   emit:
     ch_pile_in1
     ch_pile_in2
+    
 
  } 
 

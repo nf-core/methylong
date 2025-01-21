@@ -27,37 +27,36 @@ workflow MAP_MINI {
 
     // Prepare input for samtools fastq 
     input
-      .map(row -> [row.meta, row.modBam])
-      .set { fastq_in }
+      .map{ meta, modbam, _ref -> [meta, modbam]}
+      .set{ fastq_in }
 
     // dummy 
-    ch_empty = Channel.empty()
+    ch_empty = Channel.of(null)
 
     SAMTOOLS_FASTQ(fastq_in, ch_empty)
 
+
     // Prepare input for minimap2 
     SAMTOOLS_FASTQ.out.other 
-                      .join(input){fastq_meta, input_meta -> fastq_meta.meta == input_meta.meta}
-                      .map {[it[0].meta, it[0].other, it[1].ref]}
-                      .set{ mini_in }
-
+                      .join(input)
+                      .map {meta, fastq, _modbam, ref -> [meta, fastq, ref]}
+                      .set {mini_in }
+    
     MINIMAP2(mini_in)
     
     // Prepare input for samtool flagstat and modkit pileup
     MINIMAP2.out.bam
-                .join(MINIMAP2.out.index) { bam_meta, index_meta -> bam_meta.meta == index_meta.meta }
+                .join(MINIMAP2.out.index) 
                 .set { ch_pile_in1 }
 
+
     input
-        .join(MINIMAP2.out.bam) { input_meta, mini_meta -> input_meta.meta == mini_meta.meta }
-        .map {[it[0].meta, it[0].ref]}
+        .join(MINIMAP2.out.bam)
+        .map {meta, _modbam, ref, _alignbam -> [meta, ref]}
         .set { ch_pile_in2 }
 
-    
     SAMTOOLS_FLAGSTAT(ch_pile_in1)                              
     
- 
-
   emit:
     ch_pile_in1
     ch_pile_in2

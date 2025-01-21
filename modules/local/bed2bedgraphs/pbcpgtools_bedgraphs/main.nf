@@ -22,7 +22,7 @@ process PBCPG_BEDGRAPHS {
     awk 'BEGIN {OFS="\\t"} {print \$1, \$2, \$3, \$4, \$6}' ${forwardbed} > ${meta.id}.${pileup_mode}.forward.bedgraph
     awk 'BEGIN {OFS="\\t"} {print \$1, \$2+1, \$3+1, \$4, \$6}' ${reversebed} > ${meta.id}.${pileup_mode}.reverse.bedgraph
 
-    cat ${meta.id}.${pileup_mode}.forward.bedgraph ${meta}.${pileup_mode}.reverse.bedgraph > ${meta.id}_CG_${pileup_mode}.merged.bedgraph
+    cat ${meta.id}.${pileup_mode}.forward.bedgraph ${meta.id}.${pileup_mode}.reverse.bedgraph > ${meta.id}_CG_${pileup_mode}.merged.bedgraph
     
     """
 }

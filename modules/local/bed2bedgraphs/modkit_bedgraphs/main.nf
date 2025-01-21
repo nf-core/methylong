@@ -11,7 +11,7 @@ process MODKIT_BEDGRAPH {
     label 'process_medium'
 
     input:
-    tuple val(meta), path(in_bed), val(method)
+    tuple val(meta), path(in_bed)
 
     output:
     tuple val(meta), path("*.bedgraph"), emit: bedgraph
@@ -41,7 +41,7 @@ process MODKIT_BEDGRAPH {
             ;;
         esac
         echo "File Path: ${in_bed}"
-        awk -v strand=\$strand -v mod=\$mod 'BEGIN{OFS="\t"} ((\$4==mod) && (\$6==strand)) && (\$5 >= 5) {print \$1,\$2,\$3,\$11,\$12,\$13}' ${in_bed} > ${meta}_\${out_file}
+        awk -v strand=\$strand -v mod=\$mod 'BEGIN{OFS="\t"} ((\$4==mod) && (\$6==strand)) && (\$5 >= 5) {print \$1,\$2,\$3,\$11,\$12,\$13}' ${in_bed} > ${meta.id}_\${out_file}
       done
     done
     """

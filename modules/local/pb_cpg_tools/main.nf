@@ -2,6 +2,11 @@ process PB_CPG_TOOLS {
     tag "$meta.id"
     label 'process_medium'
 
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'quay.io/pacbio/pb-cpg-tools:v2.3.2_build3':
+        'quay.io/pacbio/pb-cpg-tools:v2.3.2_build3' }"
+
+
     input:
     tuple val(meta), path(bam), path(index)
     tuple val(meta2), path(ref)
@@ -16,10 +21,9 @@ process PB_CPG_TOOLS {
 
     script:
 
-    def pileup_mode = params.model == null ? "--model /bin/models/pileup_calling_model.v1.tflite" : "--pileup-mode count" 
+    def pileup_mode = params.pileup_count ? "--pileup-mode count" : "--model /opt/pb-CpG-tools-v2.3.2-x86_64-unknown-linux-gnu/models/pileup_calling_model.v1.tflite" 
 
     """
-
     aligned_bam_to_cpg_scores \\
         --bam $bam \\
         --output-prefix ${meta.id} \\

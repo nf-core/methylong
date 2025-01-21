@@ -6,7 +6,13 @@
 
 include { PACBIO   } from '../subworkflows/local/pacbio/main'
 include { ONT      } from '../subworkflows/local/ont/main'
-include { PBMM2_ALIGN } from '../modules/nf-core/pbmm2/align/main'
+include { MAP_MINI } from '../subworkflows/local/pacbio/minimap2/main'
+include { MAP_PBMM2 } from '../subworkflows/local/pacbio/pbmm2/main'
+include { PILEUP as MODK_PILEUP} from '../subworkflows/local/ont/pileup/main'
+include { SPLIT_STRAND } from '../subworkflows/local/pacbio/split_strand/main'
+include { CPG_PILEUP } from '../subworkflows/local/pacbio/pbcpgtools/main'
+include { PROCESS_PB_BED } from '../subworkflows/local/pacbio/process_bed/main'
+include { PROCESS_BED } from '../subworkflows/local/ont/process_bed/main'
 
 
 /*
@@ -38,29 +44,19 @@ workflow METHYLONG {
                   .set {ch_pacbio}
 
 
-        ch_pacbio
-               .map{ meta, modbam, _ref -> [meta, modbam]}
-               .set{ reads_in }
+        //ch_pacbio
+        //       .map{ meta, modbam, _ref -> [meta, modbam]}
+        //       .set{ reads_in }
 
-        ch_pacbio
-               .map{ meta, _modbam, ref -> [meta, ref]}
-               .set{ ref_in }
+        //ch_pacbio
+        //       .map{ meta, _modbam, ref -> [meta, ref]}
+        //       .set{ ref_in }
 
-       // ch_pacbio
-       //         .map{row -> [row.id, row.ref]}
-       //         .set{ ref_in }
-//
-       // PBMM2_ALIGN(reads_in, ref_in)
-        //ch_samples.map { it[0] }
-                //  .filter { it.method == "ont" }
-                //  .set {ch_ont}
 
-        // Debug: View the content of ch_pacbio and ch_ont
-        reads_in.view { "${it}"}
-        ref_in.view { "ref path: ${it}"}
 
-        PBMM2_ALIGN(reads_in, ref_in)
-        
+
+        //PBMM2_ALIGN(reads_in, ref_in)
+        ch_pacbio |  MAP_MINI | SPLIT_STRAND | CPG_PILEUP | PROCESS_PB_BED
 
         //ch_ont.view { "${it}" }
 

@@ -38,7 +38,7 @@ workflow PACBIO {
   // Case when aligner is minimap2 and pileup method is modkit 
   if (params.aligner == "minimap2" && params.pileup_method == "modkit") {
       if (params.bedgraph) {
-        input | MAP_MINI | MODK_PILEUP | PROCESS_BED
+        input | MAP_MINI | MODK_PILEUP | PROCESS_BED // clear 
       } else {
         input | MAP_MINI | MODK_PILEUP 
       }
@@ -47,7 +47,7 @@ workflow PACBIO {
     } else if (params.aligner == "pbmm2" && params.pileup_method == "modkit") {
 
       if (params.bedgraph) {
-          input | MAP_PBMM2 | MODK_PILEUP | PROCESS_BED
+          input | MAP_PBMM2 | MODK_PILEUP | PROCESS_BED // clear 
         } else {
           input | MAP_PBMM2 | MODK_PILEUP 
         }
@@ -55,7 +55,7 @@ workflow PACBIO {
     } else if (params.aligner == "minimap2" && params.pileup_method == "pbcpgtools") {
       
       if (params.bedgraph) {
-          input | MAP_MINI | SPLIT_STRAND | CPG_PILEUP | PROCESS_PB_BED
+          input | MAP_MINI | SPLIT_STRAND | CPG_PILEUP | PROCESS_PB_BED //clear
         } else {
           input | MAP_MINI | SPLIT_STRAND | CPG_PILEUP 
         }
@@ -64,7 +64,7 @@ workflow PACBIO {
 
       // default setting when aligner is pbmm2 and pileup method is pbcpgtools
       if (params.bedgraph) {
-          input | MAP_PBMM2 | SPLIT_STRAND | CPG_PILEUP | PROCESS_PB_BED
+          input | MAP_PBMM2 | SPLIT_STRAND | CPG_PILEUP | PROCESS_PB_BED //clear 
         } else {
           input | MAP_PBMM2 | SPLIT_STRAND | CPG_PILEUP 
         }
