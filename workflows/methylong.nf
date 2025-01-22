@@ -13,6 +13,8 @@ include { SPLIT_STRAND } from '../subworkflows/local/pacbio/split_strand/main'
 include { CPG_PILEUP } from '../subworkflows/local/pacbio/pbcpgtools/main'
 include { PROCESS_PB_BED } from '../subworkflows/local/pacbio/process_bed/main'
 include { PROCESS_BED } from '../subworkflows/local/ont/process_bed/main'
+include { TRIM_REPAIR } from '../subworkflows/local/ont/trim_repair/main'
+include { ALIGN } from '../subworkflows/local/ont/align/main'
 
 
 /*
@@ -43,6 +45,10 @@ workflow METHYLONG {
                   .filter {  it[0].method == "pacbio" }
                   .set {ch_pacbio}
 
+        ch_samples
+                  .filter {  it[0].method == "ont" }
+                  .set {ch_ont}
+
 
         //ch_pacbio
         //       .map{ meta, modbam, _ref -> [meta, modbam]}
@@ -54,11 +60,10 @@ workflow METHYLONG {
 
 
 
-
-        //PBMM2_ALIGN(reads_in, ref_in)
         ch_pacbio |  MAP_MINI | SPLIT_STRAND | CPG_PILEUP | PROCESS_PB_BED
 
-        //ch_ont.view { "${it}" }
+        ch_ont | TRIM_REPAIR | ALIGN | MODK_PILEUP | PROCESS_BED
+        ch_ont.view { "${it}" }
 
         // Handle PacBio samples
         //PACBIO(ch_pacbio)

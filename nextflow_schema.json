@@ -181,6 +181,36 @@
                     "hidden": true
                 }
             }
+        },
+        "pipeline_parameters": {
+            "title": "Pipeline_parameters",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "samplesheet": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "aligner": {
+                    "type": "string",
+                    "default": "pbmm2"
+                },
+                "pileup_method": {
+                    "type": "string",
+                    "default": "pbcpgtools"
+                },
+                "bedgraph": {
+                    "type": "boolean"
+                },
+                "pileup_count": {
+                    "type": "boolean"
+                },
+                "no_trim": {
+                    "type": "boolean"
+                }
+            },
+            "required": ["samplesheet"]
         }
     },
     "allOf": [
@@ -192,30 +222,21 @@
         },
         {
             "$ref": "#/$defs/generic_options"
+        },
+        {
+            "$ref": "#/$defs/pipeline_parameters"
         }
     ],
     "properties": {
-        "samplesheet": {
-            "type": "boolean",
-            "default": true
-        },
-        "no_trim": {
-            "type": "boolean"
-        },
-        "aligner": {
-            "type": "string",
-            "default": "pbmm2"
-        },
-        "pileup_method": {
-            "type": "string",
-            "default": "pbcpgtools"
-        },
-        "model": {
+        "genome": {
             "type": "string"
         },
-        "bedgraph": {
+        "igenomes_ignore": {
             "type": "boolean"
+        },
+        "igenomes_base": {
+            "type": "string",
+            "default": "s3://ngi-igenomes/igenomes/"
         }
-    },
-    "required": ["samplesheet"]
+    }
 }

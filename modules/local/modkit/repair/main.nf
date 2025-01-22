@@ -2,6 +2,8 @@ process MODKIT_REPAIR {
     tag "$meta.id"
     label 'process_medium'
 
+    container "quay.io/biocontainers/ont-modkit:0.4.2--hcdda2d0_0"
+
     input:
     tuple val(meta), path(before_trim), path(after_trim)
 

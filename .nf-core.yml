@@ -14,3 +14,5 @@ template:
   skip_features: null
   version: 1.0.0dev
 update: null
+bump-versions:
+  modkit/pileup: '0.4.2'

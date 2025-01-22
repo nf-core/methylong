@@ -2,9 +2,7 @@ process PB_CPG_TOOLS {
     tag "$meta.id"
     label 'process_medium'
 
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'quay.io/pacbio/pb-cpg-tools:v2.3.2_build3':
-        'quay.io/pacbio/pb-cpg-tools:v2.3.2_build3' }"
+    container = "quay.io/pacbio/pb-cpg-tools:v2.3.2_build3"
 
 
     input:

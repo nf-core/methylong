@@ -13,8 +13,8 @@ process PBCPG_BEDGRAPHS {
     task.ext.when == null || task.ext.when
 
     script:
-
-     def pileup_mode = params.model == null ? "model" : "count" 
+    
+    def pileup_mode = params.pileup_count ? "count" : "model"
 
     """
     set -eu

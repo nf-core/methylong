@@ -28,50 +28,47 @@ workflow TRIM_REPAIR {
 
   // Create samtools sort input 
   input
-      .map(row -> [row.meta, row.modBam])
+      .map{ meta, modbam, _ref -> [meta, modbam]}
       .set { ch_sort_in }
 
 
   // Create a dummy tuple for samtools sort 
   input
-      .map(row -> [row.meta, "/dev/null"])
+      .map{ meta, _modbam, _ref -> [meta, []]}
       .set { ch_sort_dummy }
+
+  // samtools fastq dummy 
+  ch_empty = Channel.of(null)
 
   SAMTOOLS_SORT(ch_sort_in, ch_sort_dummy)
 
   // set input to samtools fastq 
   SAMTOOLS_SORT.out.bam
-                   .map { meta, in_bam ->
-                          [meta, in_bam, ""] } // Add an empty string to satisfy samtools fastq input requirement 
+                   .map { meta, bam -> [meta, bam] } 
                    .set { fastq_input }
   
-  SAMTOOLS_FASTQ(fastq_input, ch_sort_dummy)
+  SAMTOOLS_FASTQ(fastq_input, ch_empty)
 
 
-  PORECHOP_PORECHOP(SAMTOOLS_FASTQ.out.other)  // might have problems here, double check 
+  PORECHOP_PORECHOP(SAMTOOLS_FASTQ.out.other)  
 
   SAMTOOLS_IMPORT(PORECHOP_PORECHOP.out.reads)
 
   // Prepare input for modkit repair 
   SAMTOOLS_SORT.out.bam
-                   .join(SAMTOOLS_IMPORT.out.bam) { sort_meta, import_meta -> sort_meta.meta == import_meta.meta }
-                   .map{ [it[0].meta, it[0].bam, it[1].bam]}
+                   .join(SAMTOOLS_IMPORT.out.bam)
+                   .map { meta, before_trim, after_trim -> [meta, before_trim, after_trim]}
                    .set { ch_repair_in }
 
   MODKIT_REPAIR(ch_repair_in)
 
   // Prepare input for alignment step
 
-  MODKIT_REPAIR.out.bam
-                   .join(refs)
-                   .join(method)
-                   .set { dorado_in }
 
   MODKIT_REPAIR.out.bam
-                   .join(input){ repair_meta, input_meta -> repair_meta.meta == input_meta.meta }
-                   .map{ [it[0].meta, it[0].bam, it[1].ref, it[1].method]}
-                   .set { dorado_in }
-
+                   .join(input)
+                   .map { meta, trimmed_bam, _inbam, ref -> [ meta, trimmed_bam, ref]}
+                   .set {dorado_in}
 
   emit: 
     dorado_in  

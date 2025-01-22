@@ -18,30 +18,24 @@ include { SAMTOOLS_FLAGSTAT } from '../../../../modules/nf-core/samtools/flagsta
 workflow ALIGN {
   
   take: 
-    ch_ont
+    dorado_in
 
   main:
 
   // Alignment with dorado 
-  DORADO_ALIGNER(ch_ont)
+  DORADO_ALIGNER(dorado_in)
 
-  // Preapre inputds for downstream 
+  // Preapre inputs for downstream
   DORADO_ALIGNER.out.bam
-                    .set{bam_file}
+                    .join(DORADO_ALIGNER.out.bai)
+                    .map { meta, bam, bai -> [meta, bam, bai]}
+                    .set { ch_pile_in1 }
 
-  DORADO_ALIGNER.out.bai
-                    .set{bai_file}
-  
-  // Prepare input for samtool flagstat and modkit pileup
-  bam_file
-    .join(bai_file) { bam_meta, bai_meta -> bam_meta.meta == bai_meta.meta }
-    .map { [it[0].meta, it[0].bam, it[1].bai] }
-    .set { ch_pile_in1 }
+  DORADO_ALIGNER.out.bam
+                    .join(dorado_in)
+                    .map { meta, _aligned_bam, _inbam, ref -> [meta, ref]}
+                    .set { ch_pile_in2 }
 
-  ch_ont
-    .join(bam_file) { ont_meta, bam_meta -> ont_meta.meta == bam_meta.meta }
-    .map {[it[0].meta, it[0].ref]}
-    .set { ch_pile_in2 }
 
   // check alignment stat 
   SAMTOOLS_FLAGSTAT(ch_pile_in1)
