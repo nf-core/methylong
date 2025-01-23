@@ -8,7 +8,7 @@
 include { TRIM_REPAIR } from './trim_repair/main'
 include { ALIGN } from './align/main'
 include { PILEUP } from './pileup/main'
-include { PROCESS_BED } from './process_bed/main'
+include { PROCESS_MK_BED } from '../shared/bed2bedgraphs/modkit/main'
 
 
 /*
@@ -29,7 +29,7 @@ workflow ONT {
         if (params.no_trim) {
             if (params.bedgraph) {
 
-                ch_ont | ALIGN | PILEUP | PROCESS_BED
+                ch_ont | ALIGN | PILEUP | PROCESS_MK_BED
 
             } else {
 
@@ -39,7 +39,7 @@ workflow ONT {
         } else {
             if (params.bedgraph) {
 
-                ch_ont | TRIM_REPAIR | ALIGN | PILEUP | PROCESS_BED
+                ch_ont | TRIM_REPAIR | ALIGN | PILEUP | PROCESS_MK_BED
 
             } else {
 

@@ -4,7 +4,7 @@
  ===========================================
  */
 
-include { PBCPG_BEDGRAPHS } from '../../../../modules/local/bed2bedgraphs/pbcpgtools_bedgraphs/main'
+include { PBCPG_BEDGRAPHS } from '../../../../../modules/local/bed2bedgraphs/pbcpgtools_bedgraphs/main'
 
 /*
  ===========================================

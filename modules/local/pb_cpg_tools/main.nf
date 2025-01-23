@@ -2,7 +2,7 @@ process PB_CPG_TOOLS {
     tag "$meta.id"
     label 'process_medium'
 
-    container = "quay.io/pacbio/pb-cpg-tools:v2.3.2_build3"
+    container "quay.io/pacbio/pb-cpg-tools:v2.3.2_build3"
 
 
     input:

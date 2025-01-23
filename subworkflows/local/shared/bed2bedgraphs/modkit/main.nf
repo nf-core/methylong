@@ -4,7 +4,7 @@
  ===========================================
  */
 
-include { MODKIT_BEDGRAPH } from '../../../../modules/local/bed2bedgraphs/modkit_bedgraphs/main'
+include { MODKIT_BEDGRAPH } from '../../../../../modules/local/bed2bedgraphs/modkit_bedgraphs/main'
 
 /*
  ===========================================
@@ -13,7 +13,7 @@ include { MODKIT_BEDGRAPH } from '../../../../modules/local/bed2bedgraphs/modkit
  */
 
 
-workflow PROCESS_BED {  
+workflow PROCESS_MK_BED {  
   
   take: 
     modkit_out

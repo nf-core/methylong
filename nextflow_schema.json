@@ -226,17 +226,5 @@
         {
             "$ref": "#/$defs/pipeline_parameters"
         }
-    ],
-    "properties": {
-        "genome": {
-            "type": "string"
-        },
-        "igenomes_ignore": {
-            "type": "boolean"
-        },
-        "igenomes_base": {
-            "type": "string",
-            "default": "s3://ngi-igenomes/igenomes/"
-        }
-    }
+    ]
 }

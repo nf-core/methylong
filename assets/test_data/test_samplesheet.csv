@@ -1,0 +1,3 @@
+sample,modbam,ref,method
+Col_0,/dss/lxclscratch/03/ra25wog/nf-core-methylong/assets/test_data/input_modBAM/test_mini_pacbio_Col-0_Chr1_5mb_7mb.bam,https://github.com/schatzlab/Col-CEN/raw/refs/heads/main/v1.2/Col-CEN_v1.2.fasta.gz,pacbio
+Col_0,/dss/lxclscratch/03/ra25wog/nf-core-methylong/assets/test_data/input_modBAM/test_mini_ont_Col-0_Chr1_5mb_7mb.bam,https://github.com/schatzlab/Col-CEN/raw/refs/heads/main/v1.2/Col-CEN_v1.2.fasta.gz,ont
