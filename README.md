@@ -15,24 +15,53 @@
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
 [![Launch on Seqera Platform](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Seqera%20Platform-%234256e7)](https://cloud.seqera.io/launch?pipeline=https://github.com/nf-core/methylong)
 
-[![Get help on Slack](http://img.shields.io/badge/slack-nf--core%20%23methylong-4A154B?labelColor=000000&logo=slack)](https://nfcore.slack.com/channels/methylong)[![Follow on Twitter](http://img.shields.io/badge/twitter-%40nf__core-1DA1F2?labelColor=000000&logo=twitter)](https://twitter.com/nf_core)[![Follow on Mastodon](https://img.shields.io/badge/mastodon-nf__core-6364ff?labelColor=FFFFFF&logo=mastodon)](https://mstdn.science/@nf_core)[![Watch on YouTube](http://img.shields.io/badge/youtube-nf--core-FF0000?labelColor=000000&logo=youtube)](https://www.youtube.com/c/nf-core)
+[![Get help on Slack](http://img.shields.io/badge/slack-nf--core%20%23methylong-4A154B?labelColor=000000&logo=slack)](https://nfcore.slack.com/channels/methylong)
 
 ## Introduction
 
-**nf-core/methylong** is a bioinformatics pipeline that ...
+**nf-core/methylong** is a bioinformatics pipeline that processes modification basecalled ONT reads or PacBio HiFi reads (modBam) by performing preprocessing steps (including trimming and tag repair), aligning them to the provided genome assembly, and extracting methylation calls into BED/BEDGraph format, ready for direct downstream analysis.
 
-<!-- TODO nf-core:
-   Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
-   major pipeline sections and the types of output it produces. You're giving an overview to someone new
-   to nf-core here, in 15-20 seconds. For an example, see https://github.com/nf-core/rnaseq/blob/master/README.md#introduction
--->
+### ONT workflow: 
 
-<!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
-     workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
+1. trim and repair tags of input modBam 
 
-1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
-2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+    - trim and repair workflow:
+        1. sort modBam - `samtools sort`
+        2. convert modBam to fastq - `samtools fastq`
+        3. trim barcode and adapters - `porechop`
+        4. convert trimmed modfastq to modBam - `samtools import`
+        5. repair MM/ML tags of trimmed modBam - `modkit repair`
+
+2. align to reference (plus sorting and indexing) - `dorado aligner` 
+    - include alignment summary - `samtools flagstat`
+
+3. create bedMethyl - `modkit pileup`
+4. create bedgraphs (optional)
+
+
+### PacBio workflow: 
+
+1. align to reference - `pbmm2` (default) or `minimap2` 
+
+    - minimap workflow: 
+        1. convert modBam to fastq - `samtools convert`
+        2. alignment - `minimap2`
+        3. sort and index - `samtools sort`
+        4. alignment summary - `samtools flagstat`
+
+    - pbmm2 workflow: 
+        1. alignment and sorting - `pbmm2`
+        2. index - `samtools index`
+        3. alignment summary - `samtools flagstat`
+
+2. create bedMethyl - `pb-CpG-tools` (default) or `modkit pileup` 
+    - 2 pile up methods available from `pb-CpG-tools`:
+        1. default using `model` 
+        2. or `count` (differences describe here: https://github.com/PacificBiosciences/pb-CpG-tools)
+
+3. create bedgraph (optional)
+
+
 
 ## Usage
 
