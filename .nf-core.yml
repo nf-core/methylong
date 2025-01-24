@@ -11,7 +11,10 @@ template:
   name: methylong
   org: nf-core
   outdir: .
-  skip_features: null
+  skip_features:
+    - igenomes
+    - fastqc
+    - multiqc
   version: 1.0.0dev
 update: null
 bump-versions:
