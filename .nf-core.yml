@@ -1,5 +1,5 @@
 bump_version: null
-lint: {}
+lint: {multiqc_config: false}
 nf_core_version: 3.0.2
 org_path: null
 repository_type: pipeline

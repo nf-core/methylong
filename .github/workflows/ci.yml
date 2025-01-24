@@ -29,6 +29,12 @@ jobs:
         NXF_VER:
           - "24.04.2"
           - "latest-everything"
+        PARAMETERS:
+          - "--bedgraph"
+          - "--no_trim"
+          - "--aligner minimap2"
+          - "--pileup_method modkit"
+          - "--pileup_count"
         profile:
           - "conda"
           - "docker"
@@ -80,6 +86,6 @@ jobs:
       - name: Clean up Disk space
         uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
 
-      - name: "Run pipeline with test data ${{ matrix.NXF_VER }} | ${{ matrix.test_name }} | ${{ matrix.profile }}"
+      - name: "Run pipeline with test data ${{ matrix.NXF_VER }} | ${{ matrix.test_name }} | ${{ matrix.profile }} | ${{ matrix.PARAMETERS }}" 
         run: |
-          nextflow run ${GITHUB_WORKSPACE} -profile ${{ matrix.test_name }},${{ matrix.profile }} --outdir ./results
+          nextflow run ${GITHUB_WORKSPACE} -profile ${{ matrix.test_name }},${{ matrix.profile }} ${{ matrix.profile }} --outdir ./results

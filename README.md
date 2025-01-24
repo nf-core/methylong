@@ -21,6 +21,8 @@
 
 **nf-core/methylong** is a bioinformatics pipeline that processes modification basecalled ONT reads or PacBio HiFi reads (modBam) by performing preprocessing steps (including trimming and tag repair), aligning them to the provided genome assembly, and extracting methylation calls into BED/BEDGraph format, ready for direct downstream analysis.
 
+**pipeline figure still in the making** 
+
 ### ONT workflow: 
 
 1. trim and repair tags of input modBam 
@@ -68,24 +70,21 @@
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
-
-Required inputs: 
-- unaligned ONT/ Pacbio modbam 
-- reference genome 
-
+<!-- TODO nf-core: Describe the minimum required steps to execute the pipeline, e.g. how to prepare samplesheets.
+     Explain what rows and columns represent. For instance (please edit as appropriate):
 
 First, prepare a samplesheet with your input data that looks as follows:
 
 `samplesheet.csv`:
 
 ```csv
-sample,modbam,ref,method
-Col_0,/dss/lxclscratch/03/ra25wog/nf-core-methylong/assets/test_data/input_modBAM/test_mini_pacbio_Col-0_Chr1_5mb_7mb.bam,https://github.com/schatzlab/Col-CEN/raw/refs/heads/main/v1.2/Col-CEN_v1.2.fasta.gz,pacbio
-Col_0,/dss/lxclscratch/03/ra25wog/nf-core-methylong/assets/test_data/input_modBAM/test_mini_ont_Col-0_Chr1_5mb_7mb.bam,https://github.com/schatzlab/Col-CEN/raw/refs/heads/main/v1.2/Col-CEN_v1.2.fasta.gz,ont
+sample,fastq_1,fastq_2
+CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
 ```
 
-Each row represents a modbam file, reference genome and sequencing method. 
+Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
 
+-->
 
 Now, you can run the pipeline using:
 
@@ -96,7 +95,6 @@ nextflow run nf-core/methylong \
    -profile <docker/singularity/.../institute> \
    --input samplesheet.csv \
    --outdir <OUTDIR>
-   
 ```
 
 > [!WARNING]
