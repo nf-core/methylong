@@ -73,25 +73,25 @@
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
-<!-- TODO nf-core: Describe the minimum required steps to execute the pipeline, e.g. how to prepare samplesheets.
-     Explain what rows and columns represent. For instance (please edit as appropriate):
 
 First, prepare a samplesheet with your input data that looks as follows:
 
 `samplesheet.csv`:
 
 ```csv
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
+sample,modbam,ref,method
+Col_0,ont_modbam.bam,Col_0.fasta,ont
 ```
 
-Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
+| Column | Content |
+| --- | --- |
+| `sample` | Name of the sample |
+| `modBam` | Path to basecalled modBam file |
+| `ref` | Path to assembly fasta/fa file |
+| `method` | specify ont / pacbio |
 
--->
 
 Now, you can run the pipeline using:
-
-<!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
 
 ```bash
 nextflow run nf-core/methylong \
@@ -105,12 +105,27 @@ nextflow run nf-core/methylong \
 
 For more details and further functionality, please refer to the [usage documentation](https://nf-co.re/methylong/usage) and the [parameter documentation](https://nf-co.re/methylong/parameters).
 
+### Parameters
+
+
+| Parameter | Purpose |
+| --- | --- |
+| `--samplesheet` | path to samplesheet |
+| `--outdir` | results directory, default: `'./results'` |
+| `--no_trim` | skip trimming in ONT workflow, process will start directly alignment |
+| `--aligner` | aligner option in PacBio workflow, default is pbmm2, specify `minimap2` to switch |
+| `--pileup_method` | pileup method in PacBio workflow, default is pbcpgtools, specify `modkit` to switch |
+| `--pileup_count` | specify pbcpgtools pileup mode, default is using model mode, specify this argument to switch to count mode |
+| `--bedgraph` | indicate if required bedgraphs as output |
+
+
 ## Pipeline output
 
 To see the results of an example test run with a full size dataset refer to the [results](https://nf-co.re/methylong/results) tab on the nf-core website pipeline page.
 For more details about the output files and reports, please refer to the
 [output documentation](https://nf-co.re/methylong/output).
 
+Folder stuctures of the outputs: 
 
 ```bash
 
