@@ -21,7 +21,6 @@
 
 **nf-core/methylong** is a bioinformatics pipeline that processes modification basecalled ONT reads or PacBio HiFi reads (modBam) by performing preprocessing steps (including trimming and tag repair), aligning them to the provided genome assembly, and extracting methylation calls into BED/BEDGraph format, ready for direct downstream analysis.
 
-**pipeline figure still in the making** 
 
 ### ONT workflow: 
 
