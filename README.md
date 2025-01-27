@@ -111,6 +111,51 @@ To see the results of an example test run with a full size dataset refer to the 
 For more details about the output files and reports, please refer to the
 [output documentation](https://nf-co.re/methylong/output).
 
+
+```bash
+
+├── ont/sampleName
+│   │
+│   ├── trim
+│   │   ├── trimmed.fastq.gz
+│   │   ├── trimmed.bam
+│   │   └── trimmed.log
+│   │
+│   ├── repair
+│   │   ├── repaired.bam
+│   │   └── repaired.log
+│   │
+│   ├── alignment
+│   │   ├── aligned.bam
+│   │   ├── aligned.bai
+│   │   ├── summary.txt
+│   │   └── aligned.flagstat
+│   │
+│   ├── pileup/modkit
+│   │   ├── pileup.bed
+│   │   └── pileup.log
+│   │
+│   └── bedgraph
+│       └── bedgraphs
+│ 
+│  
+└── pacbio/sampleName
+    │
+    ├── aligned_minimap2/ aligned_pbmm2
+    │   ├── aligned.bam
+    │   ├── aligned.bai/csi
+    │   └── aligned.flagstat
+    │
+    ├── pileup: modkit/pb_cpg_tools
+    │   ├── pileup.bed
+    │   ├── pileup.log
+    │   └── pileup.bw (only pb_cpg_tools)
+    │
+    └── bedgraph
+        └── bedgraphs
+
+```
+
 ## Credits
 
 nf-core/methylong was originally written by Jin Yan Khoo.
