@@ -62,7 +62,7 @@
 2. create bedMethyl - `pb-CpG-tools` (default) or `modkit pileup` 
     - 2 pile up methods available from `pb-CpG-tools`:
         1. default using `model` 
-        2. or `count` (differences describe here: https://github.com/PacificBiosciences/pb-CpG-tools)
+        2. or `count` (differences described here: https://github.com/PacificBiosciences/pb-CpG-tools)
 
 3. create bedgraph (optional)
 
