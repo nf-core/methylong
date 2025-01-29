@@ -37,9 +37,6 @@ workflow TRIM_REPAIR {
       .map{ meta, _modbam, _ref -> [meta, []]}
       .set { ch_sort_dummy }
 
-  // samtools fastq dummy 
-  ch_empty = Channel.of(null)
-
   SAMTOOLS_SORT(ch_sort_in, ch_sort_dummy)
 
   // set input to samtools fastq 
@@ -47,7 +44,7 @@ workflow TRIM_REPAIR {
                    .map { meta, bam -> [meta, bam] } 
                    .set { fastq_input }
   
-  SAMTOOLS_FASTQ(fastq_input, ch_empty)
+  SAMTOOLS_FASTQ(fastq_input, ch_sort_dummy)
 
 
   PORECHOP_PORECHOP(SAMTOOLS_FASTQ.out.other)  
