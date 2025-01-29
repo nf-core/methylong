@@ -34,6 +34,7 @@ workflow MAP_PBMM2 {
         .map{ meta, _modbam, ref -> [meta, ref]}
         .set{ ref_in }
 
+
     PBMM2_ALIGN(reads_in, ref_in)
 
     SAMTOOLS_INDEX(PBMM2_ALIGN.out.bam)

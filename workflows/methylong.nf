@@ -37,6 +37,9 @@ workflow METHYLONG {
                   .filter {  it[0].method == "ont" }
                   .set {ch_ont}
 
+
+        //ch_pacbio.view { "pacbio read: ${it[0]}, additional info: ${it[1]}" }
+        //ch_ont.view { "ont read: ${it[0]}, additional info: ${it[1]}" }
         // Handle PacBio samples
         ch_pacbio | UNZIP | PACBIO
         
