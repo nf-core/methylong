@@ -5,11 +5,11 @@
  */
 
 
-include { SAMTOOLS_FASTQ } from '../../../../modules/nf-core/samtools/fastq/main'
-include { SAMTOOLS_SORT } from '../../../../modules/nf-core/samtools/sort/main'
-include { PORECHOP_PORECHOP } from '../../../../modules/nf-core/porechop/porechop/main'
-include { SAMTOOLS_IMPORT } from '../../../../modules/nf-core/samtools/import/main'
-include { MODKIT_REPAIR } from '../../../../modules/local/modkit/repair/main'
+include { SAMTOOLS_FASTQ } from '../../../../../modules/nf-core/samtools/fastq/main'
+include { SAMTOOLS_SORT } from '../../../../../modules/nf-core/samtools/sort/main'
+include { PORECHOP_PORECHOP } from '../../../../../modules/local/porechop/porechop/main'
+include { SAMTOOLS_IMPORT } from '../../../../../modules/nf-core/samtools/import/main'
+include { MODKIT_REPAIR } from '../../../../../modules/local/modkit/repair/main'
 
 /*
  ===========================================
@@ -31,11 +31,6 @@ workflow TRIM_REPAIR {
       .map{ meta, modbam, _ref -> [meta, modbam]}
       .set { ch_sort_in }
 
-
-  // Create inputs for ref 
-  input
-    .map{ meta, _modbam, ref -> [meta, ref]}
-    .set { ch_ref_in }
 
   // Create a dummy tuple for samtools sort 
   input
@@ -68,8 +63,8 @@ workflow TRIM_REPAIR {
 
 
   MODKIT_REPAIR.out.bam
-                   .join(ch_ref_in)
-                   .map { meta, trimmed_bam, ref -> [ meta, trimmed_bam, ref]}
+                   .join(input)
+                   .map { meta, trimmed_bam, _inbam, ref -> [ meta, trimmed_bam, ref]}
                    .set {dorado_in}
 
   emit: 

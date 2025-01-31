@@ -18,10 +18,18 @@ include { PB_CPG_TOOLS } from '../../../../modules/local/pb_cpg_tools/main'
 workflow CPG_PILEUP {
   
   take:
-    merged_bam
-    ch_pile_in2
+    ch_pile_in
   
   main:
+
+  ch_pile_in
+          .map { meta, mergedbam, index, _ref -> [meta, mergedbam, index] }
+          .set { merged_bam }
+
+  ch_pile_in
+          .map { meta, _mergedbam, _index, ref -> [meta, ref] }
+          .set { ch_pile_in2 }
+
 
   PB_CPG_TOOLS(merged_bam, ch_pile_in2)
   PB_CPG_TOOLS.out.forwardbed

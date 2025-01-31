@@ -19,12 +19,23 @@ include { SAMTOOLS_MERGE } from '../../../../modules/local/samtools/merge/main'
 workflow SPLIT_STRAND {
   
   take:
-    ch_pile_in1
-    ch_pile_in2
+    input
   
   main:
 
-  SAMTOOLS_SPLIT_STRAND(ch_pile_in1) 
+  // prepare input 
+
+  input 
+      .map { meta, bam, bai, _ref -> [meta, bam, bai]}
+      .set { ch_split_in}
+
+  input 
+      .map { meta, _bam, _bai, ref -> [meta, ref]}
+      .set { ch_ref_in}
+
+
+  SAMTOOLS_SPLIT_STRAND(ch_split_in) 
+
   SAMTOOLS_SPLIT_STRAND.out.forwardbam
                            .join(SAMTOOLS_SPLIT_STRAND.out.reversebam)
                            .set{ stranded_out }
@@ -35,10 +46,11 @@ workflow SPLIT_STRAND {
   // Prepare inputs for pbcpgtools
   SAMTOOLS_MERGE.out.bam
                     .join(SAMTOOLS_MERGE.out.index)
-                    .set{ merged_bam }
+                    .join(ch_ref_in)
+                    .map{ meta, mergedbam, index, ref -> [meta, mergedbam, index, ref]}
+                    .set{ ch_pile_in }
 
   emit:
-     merged_bam
-     ch_pile_in2
+     ch_pile_in
 
 }

@@ -5,7 +5,7 @@
  */
 
 include { MAP_MINI } from './minimap2/main'
-include { PILEUP as MODK_PILEUP} from '../ont/pileup/main'
+include { INDEX_PILEUP as MODK_PILEUP} from '../ont/pileup/main'
 include { CPG_PILEUP } from './pbcpgtools/main'
 include { MAP_PBMM2 } from './pbmm2/main'
 include { SPLIT_STRAND } from './split_strand/main'
