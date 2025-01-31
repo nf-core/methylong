@@ -171,6 +171,8 @@ Folder stuctures of the outputs:
 
 ```
 
+bedgraph outputs all have min. 5x base coverage.  
+
 ## Credits
 
 nf-core/methylong was originally written by Jin Yan Khoo.

@@ -42,20 +42,20 @@ workflow MAP_PBMM2 {
     // Prepare input for samtool flagstat and modkit pileup
     PBMM2_ALIGN.out.bam
                 .join(SAMTOOLS_INDEX.out.bai)
-                .set { ch_pile_in1 }
+                .set { ch_flagstat_in }
     
-    input
-        .join(ch_pile_in1)
-        .map {meta, _modbam, ref, _alignmodbam, _index -> [meta, ref]}
-        .set { ch_pile_in2 }
-
-    SAMTOOLS_FLAGSTAT(ch_pile_in1)
+    PBMM2_ALIGN.out.bam
+                .join(SAMTOOLS_INDEX.out.bai)
+                .join(ref_in)
+                .map { meta, bam, bai, ref -> [meta, bam, bai, ref]}
+                .set { ch_pile_in}
+  
+  // check alignment stat 
+    SAMTOOLS_FLAGSTAT(ch_flagstat_in)
                                   
 
   emit:
-    ch_pile_in1
-    ch_pile_in2
+    ch_pile_in
     
-
  } 
 

@@ -22,6 +22,11 @@ workflow ALIGN {
 
   main:
 
+  // prepare refrence for downstream
+  dorado_in
+          .map { meta, _modbam, ref -> [meta, ref] }
+          .set { ref_in }
+
   // Alignment with dorado 
   DORADO_ALIGNER(dorado_in)
 
@@ -29,21 +34,20 @@ workflow ALIGN {
   DORADO_ALIGNER.out.bam
                     .join(DORADO_ALIGNER.out.bai)
                     .map { meta, bam, bai -> [meta, bam, bai]}
-                    .set { ch_pile_in1 }
+                    .set { ch_flagstat_in }
 
   DORADO_ALIGNER.out.bam
-                    .join(dorado_in)
-                    .map { meta, _aligned_bam, _inbam, ref -> [meta, ref]}
-                    .set { ch_pile_in2 }
+                    .join(DORADO_ALIGNER.out.bai)
+                    .join(ref_in)
+                    .map { meta, alignedbam, index, ref -> [meta, alignedbam, index, ref]}
+                    .set { ch_pile_in }
 
 
   // check alignment stat 
-  SAMTOOLS_FLAGSTAT(ch_pile_in1)
-
+  SAMTOOLS_FLAGSTAT(ch_flagstat_in)
 
   emit:
 
-    ch_pile_in1
-    ch_pile_in2
+    ch_pile_in
 
 }
