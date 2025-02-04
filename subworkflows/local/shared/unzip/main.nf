@@ -21,12 +21,12 @@ include { GUNZIP } from '../../../../modules/nf-core/gunzip/main'
 
     input
         .map { meta, _modbam, ref -> [meta, ref]}
-        .filter { it[1] =~ /fa\.gz$|fasta\.gz$/ }
+        .filter { it[1] =~ /fa\.gz$|fna\.gz$|fasta\.gz$/ }
         .set {ch_gz_in}
 
     input
         .map { meta, _modbam, ref -> [meta, ref]}
-        .filter { !(it[2] =~ /fa\.gz$|fasta\.gz$/ )}
+        .filter { !(it[2] =~ /fa\.gz$|fna\.gz$|fasta\.gz$/ )}
         .set {ch_no_gz_in}
 
     GUNZIP(ch_gz_in)

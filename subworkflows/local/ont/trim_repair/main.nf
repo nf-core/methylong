@@ -7,7 +7,7 @@
 
 include { SAMTOOLS_FASTQ } from '../../../../modules/nf-core/samtools/fastq/main'
 include { SAMTOOLS_SORT } from '../../../../modules/nf-core/samtools/sort/main'
-include { PORECHOP_PORECHOP } from '../../../../modules/nf-core/porechop/porechop/main'
+include { PORECHOP_PORECHOP } from '../../../../modules/local/porechop/porechop/main'
 include { SAMTOOLS_IMPORT } from '../../../../modules/nf-core/samtools/import/main'
 include { MODKIT_REPAIR } from '../../../../modules/local/modkit/repair/main'
 

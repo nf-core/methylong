@@ -26,7 +26,7 @@ process SAMTOOLS_MERGE {
         $reversebam \\
         -o - \\
         | samtools \\
-        sort - -o sorted_${meta.id}_tagged.bam \\
+        sort - -@ ${task.cpus} -o sorted_${meta.id}_tagged.bam \\
         --write-index
     
     cat <<-END_VERSIONS > versions.yml
