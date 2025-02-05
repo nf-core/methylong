@@ -28,6 +28,7 @@ process PORECHOP_PORECHOP {
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         porechop: \$( porechop --version )
+        pigz: \$( pigz --version )
     END_VERSIONS
     """
 

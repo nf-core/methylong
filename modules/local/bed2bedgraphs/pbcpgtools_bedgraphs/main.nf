@@ -7,6 +7,7 @@ process PBCPG_BEDGRAPHS {
 
     output:
     tuple val(meta), path("*.bedgraph"), emit: bedgraph
+    path "versions.yml"                , emit: versions
 
 
     when:
@@ -24,5 +25,10 @@ process PBCPG_BEDGRAPHS {
 
     cat ${meta.id}.${pileup_mode}.forward.bedgraph ${meta.id}.${pileup_mode}.reverse.bedgraph > ${meta.id}_CG_${pileup_mode}.merged.bedgraph
     
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        awk: "\$(awk --version | head -n1)"
+        cat: "coreutils \$(cat --version | head -n1 | awk '{print \$NF}')"
+    END_VERSIONS
     """
 }

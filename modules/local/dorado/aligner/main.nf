@@ -12,7 +12,6 @@ process DORADO_ALIGNER {
     tuple val(meta), path("${meta.id}/*.bam"), emit: bam
     tuple val(meta), path("${meta.id}/*.bai"), emit: bai
     tuple val(meta), path("${meta.id}/*.txt"), emit: summary
-
     path "versions.yml"       , emit: versions
 
     when:
@@ -30,7 +29,7 @@ process DORADO_ALIGNER {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        dorado: \$( dorado --version )
+        dorado: "\$(dorado --version 2>&1 | head -n1)"
     END_VERSIONS
     """
 }
