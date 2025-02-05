@@ -15,6 +15,7 @@ process MODKIT_BEDGRAPH {
 
     output:
     tuple val(meta), path("*.bedgraph"), emit: bedgraph
+    path "versions.yml"                , emit: versions
 
 
     when:
@@ -44,6 +45,12 @@ process MODKIT_BEDGRAPH {
         awk -v strand=\$strand -v mod=\$mod 'BEGIN{OFS="\t"} ((\$4==mod) && (\$6==strand)) && (\$5 >= 5) {print \$1,\$2,\$3,\$11,\$12,\$13}' ${in_bed} > ${meta.id}_\${out_file}
       done
     done
+    
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        sed: \$(echo \$(sed --version 2>&1) | sed 's/^.*GNU sed) //; s/ .*\$//')
+        awk: "\$(awk --version | head -n1)"
+    END_VERSIONS
     """
 }
 
