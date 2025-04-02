@@ -1,11 +1,11 @@
 /*
  ===========================================
- * Import subworkflows
+ * Import processes from modules
  ===========================================
  */
 
-include { INDEX_REF } from './index_ref/main'
-include { PILEUP } from './pileup/main'
+include { MODKIT_PILEUP } from '../../../../modules/local/modkit/pileup/main'
+include { SAMTOOLS_FAIDX } from '../../../../modules/nf-core/samtools/faidx/main'
 
 /*
  ===========================================
@@ -14,20 +14,43 @@ include { PILEUP } from './pileup/main'
  */
 
 
-workflow INDEX_PILEUP {  
+workflow INDEX_PILEUP {
   
-  take: 
+  take:
+
     input
-  
-  main: 
 
-    input | INDEX_REF | PILEUP
-   
-   PILEUP.out
-         .set { pileup_out }
-                     
+  main:
 
-  emit:
-    pileup_out
+  // Prepare inputs for pileup
 
-}
+  input
+      .map{ meta, _bam, _bai, ref -> [meta, ref]}
+      .set { ch_ref_in }
+
+  // Index ref 
+  SAMTOOLS_FAIDX(ch_ref_in, [[],[]]) 
+
+
+  input
+      .join(SAMTOOLS_FAIDX.out.fai)
+      .map { meta, bam, bai, _ref, _fai -> [meta, bam, bai] }
+      .set { ch_bam_in } 
+
+  input
+      .join(SAMTOOLS_FAIDX.out.fai)
+      .map { meta, _bam, _bai, ref, fai -> [meta, ref, fai] }
+      .set { ch_index_ref } 
+
+
+  // Modkit pileup 
+  MODKIT_PILEUP(ch_bam_in, ch_index_ref, [[],[]])
+
+  MODKIT_PILEUP.out.bed
+                 .set { pileup_out }
+
+  emit: 
+    pileup_out  
+} 
+
+

@@ -5,9 +5,8 @@
  */
 
 
-include { SAMTOOLS_FASTQ } from '../../../../modules/nf-core/samtools/fastq/main'
-include { SAMTOOLS_FLAGSTAT } from '../../../../modules/nf-core/samtools/flagstat/main'
-include { MINIMAP2 } from '../../../../modules/local/minimap2/main'
+iinclude { SAMTOOLS_FLAGSTAT } from '../../../../modules/nf-core/samtools/flagstat/main'
+include { MINIMAP2_ALIGN } from '../../../../modules/nf-core/minimap2/align/main'
 
 /*
  ===========================================
@@ -28,30 +27,23 @@ workflow MAP_MINI {
     // Prepare input for samtools fastq 
     input
       .map{ meta, modbam, _ref -> [meta, modbam]}
-      .set{ fastq_in }
+      .set{ mini_in }
 
     input
         .map{ meta, _modbam, ref -> [meta, ref]}
         .set{ ref_in }
 
-    SAMTOOLS_FASTQ(fastq_in, [])
 
+    MINIMAP2_ALIGN(mini_in, ref_in, "bam_format", "bai", [], [])
 
-    // Prepare input for minimap2 
-    SAMTOOLS_FASTQ.out.other 
-                      .join(ref_in)
-                      .map {meta, fastq, ref -> [meta, fastq, ref]}
-                      .set {mini_in }
-    
-    MINIMAP2(mini_in)
     
     // Prepare input for samtool flagstat and modkit pileup
-    MINIMAP2.out.bam
-                .join(MINIMAP2.out.index) 
+    MINIMAP2_ALIGN.out.bam
+                .join(MINIMAP2_ALIGN.out.index) 
                 .set { ch_flagstat_in }
 
-    MINIMAP2.out.bam
-                .join(MINIMAP2.out.index)
+    MINIMAP2_ALIGN.out.bam
+                .join(MINIMAP2_ALIGN.out.index)
                 .join(ref_in)
                 .map {meta, bam, bai, ref -> [meta, bam, bai, ref]}
                 .set {ch_pile_in}

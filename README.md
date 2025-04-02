@@ -22,7 +22,7 @@
 **nf-core/methylong** is a bioinformatics pipeline that processes modification basecalled ONT reads or PacBio HiFi reads (modBam) by performing preprocessing steps (including trimming and tag repair), aligning them to the provided genome assembly, and extracting methylation calls into BED/BEDGraph format, ready for direct downstream analysis.
 
 <p align="center">
-  <img src="docs/images/methylong_workflow.png">
+  <img src="docs/images/methylong_workflow_v2.png">
 
 </p>
 
@@ -73,6 +73,10 @@
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
+
+Required input: 
+- unaligned basecalled modBam 
+- reference genome 
 
 First, prepare a samplesheet with your input data that looks as follows:
 
