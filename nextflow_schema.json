@@ -186,6 +186,30 @@
                 }
             },
             "required": ["samplesheet"]
+        },
+        "multiqc": {
+            "title": "Multiqc",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "multiqc_config": {
+                    "type": "string"
+                },
+                "multiqc_logo": {
+                    "type": "string"
+                },
+                "multiqc_title": {
+                    "type": "string"
+                },
+                "multiqc_methods_description": {
+                    "type": "string"
+                },
+                "max_multiqc_email_size": {
+                    "type": "string",
+                    "default": "25.MB"
+                }
+            }
         }
     },
     "allOf": [
@@ -200,6 +224,9 @@
         },
         {
             "$ref": "#/$defs/pipeline_parameters"
+        },
+        {
+            "$ref": "#/$defs/multiqc"
         }
     ]
 }

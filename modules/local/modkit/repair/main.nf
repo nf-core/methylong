@@ -27,7 +27,7 @@ process MODKIT_REPAIR {
         
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        modkit: \$( modkit --version )
+        modkit: \$( modkit --version | sed 's/mod_kit //' )
     END_VERSIONS
     """
 }

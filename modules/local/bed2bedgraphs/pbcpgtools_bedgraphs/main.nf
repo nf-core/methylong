@@ -27,8 +27,7 @@ process PBCPG_BEDGRAPHS {
     
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        awk: "\$(awk --version | head -n1)"
-        cat: "coreutils \$(cat --version | head -n1 | awk '{print \$NF}')"
+        pigz: \$(pigz --version)
     END_VERSIONS
     """
 }

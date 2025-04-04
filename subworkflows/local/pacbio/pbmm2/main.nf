@@ -26,6 +26,8 @@ workflow MAP_PBMM2 {
 
   main:
 
+    versions = Channel.empty()
+
     input
         .map{ meta, modbam, _ref -> [meta, modbam]}
         .set{ reads_in }
@@ -37,7 +39,11 @@ workflow MAP_PBMM2 {
 
     PBMM2_ALIGN(reads_in, ref_in)
 
+    versions = versions.mix(PBMM2_ALIGN.out.versions.first())
+
     SAMTOOLS_INDEX(PBMM2_ALIGN.out.bam)
+
+    versions = versions.mix(SAMTOOLS_INDEX.out.versions.first())
 
     // Prepare input for samtool flagstat and modkit pileup
     PBMM2_ALIGN.out.bam
@@ -52,10 +58,14 @@ workflow MAP_PBMM2 {
   
   // check alignment stat 
     SAMTOOLS_FLAGSTAT(ch_flagstat_in)
-                                  
 
+    versions = versions.mix(SAMTOOLS_FLAGSTAT.out.versions.first())
+    SAMTOOLS_FLAGSTAT.out.flagstat
+                         .set { flagstat_out }
+                                  
   emit:
     ch_pile_in
-    
+    versions
+    flagstat_out
  } 
 

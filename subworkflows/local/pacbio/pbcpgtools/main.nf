@@ -22,6 +22,8 @@ workflow CPG_PILEUP {
   
   main:
 
+  versions = Channel.empty()
+
   ch_pile_in
           .map { meta, mergedbam, index, _ref -> [meta, mergedbam, index] }
           .set { merged_bam }
@@ -32,11 +34,15 @@ workflow CPG_PILEUP {
 
 
   PB_CPG_TOOLS(merged_bam, ch_pile_in2)
+
+  versions = versions.mix(PB_CPG_TOOLS.out.versions.first())
+
   PB_CPG_TOOLS.out.forwardbed
                   .join(PB_CPG_TOOLS.out.reversebed)
                   .set{ pile_out }
   
   emit:
      pile_out
+     versions
 
 }

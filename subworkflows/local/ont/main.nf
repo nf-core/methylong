@@ -26,27 +26,81 @@ workflow ONT {
         ch_ont
 
     main:
+
+        ont_versions = Channel.empty()
+
         if (params.no_trim) {
             if (params.bedgraph) {
 
-                ch_ont | ALIGN | INDEX_PILEUP | PROCESS_MK_BED
+                ALIGN(ch_ont)
+                
+                ont_versions    = ont_versions.mix(ALIGN.out.versions)
+                map_stat = ALIGN.out.flagstat_out
+
+                INDEX_PILEUP(ALIGN.out.ch_pile_in)
+
+                ont_versions    = ont_versions.mix(INDEX_PILEUP.out.versions)
+
+                PROCESS_MK_BED(INDEX_PILEUP.out.pileup_out)
+
+                ont_versions    = ont_versions.mix(PROCESS_MK_BED.out.versions)
 
             } else {
 
-                ch_ont | ALIGN | INDEX_PILEUP
+                ALIGN(ch_ont)
+                
+                ont_versions    = ont_versions.mix(ALIGN.out.versions)
+                map_stat = ALIGN.out.flagstat_out
+
+                INDEX_PILEUP(ALIGN.out.ch_pile_in)
+
+                ont_versions    = ont_versions.mix(INDEX_PILEUP.out.versions)
 
             }
         } else {
             if (params.bedgraph) {
 
-                ch_ont | TRIM_REPAIR | ALIGN | INDEX_PILEUP | PROCESS_MK_BED
+                TRIM_REPAIR(ch_ont)
+
+                ont_versions    = ont_versions.mix(TRIM_REPAIR.out.versions)
+
+                ALIGN(TRIM_REPAIR.out.dorado_in)
+
+                ont_versions    = ont_versions.mix(ALIGN.out.versions)
+                map_stat = ALIGN.out.flagstat_out
+
+                INDEX_PILEUP(ALIGN.out.ch_pile_in)
+
+                ont_versions    = ont_versions.mix(INDEX_PILEUP.out.versions)
+
+                PROCESS_MK_BED(INDEX_PILEUP.out.pileup_out)
+
+                ont_versions    = ont_versions.mix(PROCESS_MK_BED.out.versions)
 
             } else {
 
-                ch_ont | TRIM_REPAIR | ALIGN | INDEX_PILEUP
+                TRIM_REPAIR(ch_ont)
+
+                ont_versions    = ont_versions.mix(TRIM_REPAIR.out.versions)
+
+                ALIGN(TRIM_REPAIR.out.dorado_in)
+
+                ont_versions    = ont_versions.mix(ALIGN.out.versions)
+                map_stat = ALIGN.out.flagstat_out
+
+                INDEX_PILEUP(ALIGN.out.ch_pile_in)
+
+                ont_versions    = ont_versions.mix(INDEX_PILEUP.out.versions)
                 
             }
         }
+
+    emit:
+
+    ont_versions
+    map_stat
+
+
 }
 
 

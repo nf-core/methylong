@@ -24,6 +24,8 @@ workflow MAP_MINI {
 
   main:
 
+    versions = Channel.empty()
+
     // Prepare input for samtools fastq 
     input
       .map{ meta, modbam, _ref -> [meta, modbam]}
@@ -36,7 +38,9 @@ workflow MAP_MINI {
 
     MINIMAP2_ALIGN(mini_in, ref_in, "bam_format", "bai", [], [])
 
-    
+    versions = versions.mix(MINIMAP2_ALIGN.out.versions.first())
+
+  
     // Prepare input for samtool flagstat and modkit pileup
     MINIMAP2_ALIGN.out.bam
                 .join(MINIMAP2_ALIGN.out.index) 
@@ -49,9 +53,16 @@ workflow MAP_MINI {
                 .set {ch_pile_in}
 
 
-    SAMTOOLS_FLAGSTAT(ch_flagstat_in)                              
+    SAMTOOLS_FLAGSTAT(ch_flagstat_in) 
+
+    versions = versions.mix(SAMTOOLS_FLAGSTAT.out.versions.first())
+    SAMTOOLS_FLAGSTAT.out.flagstat
+                         .set { flagstat_out }
+                                    
     
   emit:
     ch_pile_in
+    versions
+    flagstat_out
 } 
 

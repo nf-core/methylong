@@ -22,6 +22,8 @@ workflow ALIGN {
 
   main:
 
+  versions = Channel.empty()
+
   // prepare refrence for downstream
   dorado_in
           .map { meta, _modbam, ref -> [meta, ref] }
@@ -29,6 +31,7 @@ workflow ALIGN {
 
   // Alignment with dorado 
   DORADO_ALIGNER(dorado_in)
+  versions = versions.mix(DORADO_ALIGNER.out.versions.first())
 
   // Preapre inputs for downstream
   DORADO_ALIGNER.out.bam
@@ -46,8 +49,14 @@ workflow ALIGN {
   // check alignment stat 
   SAMTOOLS_FLAGSTAT(ch_flagstat_in)
 
+  versions = versions.mix(SAMTOOLS_FLAGSTAT.out.versions.first())
+  SAMTOOLS_FLAGSTAT.out.flagstat
+                       .set { flagstat_out }
+
   emit:
 
     ch_pile_in
+    versions
+    flagstat_out
 
 }

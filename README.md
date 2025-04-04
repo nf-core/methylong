@@ -135,6 +135,8 @@ Folder stuctures of the outputs:
 
 ├── ont/sampleName
 │   │
+│   ├── fastqc
+│   │
 │   ├── trim
 │   │   ├── trimmed.fastq.gz
 │   │   ├── trimmed.bam
@@ -158,20 +160,27 @@ Folder stuctures of the outputs:
 │       └── bedgraphs
 │ 
 │  
-└── pacbio/sampleName
+├── pacbio/sampleName
+│   │
+│   ├── fastqc
+│   │
+│   ├── aligned_minimap2/ aligned_pbmm2
+│   │   ├── aligned.bam
+│   │   ├── aligned.bai/csi
+│   │   └── aligned.flagstat
+│   │
+│   ├── pileup: modkit/pb_cpg_tools
+│   │   ├── pileup.bed
+│   │   ├── pileup.log
+│   │   └── pileup.bw (only pb_cpg_tools)
+│   │
+│   └── bedgraph
+│      └── bedgraphs
+│
+└── multiqc
     │
-    ├── aligned_minimap2/ aligned_pbmm2
-    │   ├── aligned.bam
-    │   ├── aligned.bai/csi
-    │   └── aligned.flagstat
-    │
-    ├── pileup: modkit/pb_cpg_tools
-    │   ├── pileup.bed
-    │   ├── pileup.log
-    │   └── pileup.bw (only pb_cpg_tools)
-    │
-    └── bedgraph
-        └── bedgraphs
+    ├── fastqc
+    └── flagstat
 
 ```
 

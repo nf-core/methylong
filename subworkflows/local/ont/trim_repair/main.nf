@@ -26,6 +26,8 @@ workflow TRIM_REPAIR {
 
   main:
 
+  versions = Channel.empty()
+
   // Create samtools sort input 
   input
       .map{ meta, modbam, _ref -> [meta, modbam]}
@@ -44,6 +46,8 @@ workflow TRIM_REPAIR {
 
   SAMTOOLS_SORT(ch_sort_in, ch_sort_dummy)
 
+  versions = versions.mix(SAMTOOLS_SORT.out.versions.first())
+
   // set input to samtools fastq 
   SAMTOOLS_SORT.out.bam
                    .map { meta, bam -> [meta, bam] } 
@@ -51,10 +55,15 @@ workflow TRIM_REPAIR {
   
   SAMTOOLS_FASTQ(fastq_input, [])
 
+  versions = versions.mix(SAMTOOLS_FASTQ.out.versions.first())
 
-  PORECHOP_PORECHOP(SAMTOOLS_FASTQ.out.other)  
+  PORECHOP_PORECHOP(SAMTOOLS_FASTQ.out.other)
+  
+  versions = versions.mix(PORECHOP_PORECHOP.out.versions.first())  
 
   SAMTOOLS_IMPORT(PORECHOP_PORECHOP.out.reads)
+
+  versions = versions.mix(SAMTOOLS_IMPORT.out.versions.first())
 
   // Prepare input for modkit repair 
   SAMTOOLS_SORT.out.bam
@@ -63,6 +72,8 @@ workflow TRIM_REPAIR {
                    .set { ch_repair_in }
 
   MODKIT_REPAIR(ch_repair_in)
+
+  versions = versions.mix(MODKIT_REPAIR.out.versions.first())
 
   // Prepare input for alignment step
 
@@ -73,7 +84,8 @@ workflow TRIM_REPAIR {
                    .set {dorado_in}
 
   emit: 
-    dorado_in  
+    dorado_in
+    versions  
 } 
 
 

@@ -37,7 +37,7 @@ process PB_CPG_TOOLS {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        aligned_bam_to_cpg_scores: \$( aligned_bam_to_cpg_scores --version )
+        aligned_bam_to_cpg_scores: \$( aligned_bam_to_cpg_scores --version | sed 's/aligned_bam_to_cpg_scores //')
     END_VERSIONS
     """
 }

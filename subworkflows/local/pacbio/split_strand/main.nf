@@ -23,6 +23,7 @@ workflow SPLIT_STRAND {
   
   main:
 
+  versions = Channel.empty()
   // prepare input 
 
   input 
@@ -36,12 +37,15 @@ workflow SPLIT_STRAND {
 
   SAMTOOLS_SPLIT_STRAND(ch_split_in) 
 
+  versions = versions.mix(SAMTOOLS_SPLIT_STRAND.out.versions.first())
+
   SAMTOOLS_SPLIT_STRAND.out.forwardbam
                            .join(SAMTOOLS_SPLIT_STRAND.out.reversebam)
                            .set{ stranded_out }
   
   SAMTOOLS_MERGE(stranded_out)
-
+  
+  versions = versions.mix(SAMTOOLS_MERGE.out.versions.first())
 
   // Prepare inputs for pbcpgtools
   SAMTOOLS_MERGE.out.bam
@@ -52,5 +56,6 @@ workflow SPLIT_STRAND {
 
   emit:
      ch_pile_in
+     versions
 
 }
