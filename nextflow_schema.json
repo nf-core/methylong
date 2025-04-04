@@ -13,12 +13,11 @@
             "required": ["input", "outdir"],
             "properties": {
                 "input": {
-                    "type": "string",
+                    "type": "boolean",
                     "format": "file-path",
                     "exists": true,
                     "schema": "assets/schema_input.json",
                     "mimetype": "text/csv",
-                    "pattern": "^\\S+\\.csv$",
                     "description": "Path to comma-separated file containing information about the samples in the experiment.",
                     "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://nf-co.re/methylong/usage#samplesheet-input).",
                     "fa_icon": "fas fa-file-csv"
@@ -160,7 +159,8 @@
                 "samplesheet": {
                     "type": "boolean",
                     "description": "Input samplesheet, required field: sampleName, modbam, ref, seq method",
-                    "default": true
+                    "default": true,
+                    "hidden": true
                 },
                 "aligner": {
                     "type": "string",
@@ -184,8 +184,7 @@
                     "type": "boolean",
                     "description": "Skip trimming in ONT workflow, will directly start from alignment step"
                 }
-            },
-            "required": ["samplesheet"]
+            }
         },
         "multiqc": {
             "title": "Multiqc",
