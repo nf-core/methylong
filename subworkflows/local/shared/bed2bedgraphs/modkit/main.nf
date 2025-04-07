@@ -12,7 +12,6 @@ include { MODKIT_BEDGRAPH } from '../../../../../modules/local/bed2bedgraphs/mod
  ===========================================
  */
 
-
 workflow PROCESS_MK_BED {  
   
   take: 
@@ -20,6 +19,15 @@ workflow PROCESS_MK_BED {
 
   
   main: 
+  
+    versions        = Channel.empty()
+    
     MODKIT_BEDGRAPH(modkit_out)
+    
+    versions = versions.mix(MODKIT_BEDGRAPH.out.versions.first())
+
+    emit:   
+    versions
+
 
 }

@@ -5,7 +5,7 @@ lint:
     - conf/igenomes.config
     - conf/igenomes_ignored.config
     - assets/multiqc_config.yml
-nf_core_version: 3.1.2
+nf_core_version: 3.2.0
 org_path: null
 repository_type: pipeline
 template:

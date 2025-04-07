@@ -13,7 +13,7 @@
             "required": ["input", "outdir"],
             "properties": {
                 "input": {
-                    "type": "boolean",
+                    "type": "string",
                     "format": "file-path",
                     "exists": true,
                     "schema": "assets/schema_input.json",
@@ -156,12 +156,6 @@
             "description": "",
             "default": "",
             "properties": {
-                "samplesheet": {
-                    "type": "boolean",
-                    "description": "Input samplesheet, required field: sampleName, modbam, ref, seq method",
-                    "default": true,
-                    "hidden": true
-                },
                 "aligner": {
                     "type": "string",
                     "default": "pbmm2",
@@ -179,6 +173,9 @@
                 "pileup_count": {
                     "type": "boolean",
                     "description": "Specify pbcpgtools pileup mode, default is using model mode, specify to switch to count mode"
+                },
+                "denovo": {
+                    "type": "boolean"
                 },
                 "no_trim": {
                     "type": "boolean",

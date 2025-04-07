@@ -23,7 +23,7 @@ workflow INDEX_PILEUP {
 
   main:
 
-  versions        = Channel.empty()
+  versions = Channel.empty()
 
   // Prepare inputs for pileup
 
@@ -32,7 +32,7 @@ workflow INDEX_PILEUP {
       .set { ch_ref_in }
 
   // Index ref 
-  SAMTOOLS_FAIDX(ch_ref_in, [[],[]]) 
+  SAMTOOLS_FAIDX(ch_ref_in, [[],[]], []) 
 
   versions = versions.mix(SAMTOOLS_FAIDX.out.versions.first())
 

@@ -33,6 +33,9 @@ include { GUNZIP } from '../../../../modules/nf-core/gunzip/main'
 
     GUNZIP.out.gunzip
               .set {unzip_ref}
+    
+    GUNZIP.out.versions
+              .set {gz_version}
 
     // merge into one channel 
     unzip_ref
@@ -47,5 +50,6 @@ include { GUNZIP } from '../../../../modules/nf-core/gunzip/main'
 
   emit: 
     unzip_input
+    gz_version
 
  }

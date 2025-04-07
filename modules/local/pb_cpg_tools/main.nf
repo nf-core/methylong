@@ -19,7 +19,7 @@ process PB_CPG_TOOLS {
 
     script:
 
-    def pileup_mode = params.pileup_count ? "--pileup-mode count" : "--pileup-mode model" 
+    def pileup_mode = params.pileup_count ? "count" : "model" 
     def mode = params.denovo ? "denovo" : "reference"
 
     """
@@ -29,7 +29,7 @@ process PB_CPG_TOOLS {
         --threads ${task.cpus} \\
         --ref $ref \\
         --modsites-mode $mode \\
-        $pileup_mode
+        --pileup-mode $pileup_mode
 
     # this need to be in a different module..
     # Rename output files

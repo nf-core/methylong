@@ -40,7 +40,7 @@
 2. align to reference (plus sorting and indexing) - `dorado aligner` 
     - include alignment summary - `samtools flagstat`
 
-3. create bedMethyl - `modkit pileup`
+3. create bedMethyl - `modkit pileup`, 5x base coverage minimum. 
 4. create bedgraphs (optional)
 
 
@@ -60,9 +60,12 @@
         3. alignment summary - `samtools flagstat`
 
 2. create bedMethyl - `pb-CpG-tools` (default) or `modkit pileup` 
-    - 2 pile up methods available from `pb-CpG-tools`:
+    - notes about using `pb-CpG-tools` pileup: 
+      - 5x base coverage minimum. 
+      - 2 pile up methods available from `pb-CpG-tools`:
         1. default using `model` 
         2. or `count` (differences described here: https://github.com/PacificBiosciences/pb-CpG-tools)
+      - `pb-CpG-tools` by default merge mC signals on CpG into forward strand. To 'force' strand specific signal output, I followed the suggestion mentioned in this issue ([PacificBiosciences/pb-CpG-tools#37](https://github.com/PacificBiosciences/pb-CpG-tools/issues/37)) which uses HP tags to tag forward and reverse reads, so they were output separately. 
 
 3. create bedgraph (optional)
 
@@ -119,8 +122,10 @@ For more details and further functionality, please refer to the [usage documenta
 | `--no_trim` | skip trimming in ONT workflow, process will start directly alignment |
 | `--aligner` | aligner option in PacBio workflow, default is pbmm2, specify `minimap2` to switch |
 | `--pileup_method` | pileup method in PacBio workflow, default is pbcpgtools, specify `modkit` to switch |
+| `--denovo` | this option will identify and output all CG sites found in the consensus sequence from the reads in the `pb-CpG-tools`pileup (reference free); by default reference sequences are used to identify and output all CG sites. |
 | `--pileup_count` | specify pbcpgtools pileup mode, default is using model mode, specify this argument to switch to count mode |
 | `--bedgraph` | indicate if required bedgraphs as output |
+
 
 
 ## Pipeline output

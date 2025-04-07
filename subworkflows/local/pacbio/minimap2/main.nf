@@ -5,7 +5,7 @@
  */
 
 
-iinclude { SAMTOOLS_FLAGSTAT } from '../../../../modules/nf-core/samtools/flagstat/main'
+include { SAMTOOLS_FLAGSTAT } from '../../../../modules/nf-core/samtools/flagstat/main'
 include { MINIMAP2_ALIGN } from '../../../../modules/nf-core/minimap2/align/main'
 
 /*
