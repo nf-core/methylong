@@ -19,7 +19,9 @@
 
 ## Introduction
 
-**nf-core/methylong** is a bioinformatics pipeline that processes modification basecalled ONT reads or PacBio HiFi reads (modBam) by performing preprocessing steps (including trimming and tag repair), aligning them to the provided genome assembly, and extracting methylation calls into BED/BEDGraph format, ready for direct downstream analysis.
+**nf-core/methylong** is a bioinformatics pipeline that is tailored for long-read methylation calling. This pipeline require only modification-basecalled ONT reads or PacBio HiFi reads (modBam) and a genome assembly as input. The ONT workflow including preprocessing (trim and repair) of reads, genome alignment and methylation calling. The PacBio HiFi workflow includes genome alignment and methylation calling. Methylation calls are extracted into BED/BEDGRAPH format, readily fordirect downstream analysis. 
+
+
 
 <p align="center">
   <img src="docs/images/methylong_workflow_v2.png">
@@ -45,6 +47,7 @@
 
 
 ### PacBio workflow: 
+
 
 1. align to reference - `pbmm2` (default) or `minimap2` 
 
@@ -77,8 +80,11 @@
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
 
-Required input: 
-- unaligned basecalled modBam 
+### Required input:
+- unaligned modification basecalled bam (modBam)
+  - for ONT R10.4.1 reads: basecall with `dorado basecaller` 
+  > dorado basecaller hac,5mCG_5hmCG,6mA pod5s/ > calls.bam
+  - for PacBio Revio HiFi reads: basecall with `Jasmine`
 - reference genome 
 
 First, prepare a samplesheet with your input data that looks as follows:
