@@ -1,20 +1,19 @@
-// preprocess beds (cuz its huge) > filter out reads with less than 5x coverage, select only 6mA and the three C contexts and the fractions of the methylation for each genomic position 
-// convert bed to bedgraphs, prepared as input to methylScore
+// convert bed to bedgraphs
 // split into strands (+/ -) and contexts (CG, CHG, CHH) specific 
 // filter out positions with less than 5x coverage 
-// remove positions with no coverage - reason why this exist is because col 5 (the total coverage) also contained read counts from Nother_mod - see definition from modkit pileup, 
-// thats why is still important to remove out these calls, or else it gives problem when input to methylScore 
 
 
 process MODKIT_BEDGRAPH {
     tag "$meta.id"
     label 'process_medium'
 
+    container "quay.io/biocontainers/pigz:2.8"
+
     input:
     tuple val(meta), path(in_bed)
 
     output:
-    tuple val(meta), path("*.bedgraph"), emit: bedgraph
+    tuple val(meta), path("*.bedgraph.gz"), emit: bedgraph
     path "versions.yml"                , emit: versions
 
 
@@ -42,14 +41,14 @@ process MODKIT_BEDGRAPH {
             ;;
         esac
         echo "File Path: ${in_bed}"
-        awk -v strand=\$strand -v mod=\$mod 'BEGIN{OFS="\t"} ((\$4==mod) && (\$6==strand)) && (\$5 >= 5) {print \$1,\$2,\$3,\$11,\$12,\$13}' ${in_bed} > ${meta.id}_\${out_file}
+        awk -v strand=\$strand -v mod=\$mod 'BEGIN{OFS="\t"} ((\$4==mod) && (\$6==strand)) && (\$5 >= 5) {print \$1,\$2,\$3,\$11,\$12,\$13}' ${in_bed} \
+        | pigz -c > ${meta.id}_\${out_file}.gz
       done
     done
     
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        sed: \$(echo \$(sed --version 2>&1) | sed 's/^.*GNU sed) //; s/ .*\$//')
-        awk: "\$(awk --version | head -n1)"
+        pigz: \$(pigz --version)
     END_VERSIONS
     """
 }

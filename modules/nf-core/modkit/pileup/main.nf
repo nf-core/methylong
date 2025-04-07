@@ -2,9 +2,10 @@ process MODKIT_PILEUP {
     tag "$meta.id"
     label 'process_high'
 
-    container "quay.io/biocontainers/ont-modkit:0.4.2--hcdda2d0_0"
-
-
+    conda "${moduleDir}/environment.yml"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/ont-modkit:0.4.3--hcdda2d0_0':
+        'biocontainers/ont-modkit:0.4.3--hcdda2d0_0' }"
 
     input:
     tuple val(meta), path(bam), path(bai)

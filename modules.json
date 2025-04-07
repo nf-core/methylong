@@ -20,6 +20,11 @@
                         "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["modules"]
                     },
+                    "modkit/pileup": {
+                        "branch": "master",
+                        "git_sha": "dbf496251becaa54933305bb494b880253a84ee6",
+                        "installed_by": ["modules"]
+                    },
                     "multiqc": {
                         "branch": "master",
                         "git_sha": "7b50cb7be890e4b28cffb82e438cc6a8d7805d3f",
@@ -28,6 +33,16 @@
                     "pbmm2/align": {
                         "branch": "master",
                         "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
+                        "installed_by": ["modules"]
+                    },
+                    "pigz/compress": {
+                        "branch": "master",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "installed_by": ["modules"]
+                    },
+                    "porechop/porechop": {
+                        "branch": "master",
+                        "git_sha": "dbf496251becaa54933305bb494b880253a84ee6",
                         "installed_by": ["modules"]
                     },
                     "samtools/faidx": {

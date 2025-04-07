@@ -114,7 +114,7 @@ For more details and further functionality, please refer to the [usage documenta
 
 | Parameter | Purpose |
 | --- | --- |
-| `--samplesheet` | path to samplesheet |
+| `--input` | path to samplesheet |
 | `--outdir` | results directory, default: `'./results'` |
 | `--no_trim` | skip trimming in ONT workflow, process will start directly alignment |
 | `--aligner` | aligner option in PacBio workflow, default is pbmm2, specify `minimap2` to switch |

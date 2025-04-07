@@ -20,7 +20,7 @@ process PB_CPG_TOOLS {
     script:
 
     def pileup_mode = params.pileup_count ? "--pileup-mode count" : "--pileup-mode model" 
-    def modsites_mode = params.modsites_mode ?: "denovo"
+    def mode = params.denovo ? "denovo" : "reference"
 
     """
     aligned_bam_to_cpg_scores \\
@@ -28,9 +28,10 @@ process PB_CPG_TOOLS {
         --output-prefix ${meta.id} \\
         --threads ${task.cpus} \\
         --ref $ref \\
-        --modsites-mode $modsites_mode \\
+        --modsites-mode $mode \\
         $pileup_mode
 
+    # this need to be in a different module..
     # Rename output files
     mv ${meta.id}.hap1.bed.gz ${meta.id}_positive.bed.gz
     mv ${meta.id}.hap2.bed.gz ${meta.id}_negative.bed.gz
