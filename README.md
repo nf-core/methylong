@@ -19,73 +19,70 @@
 
 ## Introduction
 
-**nf-core/methylong** is a bioinformatics pipeline that is tailored for long-read methylation calling. This pipeline require only modification-basecalled ONT reads or PacBio HiFi reads (modBam) and a genome assembly as input. The ONT workflow including preprocessing (trim and repair) of reads, genome alignment and methylation calling. The PacBio HiFi workflow includes genome alignment and methylation calling. Methylation calls are extracted into BED/BEDGRAPH format, readily fordirect downstream analysis. 
-
-
+**nf-core/methylong** is a bioinformatics pipeline that is tailored for long-read methylation calling. This pipeline require only modification-basecalled ONT reads or PacBio HiFi reads (modBam) and a genome reference as input. The ONT workflow including preprocessing (trim and repair) of reads, genome alignment and methylation calling. The PacBio HiFi workflow includes genome alignment and methylation calling. Methylation calls are extracted into BED/BEDGRAPH format, readily for direct downstream analysis.
 
 <p align="center">
   <img src="docs/images/methylong_v3.png">
 
 </p>
 
-### ONT workflow: 
+### ONT workflow:
 
-1. trim and repair tags of input modBam 
+1. trim and repair tags of input modBam
 
-    - trim and repair workflow:
-        1. sort modBam - `samtools sort`
-        2. convert modBam to fastq - `samtools fastq`
-        3. trim barcode and adapters - `porechop`
-        4. convert trimmed modfastq to modBam - `samtools import`
-        5. repair MM/ML tags of trimmed modBam - `modkit repair`
+   - trim and repair workflow:
+     1. sort modBam - `samtools sort`
+     2. convert modBam to fastq - `samtools fastq`
+     3. trim barcode and adapters - `porechop`
+     4. convert trimmed modfastq to modBam - `samtools import`
+     5. repair MM/ML tags of trimmed modBam - `modkit repair`
 
-2. align to reference (plus sorting and indexing) - `dorado aligner` 
-    - include alignment summary - `samtools flagstat`
+2. align to reference (plus sorting and indexing) - `dorado aligner`
 
-3. create bedMethyl - `modkit pileup`, 5x base coverage minimum. 
+   - include alignment summary - `samtools flagstat`
+
+3. create bedMethyl - `modkit pileup`, 5x base coverage minimum.
 4. create bedgraphs (optional)
 
+### PacBio workflow:
 
-### PacBio workflow: 
+1. align to reference - `pbmm2` (default) or `minimap2`
 
+   - minimap workflow:
 
-1. align to reference - `pbmm2` (default) or `minimap2` 
+     1. convert modBam to fastq - `samtools convert`
+     2. alignment - `minimap2`
+     3. sort and index - `samtools sort`
+     4. alignment summary - `samtools flagstat`
 
-    - minimap workflow: 
-        1. convert modBam to fastq - `samtools convert`
-        2. alignment - `minimap2`
-        3. sort and index - `samtools sort`
-        4. alignment summary - `samtools flagstat`
+   - pbmm2 workflow:
+     1. alignment and sorting - `pbmm2`
+     2. index - `samtools index`
+     3. alignment summary - `samtools flagstat`
 
-    - pbmm2 workflow: 
-        1. alignment and sorting - `pbmm2`
-        2. index - `samtools index`
-        3. alignment summary - `samtools flagstat`
+2. create bedMethyl - `pb-CpG-tools` (default) or `modkit pileup`
 
-2. create bedMethyl - `pb-CpG-tools` (default) or `modkit pileup` 
-    - notes about using `pb-CpG-tools` pileup: 
-      - 5x base coverage minimum. 
-      - 2 pile up methods available from `pb-CpG-tools`:
-        1. default using `model` 
-        2. or `count` (differences described here: https://github.com/PacificBiosciences/pb-CpG-tools)
-      - `pb-CpG-tools` by default merge mC signals on CpG into forward strand. To 'force' strand specific signal output, I followed the suggestion mentioned in this issue ([PacificBiosciences/pb-CpG-tools#37](https://github.com/PacificBiosciences/pb-CpG-tools/issues/37)) which uses HP tags to tag forward and reverse reads, so they were output separately. 
+   - notes about using `pb-CpG-tools` pileup:
+     - 5x base coverage minimum.
+     - 2 pile up methods available from `pb-CpG-tools`:
+       1. default using `model`
+       2. or `count` (differences described here: https://github.com/PacificBiosciences/pb-CpG-tools)
+     - `pb-CpG-tools` by default merge mC signals on CpG into forward strand. To 'force' strand specific signal output, I followed the suggestion mentioned in this issue ([PacificBiosciences/pb-CpG-tools#37](https://github.com/PacificBiosciences/pb-CpG-tools/issues/37)) which uses HP tags to tag forward and reverse reads, so they were output separately.
 
 3. create bedgraph (optional)
-
-
 
 ## Usage
 
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
-
 ### Required input:
+
 - unaligned modification basecalled bam (modBam)
-  - for ONT R10.4.1 reads: basecall with `dorado basecaller` 
-  > dorado basecaller hac,5mCG_5hmCG,6mA pod5s/ > calls.bam
+  - for ONT R10.4.1 reads: basecall with `dorado basecaller`
+    > dorado basecaller hac,5mCG_5hmCG,6mA pod5s/ > calls.bam
   - for PacBio Revio HiFi reads: basecall with `Jasmine`
-- reference genome 
+- reference genome
 
 First, prepare a samplesheet with your input data that looks as follows:
 
@@ -96,13 +93,12 @@ sample,modbam,ref,method
 Col_0,ont_modbam.bam,Col_0.fasta,ont
 ```
 
-| Column | Content |
-| --- | --- |
-| `sample` | Name of the sample |
+| Column   | Content                        |
+| -------- | ------------------------------ |
+| `sample` | Name of the sample             |
 | `modBam` | Path to basecalled modBam file |
-| `ref` | Path to assembly fasta/fa file |
-| `method` | specify ont / pacbio |
-
+| `ref`    | Path to assembly fasta/fa file |
+| `method` | specify ont / pacbio           |
 
 Now, you can run the pipeline using:
 
@@ -120,19 +116,16 @@ For more details and further functionality, please refer to the [usage documenta
 
 ### Parameters
 
-
-| Parameter | Purpose |
-| --- | --- |
-| `--input` | path to samplesheet |
-| `--outdir` | results directory, default: `'./results'` |
-| `--no_trim` | skip trimming in ONT workflow, process will start directly alignment |
-| `--aligner` | aligner option in PacBio workflow, default is pbmm2, specify `minimap2` to switch |
-| `--pileup_method` | pileup method in PacBio workflow, default is pbcpgtools, specify `modkit` to switch |
-| `--denovo` | this option will identify and output all CG sites found in the consensus sequence from the reads in the `pb-CpG-tools`pileup (reference free); by default reference sequences are used to identify and output all CG sites. |
-| `--pileup_count` | specify pbcpgtools pileup mode, default is using model mode, specify this argument to switch to count mode |
-| `--bedgraph` | indicate if required bedgraphs as output |
-
-
+| Parameter         | Purpose                                                                                                                                                                                                                     |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--input`         | path to samplesheet                                                                                                                                                                                                         |
+| `--outdir`        | results directory, default: `'./results'`                                                                                                                                                                                   |
+| `--no_trim`       | skip trimming in ONT workflow, process will start directly alignment                                                                                                                                                        |
+| `--aligner`       | aligner option in PacBio workflow, default is pbmm2, specify `minimap2` to switch                                                                                                                                           |
+| `--pileup_method` | pileup method in PacBio workflow, default is pbcpgtools, specify `modkit` to switch                                                                                                                                         |
+| `--denovo`        | this option will identify and output all CG sites found in the consensus sequence from the reads in the `pb-CpG-tools`pileup (reference free); by default reference sequences are used to identify and output all CG sites. |
+| `--pileup_count`  | specify pbcpgtools pileup mode, default is using model mode, specify this argument to switch to count mode                                                                                                                  |
+| `--bedgraph`      | indicate if required bedgraphs as output                                                                                                                                                                                    |
 
 ## Pipeline output
 
@@ -140,7 +133,7 @@ To see the results of an example test run with a full size dataset refer to the 
 For more details about the output files and reports, please refer to the
 [output documentation](https://nf-co.re/methylong/output).
 
-Folder stuctures of the outputs: 
+Folder stuctures of the outputs:
 
 ```bash
 
@@ -169,8 +162,8 @@ Folder stuctures of the outputs:
 │   │
 │   └── bedgraph
 │       └── bedgraphs
-│ 
-│  
+│
+│
 ├── pacbio/sampleName
 │   │
 │   ├── fastqc
@@ -195,7 +188,7 @@ Folder stuctures of the outputs:
 
 ```
 
-bedgraph outputs all have min. 5x base coverage.  
+bedgraph outputs all have min. 5x base coverage.
 
 ## Credits
 

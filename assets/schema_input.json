@@ -29,7 +29,7 @@
             },
             "method": {
                 "type": "string",
-                "pattern":  "^\\S+$",
+                "enum": ["ont", "pacbio"],
                 "errorMessage": "sequencing method must be specify: 'ont' or 'pacbio'"
             }
         },
