@@ -72,7 +72,9 @@ workflow METHYLONG {
         ONT(ch_ont)
 
         ch_versions = ch_versions.mix(ONT.out.ont_versions)
+        ch_multiqc_files = ch_multiqc_files.mix(ONT.out.trim_stat.collect { it[1] }.ifEmpty([]))
         ch_multiqc_files = ch_multiqc_files.mix(ONT.out.map_stat.collect { it[1] }.ifEmpty([]))
+        
 
 
         //

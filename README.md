@@ -24,7 +24,7 @@
 
 
 <p align="center">
-  <img src="docs/images/methylong_workflow_v2.png">
+  <img src="docs/images/methylong_v3.png">
 
 </p>
 

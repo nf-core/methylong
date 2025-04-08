@@ -63,6 +63,8 @@ workflow ONT {
                 TRIM_REPAIR(ch_ont)
 
                 ont_versions    = ont_versions.mix(TRIM_REPAIR.out.versions)
+                trim_stat         = TRIM_REPAIR.out.trim_log
+
 
                 ALIGN(TRIM_REPAIR.out.dorado_in)
 
@@ -82,6 +84,7 @@ workflow ONT {
                 TRIM_REPAIR(ch_ont)
 
                 ont_versions    = ont_versions.mix(TRIM_REPAIR.out.versions)
+                trim_stat         = TRIM_REPAIR.out.trim_log
 
                 ALIGN(TRIM_REPAIR.out.dorado_in)
 
@@ -99,6 +102,7 @@ workflow ONT {
 
     ont_versions
     map_stat
+    trim_stat
 
 
 }

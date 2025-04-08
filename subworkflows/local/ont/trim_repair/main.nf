@@ -10,6 +10,7 @@ include { SAMTOOLS_SORT } from '../../../../modules/nf-core/samtools/sort/main'
 include { PORECHOP_PORECHOP } from '../../../../modules/nf-core/porechop/porechop/main'
 include { SAMTOOLS_IMPORT } from '../../../../modules/nf-core/samtools/import/main'
 include { MODKIT_REPAIR } from '../../../../modules/local/modkit/repair/main'
+include { RENAME_FASTQ } from '../../../../modules/local/rename_fastq/main'
 
 /*
  ===========================================
@@ -57,9 +58,13 @@ workflow TRIM_REPAIR {
 
   versions = versions.mix(SAMTOOLS_FASTQ.out.versions.first())
 
-  PORECHOP_PORECHOP(SAMTOOLS_FASTQ.out.other)
+  RENAME_FASTQ(SAMTOOLS_FASTQ.out.other)
+
+  PORECHOP_PORECHOP(RENAME_FASTQ.out.rename_fastq)
   
   versions = versions.mix(PORECHOP_PORECHOP.out.versions.first())  
+  PORECHOP_PORECHOP.out.log
+                       .set { trim_log }
 
   SAMTOOLS_IMPORT(PORECHOP_PORECHOP.out.reads)
 
@@ -86,6 +91,7 @@ workflow TRIM_REPAIR {
   emit: 
     dorado_in
     versions  
+    trim_log
 } 
 
 
