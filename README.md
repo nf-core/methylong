@@ -30,16 +30,16 @@
 
 1. trim and repair tags of input modBam
 
-   - trim and repair workflow:
-     1. sort modBam - `samtools sort`
-     2. convert modBam to fastq - `samtools fastq`
-     3. trim barcode and adapters - `porechop`
-     4. convert trimmed modfastq to modBam - `samtools import`
-     5. repair MM/ML tags of trimmed modBam - `modkit repair`
+    - trim and repair workflow:
+        1. sort modBam - `samtools sort`
+        2. convert modBam to fastq - `samtools fastq`
+        3. trim barcode and adapters - `porechop`
+        4. convert trimmed modfastq to modBam - `samtools import`
+        5. repair MM/ML tags of trimmed modBam - `modkit repair`
 
 2. align to reference (plus sorting and indexing) - `dorado aligner`
 
-   - include alignment summary - `samtools flagstat`
+    - include alignment summary - `samtools flagstat`
 
 3. create bedMethyl - `modkit pileup`, 5x base coverage minimum.
 4. create bedgraphs (optional)
@@ -48,26 +48,26 @@
 
 1. align to reference - `pbmm2` (default) or `minimap2`
 
-   - minimap workflow:
+    - minimap workflow:
 
-     1. convert modBam to fastq - `samtools convert`
-     2. alignment - `minimap2`
-     3. sort and index - `samtools sort`
-     4. alignment summary - `samtools flagstat`
+        1. convert modBam to fastq - `samtools convert`
+        2. alignment - `minimap2`
+        3. sort and index - `samtools sort`
+        4. alignment summary - `samtools flagstat`
 
-   - pbmm2 workflow:
-     1. alignment and sorting - `pbmm2`
-     2. index - `samtools index`
-     3. alignment summary - `samtools flagstat`
+    - pbmm2 workflow:
+        1. alignment and sorting - `pbmm2`
+        2. index - `samtools index`
+        3. alignment summary - `samtools flagstat`
 
 2. create bedMethyl - `pb-CpG-tools` (default) or `modkit pileup`
 
-   - notes about using `pb-CpG-tools` pileup:
-     - 5x base coverage minimum.
-     - 2 pile up methods available from `pb-CpG-tools`:
-       1. default using `model`
-       2. or `count` (differences described here: https://github.com/PacificBiosciences/pb-CpG-tools)
-     - `pb-CpG-tools` by default merge mC signals on CpG into forward strand. To 'force' strand specific signal output, I followed the suggestion mentioned in this issue ([PacificBiosciences/pb-CpG-tools#37](https://github.com/PacificBiosciences/pb-CpG-tools/issues/37)) which uses HP tags to tag forward and reverse reads, so they were output separately.
+    - notes about using `pb-CpG-tools` pileup:
+        - 5x base coverage minimum.
+        - 2 pile up methods available from `pb-CpG-tools`:
+            1. default using `model`
+            2. or `count` (differences described here: https://github.com/PacificBiosciences/pb-CpG-tools)
+        - `pb-CpG-tools` by default merge mC signals on CpG into forward strand. To 'force' strand specific signal output, I followed the suggestion mentioned in this issue ([PacificBiosciences/pb-CpG-tools#37](https://github.com/PacificBiosciences/pb-CpG-tools/issues/37)) which uses HP tags to tag forward and reverse reads, so they were output separately.
 
 3. create bedgraph (optional)
 
@@ -78,11 +78,11 @@
 
 ### Required input:
 
-- unaligned modification basecalled bam (modBam)
-  - for ONT R10.4.1 reads: basecall with `dorado basecaller`
-    > dorado basecaller hac,5mCG_5hmCG,6mA pod5s/ > calls.bam
-  - for PacBio Revio HiFi reads: basecall with `Jasmine`
-- reference genome
+-   unaligned modification basecalled bam (modBam)
+    -   for ONT R10.4.1 reads: basecall with `dorado basecaller`
+        > dorado basecaller hac,5mCG_5hmCG,6mA pod5s/ > calls.bam
+    -   for PacBio Revio HiFi reads: basecall with `Jasmine`
+-   reference genome
 
 First, prepare a samplesheet with your input data that looks as follows:
 

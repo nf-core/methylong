@@ -4,10 +4,9 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { PACBIO                 } from '../subworkflows/local/pacbio/main'
-include { ONT                    } from '../subworkflows/local/ont/main'
-include { UNZIP                  } from '../subworkflows/local/shared/unzip/main'
-include { FASTQC                 } from '../modules/nf-core/fastqc/main'
+include { PACBIO                 } from '../subworkflows/local/main'
+include { ONT                    } from '../subworkflows/local/main'
+include { FASTQ_UNZIP            } from '../subworkflows/local/shared_fastqc_unzip/main'
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
 include { paramsSummaryMap       } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -20,7 +19,6 @@ include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_meth
 */
 
 workflow METHYLONG {
-
     take:
     samplesheet
 
@@ -28,127 +26,105 @@ workflow METHYLONG {
 
     // Check if the samplesheet parameter is provided
 
-        ch_versions = Channel.empty()
-        ch_multiqc_files = Channel.empty()
+    ch_versions = Channel.empty()
+    ch_multiqc_files = Channel.empty()
 
-        samplesheet.set {ch_samples}
-
-        //
-        // MODULE: Run FastQC
-        //
-            ch_samples
-                .map { meta, modbam, _ref -> [meta, modbam] }
-                .set { fastqc_in }
-
-            FASTQC (
-                fastqc_in
-            )
-
-        ch_versions    = ch_versions.mix(FASTQC.out.versions)
-        ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect { it[1] }.ifEmpty([]))
-
-        // Split the channel based on method
-        
-        UNZIP(ch_samples)
-
-        ch_versions    = ch_versions.mix(UNZIP.out.gz_version)
-
-        UNZIP.out.unzip_input
-                 .filter {  it[0].method == "pacbio" }
-                 .set {ch_pacbio}
-
-        UNZIP.out.unzip_input
-                 .filter {  it[0].method == "ont" }
-                 .set {ch_ont}
+    samplesheet.set { ch_samples }
 
 
-        // different workflow depending on data type 
-        
-        PACBIO(ch_pacbio)
-
-        ch_versions = ch_versions.mix(PACBIO.out.pacbio_versions)
-        ch_multiqc_files = ch_multiqc_files.mix(PACBIO.out.map_stat.collect { it[1] }.ifEmpty([]))
-        
-        ONT(ch_ont)
-
-        ch_versions = ch_versions.mix(ONT.out.ont_versions)
-        ch_multiqc_files = ch_multiqc_files.mix(ONT.out.trim_stat.collect { it[1] }.ifEmpty([]))
-        ch_multiqc_files = ch_multiqc_files.mix(ONT.out.map_stat.collect { it[1] }.ifEmpty([]))
-        
+    FASTQ_UNZIP(ch_samples)
 
 
-        //
-        // Collate and save software versions
-        //
+    ch_versions = ch_versions.mix(FASTQ_UNZIP.out.versions)
+    ch_multiqc_files = ch_multiqc_files.mix(FASTQ_UNZIP.out.fastqc_log.collect { it[1] }.ifEmpty([]))
+
+    // Split the channel based on method
+
+    FASTQ_UNZIP.out.unzip_input
+        .filter { it[0].method == "pacbio" }
+        .set { ch_pacbio }
+
+    FASTQ_UNZIP.out.unzip_input
+        .filter { it[0].method == "ont" }
+        .set { ch_ont }
+
+
+    // different workflow depending on data type 
+
+    PACBIO(ch_pacbio)
+
+    ch_versions = ch_versions.mix(PACBIO.out.pacbio_versions)
+    ch_multiqc_files = ch_multiqc_files.mix(PACBIO.out.map_stat.collect { it[1] }.ifEmpty([]))
+
+    ONT(ch_ont)
+
+    ch_versions = ch_versions.mix(ONT.out.ont_versions)
+    ch_multiqc_files = ch_multiqc_files.mix(ONT.out.map_stat.collect { it[1] }.ifEmpty([]))
+
+
+    //
+    // Collate and save software versions
+    //
 
 
 
-        softwareVersionsToYAML(ch_versions)
-            .collectFile(
-                storeDir: "${params.outdir}/pipeline_info",
-                name: 'nf_core_'  + 'pipeline_software_' +  'mqc_'  + 'versions.yml',
-                sort: true,
-                newLine: true
-            ).set { ch_collated_versions }
-
-
-        //
-        // MODULE: MultiQC
-        //
-        ch_multiqc_config        = Channel.fromPath(
-            "$projectDir/assets/multiqc_config.yml", checkIfExists: true
-            )
-        
-        ch_multiqc_custom_config = params.multiqc_config ?
-            Channel.fromPath(params.multiqc_config, checkIfExists: true) :
-            Channel.empty()
-
-        ch_multiqc_logo          = params.multiqc_logo ?
-            Channel.fromPath(params.multiqc_logo, checkIfExists: true) :
-            Channel.empty()
-
-        summary_params      = paramsSummaryMap(
-            workflow, parameters_schema: "nextflow_schema.json")
-
-        ch_workflow_summary = Channel.value(paramsSummaryMultiqc(summary_params))
-
-        ch_multiqc_files = ch_multiqc_files.mix(
-            ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'))
-
-        ch_multiqc_custom_methods_description = params.multiqc_methods_description ?
-            file(params.multiqc_methods_description, checkIfExists: true) :
-            file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
-
-        ch_methods_description                = Channel.value(
-            methodsDescriptionText(ch_multiqc_custom_methods_description))
-
-        ch_multiqc_files = ch_multiqc_files.mix(ch_collated_versions)
-        
-        ch_multiqc_files = ch_multiqc_files.mix(
-            ch_methods_description.collectFile(
-                name: 'methods_description_mqc.yaml',
-                sort: true
-            )
+    softwareVersionsToYAML(ch_versions)
+        .collectFile(
+            storeDir: "${params.outdir}/pipeline_info",
+            name: 'nf_core_' + 'pipeline_software_' + 'mqc_' + 'versions.yml',
+            sort: true,
+            newLine: true,
         )
+        .set { ch_collated_versions }
 
-        MULTIQC (
-            ch_multiqc_files.collect(),
-            ch_multiqc_config.toList(),
-            ch_multiqc_custom_config.toList(),
-            ch_multiqc_logo.toList(),
-            [],
-            []
+
+    //
+    // MODULE: MultiQC
+    //
+    ch_multiqc_config = Channel.fromPath(
+        "${projectDir}/assets/multiqc_config.yml",
+        checkIfExists: true
+    )
+    ch_multiqc_custom_config = params.multiqc_config
+        ? Channel.fromPath(params.multiqc_config, checkIfExists: true)
+        : Channel.empty()
+    ch_multiqc_logo = params.multiqc_logo
+        ? Channel.fromPath(params.multiqc_logo, checkIfExists: true)
+        : Channel.empty()
+
+    summary_params = paramsSummaryMap(
+        workflow,
+        parameters_schema: "nextflow_schema.json"
+    )
+    ch_workflow_summary = Channel.value(paramsSummaryMultiqc(summary_params))
+    ch_multiqc_files = ch_multiqc_files.mix(
+        ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml')
+    )
+    ch_multiqc_custom_methods_description = params.multiqc_methods_description
+        ? file(params.multiqc_methods_description, checkIfExists: true)
+        : file("${projectDir}/assets/methods_description_template.yml", checkIfExists: true)
+    ch_methods_description = Channel.value(
+        methodsDescriptionText(ch_multiqc_custom_methods_description)
+    )
+
+    ch_multiqc_files = ch_multiqc_files.mix(ch_collated_versions)
+    ch_multiqc_files = ch_multiqc_files.mix(
+        ch_methods_description.collectFile(
+            name: 'methods_description_mqc.yaml',
+            sort: true,
         )
+    )
+
+    MULTIQC(
+        ch_multiqc_files.collect(),
+        ch_multiqc_config.toList(),
+        ch_multiqc_custom_config.toList(),
+        ch_multiqc_logo.toList(),
+        [],
+        [],
+    )
 
     emit:
-
     multiqc_report = MULTIQC.out.report.toList() // channel: /path/to/multiqc_report.html
-    versions       = ch_versions                 // channel: [ path(versions.yml) ]
-
+    versions       = ch_versions // channel: [ path(versions.yml) ]
 }
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    THE END
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/

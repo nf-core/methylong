@@ -1,5 +1,5 @@
 process RENAME_FASTQ {
-    tag "$meta.id"
+    tag "${meta.id}"
     label 'process_low'
 
     input:
@@ -7,9 +7,6 @@ process RENAME_FASTQ {
 
     output:
     tuple val(meta), path("*fastq.gz"), emit: rename_fastq
-
-
-
 
     script:
     """

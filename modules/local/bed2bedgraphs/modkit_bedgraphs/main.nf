@@ -4,24 +4,23 @@
 
 
 process MODKIT_BEDGRAPH {
-    tag "$meta.id"
-    label 'process_medium'
+  tag "${meta.id}"
+  label 'process_medium'
 
-    container "quay.io/biocontainers/pigz:2.8"
+  container "quay.io/biocontainers/pigz:2.8"
 
-    input:
-    tuple val(meta), path(in_bed)
+  input:
+  tuple val(meta), path(in_bed)
 
-    output:
-    tuple val(meta), path("*.bedgraph.gz"), emit: bedgraph
-    path "versions.yml"                , emit: versions
+  output:
+  tuple val(meta), path("*.bedgraph.gz"), emit: bedgraph
+  path "versions.yml", emit: versions
 
+  when:
+  task.ext.when == null || task.ext.when
 
-    when:
-    task.ext.when == null || task.ext.when
-
-    script:
-    """
+  script:
+  """
     set -eu
 
     for strand in "+" "-"
@@ -52,4 +51,3 @@ process MODKIT_BEDGRAPH {
     END_VERSIONS
     """
 }
-

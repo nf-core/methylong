@@ -18,7 +18,7 @@ You will need to create a samplesheet with information about the samples you wou
 
 ### Full samplesheet
 
-The samplesheet required 4 columns, as defined in the table below. Sample name can be repeated if the corresponding sample has both ONT and PacBio HiFi data.  
+The samplesheet required 4 columns, as defined in the table below. Sample name can be repeated if the corresponding sample has both ONT and PacBio HiFi data.
 
 ```csv title="samplesheet.csv"
 sample,modbam,ref,method
@@ -29,12 +29,12 @@ sample3,sample3.bam,sample3.fasta,ont
 sample4,sample4.bam,sample4.fasta,ont
 ```
 
-| Column    | Description                                                                                                                                                                            |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sample`  | Custom sample name. |
-| `modbam` | Full path to modification basecalled bam file. This bam file has to be unaligned bam file. File has to have the extension ".bam". |
-| `ref` | Full path to reference genome file . File can be either gzipped or not. File has to have the extension '.fa', '.fasta', '.fna' or their equivalent gzip format. |
-| `method`  | Sequencing method has to be specified. Either 'ont' or 'pacbio' can be accepted. |
+| Column   | Description                                                                                                                                                     |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sample` | Custom sample name.                                                                                                                                             |
+| `modbam` | Full path to modification basecalled bam file. This bam file has to be unaligned bam file. File has to have the extension ".bam".                               |
+| `ref`    | Full path to reference genome file . File can be either gzipped or not. File has to have the extension '.fa', '.fasta', '.fna' or their equivalent gzip format. |
+| `method` | Sequencing method has to be specified. Either 'ont' or 'pacbio' can be accepted.                                                                                |
 
 An [example samplesheet](../assets/test_data/test_samplesheet.csv) has been provided with the pipeline.
 
@@ -126,25 +126,25 @@ They are loaded in sequence, so later profiles can overwrite earlier profiles.
 
 If `-profile` is not specified, the pipeline will run locally and expect all software to be installed and available on the `PATH`. This is _not_ recommended, since it can lead to different results on different machines dependent on the computer enviroment.
 
-- `test`
-  - A profile with a complete configuration for automated testing
-  - Includes links to test data so needs no other parameters
-- `docker`
-  - A generic configuration profile to be used with [Docker](https://docker.com/)
-- `singularity`
-  - A generic configuration profile to be used with [Singularity](https://sylabs.io/docs/)
-- `podman`
-  - A generic configuration profile to be used with [Podman](https://podman.io/)
-- `shifter`
-  - A generic configuration profile to be used with [Shifter](https://nersc.gitlab.io/development/shifter/how-to-use/)
-- `charliecloud`
-  - A generic configuration profile to be used with [Charliecloud](https://hpc.github.io/charliecloud/)
-- `apptainer`
-  - A generic configuration profile to be used with [Apptainer](https://apptainer.org/)
-- `wave`
-  - A generic configuration profile to enable [Wave](https://seqera.io/wave/) containers. Use together with one of the above (requires Nextflow ` 24.03.0-edge` or later).
-- `conda`
-  - A generic configuration profile to be used with [Conda](https://conda.io/docs/). Please only use Conda as a last resort i.e. when it's not possible to run the pipeline with Docker, Singularity, Podman, Shifter, Charliecloud, or Apptainer.
+-   `test`
+    -   A profile with a complete configuration for automated testing
+    -   Includes links to test data so needs no other parameters
+-   `docker`
+    -   A generic configuration profile to be used with [Docker](https://docker.com/)
+-   `singularity`
+    -   A generic configuration profile to be used with [Singularity](https://sylabs.io/docs/)
+-   `podman`
+    -   A generic configuration profile to be used with [Podman](https://podman.io/)
+-   `shifter`
+    -   A generic configuration profile to be used with [Shifter](https://nersc.gitlab.io/development/shifter/how-to-use/)
+-   `charliecloud`
+    -   A generic configuration profile to be used with [Charliecloud](https://hpc.github.io/charliecloud/)
+-   `apptainer`
+    -   A generic configuration profile to be used with [Apptainer](https://apptainer.org/)
+-   `wave`
+    -   A generic configuration profile to enable [Wave](https://seqera.io/wave/) containers. Use together with one of the above (requires Nextflow ` 24.03.0-edge` or later).
+-   `conda`
+    -   A generic configuration profile to be used with [Conda](https://conda.io/docs/). Please only use Conda as a last resort i.e. when it's not possible to run the pipeline with Docker, Singularity, Podman, Shifter, Charliecloud, or Apptainer.
 
 ### `-resume`
 

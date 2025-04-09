@@ -1,9 +1,8 @@
 process PB_CPG_TOOLS {
-    tag "$meta.id"
+    tag "${meta.id}"
     label 'process_medium'
 
     container "quay.io/pacbio/pb-cpg-tools:3.0.0_build1"
-
 
     input:
     tuple val(meta), path(bam), path(index)
@@ -14,22 +13,21 @@ process PB_CPG_TOOLS {
     tuple val(meta), path("*negative.bed.gz"), emit: reversebed
     tuple val(meta), path("*.bw"), emit: bw
     tuple val(meta), path("*.log"), emit: log
-    path "versions.yml"       , emit: versions
-
+    path "versions.yml", emit: versions
 
     script:
 
-    def pileup_mode = params.pileup_count ? "count" : "model" 
+    def pileup_mode = params.pileup_count ? "count" : "model"
     def mode = params.denovo ? "denovo" : "reference"
 
     """
     aligned_bam_to_cpg_scores \\
-        --bam $bam \\
+        --bam ${bam} \\
         --output-prefix ${meta.id} \\
         --threads ${task.cpus} \\
-        --ref $ref \\
-        --modsites-mode $mode \\
-        --pileup-mode $pileup_mode
+        --ref ${ref} \\
+        --modsites-mode ${mode} \\
+        --pileup-mode ${pileup_mode}
 
     # this need to be in a different module..
     # Rename output files
