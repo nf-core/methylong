@@ -1,6 +1,5 @@
 bump_version:
 lint:
-  multiqc_config: true
   files_exist:
     - conf/igenomes.config
     - conf/igenomes_ignored.config
