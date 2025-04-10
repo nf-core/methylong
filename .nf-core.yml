@@ -18,7 +18,5 @@ template:
   outdir: .
   skip_features:
     - igenomes
-    - fastqc
-    - multiqc
   version: 1.0.0
 update:

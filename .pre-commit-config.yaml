@@ -11,3 +11,9 @@ repos:
     hooks:
       - id: editorconfig-checker
         alias: ec
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0 # Use the ref you want to point at
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
