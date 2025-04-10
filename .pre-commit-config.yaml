@@ -17,3 +17,8 @@ repos:
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
+      - id: trailing-whitespace
+        exclude: |
+          ^modules/nf-core/samtools/fastq/main.nf$
+          ^modules/nf-core/porechop/porechop/main.nf$
+          ^subworkflows/nf-core/utils_nfschema_plugin/main.nf$

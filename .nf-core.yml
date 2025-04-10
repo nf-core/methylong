@@ -1,10 +1,9 @@
 bump_version:
 lint:
-  multiqc_config: false
+  multiqc_config: true
   files_exist:
     - conf/igenomes.config
     - conf/igenomes_ignored.config
-    - assets/multiqc_config.yml
 nf_core_version: 3.2.0
 org_path:
 repository_type: pipeline

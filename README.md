@@ -112,19 +112,6 @@ nextflow run nf-core/methylong \
 
 For more details and further functionality, please refer to the [usage documentation](https://nf-co.re/methylong/usage) and the [parameter documentation](https://nf-co.re/methylong/parameters).
 
-### Parameters
-
-| Parameter         | Purpose                                                                                                                                                                                                                     |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--input`         | path to samplesheet                                                                                                                                                                                                         |
-| `--outdir`        | results directory, default: `'./results'`                                                                                                                                                                                   |
-| `--no_trim`       | skip trimming in ONT workflow, process will start directly alignment                                                                                                                                                        |
-| `--aligner`       | aligner option in PacBio workflow, default is pbmm2, specify `minimap2` to switch                                                                                                                                           |
-| `--pileup_method` | pileup method in PacBio workflow, default is pbcpgtools, specify `modkit` to switch                                                                                                                                         |
-| `--denovo`        | this option will identify and output all CG sites found in the consensus sequence from the reads in the `pb-CpG-tools`pileup (reference free); by default reference sequences are used to identify and output all CG sites. |
-| `--pileup_count`  | specify pbcpgtools pileup mode, default is using model mode, specify this argument to switch to count mode                                                                                                                  |
-| `--bedgraph`      | indicate if required bedgraphs as output                                                                                                                                                                                    |
-
 ## Pipeline output
 
 To see the results of an example test run with a full size dataset refer to the [results](https://nf-co.re/methylong/results) tab on the nf-core website pipeline page.

@@ -34,7 +34,7 @@ jobs:
           - "--no_trim"
           - "--aligner minimap2"
           - "--pileup_method modkit"
-          - "--pileup_count"
+          - "--pileup_count count"
           - "--denovo"
         profile:
           - "conda"
