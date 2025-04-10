@@ -1,4 +1,4 @@
-bump_version: null
+bump_version:
 lint:
     multiqc_config: false
     files_exist:
@@ -6,7 +6,7 @@ lint:
         - conf/igenomes_ignored.config
         - assets/multiqc_config.yml
 nf_core_version: 3.2.0
-org_path: null
+org_path:
 repository_type: pipeline
 template:
     author: Jin Yan Khoo
@@ -20,5 +20,5 @@ template:
         - igenomes
         - fastqc
         - multiqc
-    version: 1.0.0dev
-update: null
+    version: 1.0.0
+update:
