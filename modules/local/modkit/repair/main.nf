@@ -24,7 +24,7 @@ process MODKIT_REPAIR {
         -a ${after_trim} \\
         -o ${meta.id}_repaired.bam \\
         --log-filepath ./${meta.id}_repair.log
-        
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         modkit: \$( modkit --version | sed 's/mod_kit //' )

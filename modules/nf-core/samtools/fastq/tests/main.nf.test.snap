@@ -43,7 +43,7 @@
                     ]
                 ],
                 "1": [
-                    
+
                 ],
                 "2": [
                     [
@@ -79,7 +79,7 @@
                     ]
                 ],
                 "interleaved": [
-                    
+
                 ],
                 "other": [
                     [
@@ -152,7 +152,7 @@
     "bam_interleaved": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -164,7 +164,7 @@
     "bam_singinterleave_leton": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -210,7 +210,7 @@
     "bam_interleave_fastq": {
         "content": [
             [
-                
+
             ]
         ],
         "meta": {
@@ -223,7 +223,7 @@
         "content": [
             {
                 "0": [
-                    
+
                 ],
                 "1": [
                     [
@@ -235,7 +235,7 @@
                     ]
                 ],
                 "2": [
-                    
+
                 ],
                 "3": [
                     [
@@ -250,7 +250,7 @@
                     "versions.yml:md5,11e074d69900de5a7dfdbe1fb4e789fd"
                 ],
                 "fastq": [
-                    
+
                 ],
                 "interleaved": [
                     [
@@ -271,7 +271,7 @@
                     ]
                 ],
                 "singleton": [
-                    
+
                 ],
                 "versions": [
                     "versions.yml:md5,11e074d69900de5a7dfdbe1fb4e789fd"

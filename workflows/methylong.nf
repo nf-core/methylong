@@ -49,7 +49,7 @@ workflow METHYLONG {
         .set { ch_ont }
 
 
-    // different workflow depending on data type 
+    // different workflow depending on data type
 
     PACBIO(ch_pacbio)
 

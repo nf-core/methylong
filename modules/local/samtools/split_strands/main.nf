@@ -30,7 +30,7 @@ process SAMTOOLS_SPLIT_STRAND {
     samtools view $bam -h -@ $task.cpus -f 16 \\
         |awk 'BEGIN {OFS="\\t"} /^@/ {print \$0; next} {\$0 = \$0 "\\tHP:i:2"; print \$0}' \\
         | samtools view -Sb -@ $task.cpus - -o ${meta.id}_reverse_tagged.bam
-    
+
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

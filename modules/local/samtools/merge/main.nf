@@ -28,7 +28,7 @@ process SAMTOOLS_MERGE {
         | samtools \\
         sort - -@ ${task.cpus} -o sorted_${meta.id}_tagged.bam \\
         --write-index
-    
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//')
