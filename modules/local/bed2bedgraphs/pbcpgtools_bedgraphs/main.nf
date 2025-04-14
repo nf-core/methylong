@@ -39,4 +39,18 @@ process PBCPG_BEDGRAPHS {
 
     END_VERSIONS
     """
+
+    stub:
+    def args   = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: "${meta.id}"
+
+    """
+    touch ${prefix}.bedgraph.gz
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        pigz: \$(pigz --version)
+
+    END_VERSIONS
+    """
 }

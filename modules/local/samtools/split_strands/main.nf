@@ -38,4 +38,18 @@ process SAMTOOLS_SPLIT_STRAND {
     END_VERSIONS
     """
 
+    stub:
+    def args   = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: "${meta.id}"
+
+    """
+    touch ${prefix}_forward_tagged.bam
+    touch ${prefix}_reverse_tagged.bam
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//')
+    END_VERSIONS
+    """
+
 }

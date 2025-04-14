@@ -29,7 +29,6 @@ process PB_CPG_TOOLS {
         --modsites-mode ${mode} \\
         --pileup-mode ${pileup_mode}
 
-    # this need to be in a different module..
     # Rename output files
     mv ${meta.id}.hap1.bed.gz ${meta.id}_positive.bed.gz
     mv ${meta.id}.hap2.bed.gz ${meta.id}_negative.bed.gz
@@ -38,5 +37,22 @@ process PB_CPG_TOOLS {
     "${task.process}":
         aligned_bam_to_cpg_scores: \$( aligned_bam_to_cpg_scores --version | sed 's/aligned_bam_to_cpg_scores //')
     END_VERSIONS
+    """
+
+    stub:
+    def args   = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: "${meta.id}"
+
+    """
+    touch ${prefix}_positive.bed.gz
+    touch ${prefix}_negative.bed.gz
+    touch ${prefix}.bw
+    touch ${prefix}.log
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        aligned_bam_to_cpg_scores: \$( aligned_bam_to_cpg_scores --version | sed 's/aligned_bam_to_cpg_scores //')
+    END_VERSIONS
+
     """
 }
