@@ -38,12 +38,7 @@ workflow ONT_TRIM_REPAIR {
         .map { meta, _modbam, ref -> [meta, ref] }
         .set { ch_ref_in }
 
-    // Create a dummy tuple for samtools sort
-    input
-        .map { meta, _modbam, _ref -> [meta, []] }
-        .set { ch_sort_dummy }
-
-    SAMTOOLS_SORT(ch_sort_in, ch_sort_dummy)
+    SAMTOOLS_SORT(ch_sort_in, [[],[]])
 
     versions = versions.mix(SAMTOOLS_SORT.out.versions.first())
 

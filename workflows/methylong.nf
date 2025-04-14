@@ -4,8 +4,8 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { PACBIO                 } from '../subworkflows/local/main'
-include { ONT                    } from '../subworkflows/local/main'
+include { PACBIO                 } from '../subworkflows/local/Pacbio_main'
+include { ONT                    } from '../subworkflows/local/ONT_main'
 include { FASTQ_UNZIP            } from '../subworkflows/local/shared_fastqc_unzip/main'
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
 include { paramsSummaryMap       } from 'plugin/nf-schema'

@@ -11,10 +11,10 @@ process SAMTOOLS_SPLIT_STRAND {
     input:
     tuple val(meta), path(bam), path(bai)
 
-    output:
-    tuple val(meta), path("${meta.id}_forward*.bam")      , emit: forwardbam
-    tuple val(meta), path("${meta.id}_reverse*.bam")      , emit: reversebam
-    path "versions.yml"                                , emit: versions
+    output        :
+    tuple val(meta),      path("${meta.id}_forward*.bam"), emit: forwardbam
+    tuple val(meta),      path("${meta.id}_reverse*.bam"), emit: reversebam
+    path  "versions.yml"                                 , emit: versions
 
 
     when:

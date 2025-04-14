@@ -5,8 +5,9 @@
  */
 
 
-include { DORADO_ALIGNER    } from '../../../modules/local/dorado/aligner/main'
-include { SAMTOOLS_FLAGSTAT } from '../../../modules/nf-core/samtools/flagstat/main'
+include { DORADO_ALIGNER                       } from '../../../modules/local/dorado/aligner/main'
+include { MINIMAP2_ALIGN as ONT_MINIMAP2_ALIGN } from '../../../modules/nf-core/minimap2/align/main'
+include { SAMTOOLS_FLAGSTAT                    } from '../../../modules/nf-core/samtools/flagstat/main'
 
 /*
 ===========================================
@@ -14,37 +15,52 @@ include { SAMTOOLS_FLAGSTAT } from '../../../modules/nf-core/samtools/flagstat/m
 ===========================================
  */
 
-
 workflow ONT_ALIGN {
     take:
-    dorado_in
+    align_in
 
     main:
 
     versions = Channel.empty()
 
-    // prepare refrence for downstream
-    dorado_in
-        .map { meta, _modbam, ref -> [meta, ref] }
-        .set { ref_in }
+    align_in
+        .multiMap { meta, modbam, ref ->
+            mini_in: [meta, modbam]
+            ref_in: [meta, ref]
+        }
+        .set { ch_mini_in }
 
-    // Alignment with dorado
-    DORADO_ALIGNER(dorado_in)
-    versions = versions.mix(DORADO_ALIGNER.out.versions.first())
+    if (params.ont_aligner == "minimap2") {
 
-    // Preapre inputs for downstream
-    DORADO_ALIGNER.out.bam
-        .join(DORADO_ALIGNER.out.bai)
-        .map { meta, bam, bai -> [meta, bam, bai] }
-        .set { ch_flagstat_in }
+        ONT_MINIMAP2_ALIGN(ch_mini_in.mini_in, ch_mini_in.ref_in, "bam_format", "bai", [], [])
+        versions = versions.mix(ONT_MINIMAP2_ALIGN.out.versions.first())
 
-    DORADO_ALIGNER.out.bam
-        .join(DORADO_ALIGNER.out.bai)
-        .join(ref_in)
-        .map { meta, alignedbam, index, ref -> [meta, alignedbam, index, ref] }
-        .set { ch_pile_in }
+        ONT_MINIMAP2_ALIGN.out.bam
+            .join(ONT_MINIMAP2_ALIGN.out.index)
+            .set { ch_flagstat_in }
 
+        ONT_MINIMAP2_ALIGN.out.bam
+            .join(ONT_MINIMAP2_ALIGN.out.index)
+            .join(ch_mini_in.ref_in)
+            .map { meta, bam, bai, ref -> [meta, bam, bai, ref] }
+            .set { ch_pile_in }
+    }
+    else {
 
+        DORADO_ALIGNER(align_in)
+        versions = versions.mix(DORADO_ALIGNER.out.versions.first())
+        // Preapre inputs for downstream
+        DORADO_ALIGNER.out.bam
+            .join(DORADO_ALIGNER.out.bai)
+            .map { meta, bam, bai -> [meta, bam, bai] }
+            .set { ch_flagstat_in }
+
+        DORADO_ALIGNER.out.bam
+            .join(DORADO_ALIGNER.out.bai)
+            .join(ch_mini_in.ref_in)
+            .map { meta, alignedbam, index, ref -> [meta, alignedbam, index, ref] }
+            .set { ch_pile_in }
+    }
     // check alignment stat
     SAMTOOLS_FLAGSTAT(ch_flagstat_in)
 
