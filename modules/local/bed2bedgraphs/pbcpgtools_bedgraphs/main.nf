@@ -2,8 +2,10 @@ process PBCPG_BEDGRAPHS {
     tag "${meta.id}"
     label 'process_medium'
 
-
-    container "quay.io/biocontainers/pigz:2.8"
+    conda "${moduleDir}/environment.yml"
+    container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
+        ? 'https://depot.galaxyproject.org/singularity/pigz:2.8'
+        : 'biocontainers/pigz:2.8'}"
 
     input:
     tuple val(meta), path(forwardbed), path(reversebed)
