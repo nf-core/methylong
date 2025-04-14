@@ -31,4 +31,19 @@ process DORADO_ALIGNER {
         dorado: "\$(dorado --version 2>&1 | head -n1)"
     END_VERSIONS
     """
+
+    stub:
+    def args   = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: "${meta.id}"
+
+    """
+    touch ${prefix}/${prefix}.bam
+    touch ${prefix}/${prefix}.bai
+    touch ${prefix}/${prefix}.txt
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        dorado: "\$(dorado --version 2>&1 | head -n1)"
+    END_VERSIONS
+    """
 }

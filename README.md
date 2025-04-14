@@ -22,7 +22,7 @@
 **nf-core/methylong** is a bioinformatics pipeline that is tailored for long-read methylation calling. This pipeline require only modification-basecalled ONT reads or PacBio HiFi reads (modBam) and a genome reference as input. The ONT workflow including preprocessing (trim and repair) of reads, genome alignment and methylation calling. The PacBio HiFi workflow includes genome alignment and methylation calling. Methylation calls are extracted into BED/BEDGRAPH format, readily for direct downstream analysis.
 
 <p align="center">
-  <img src="docs/images/methylong_workflow_v4.png">
+  <img src="docs/images/methylong_workflow_v5.png">
 
 </p>
 

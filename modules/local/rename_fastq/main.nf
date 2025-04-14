@@ -13,4 +13,13 @@ process RENAME_FASTQ {
     cp ${meta.id}_${meta.method}_other.fastq.gz ${meta.id}_${meta.method}.fastq.gz
 
     """
+
+    stub:
+    def args   = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: "${meta.id}"
+
+    """
+    touch ${prefix}.fastq.gz
+
+    """
 }

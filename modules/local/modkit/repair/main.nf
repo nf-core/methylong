@@ -33,4 +33,18 @@ process MODKIT_REPAIR {
         modkit: \$( modkit --version | sed 's/mod_kit //' )
     END_VERSIONS
     """
+
+    stub:
+    def args   = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: "${meta.id}"
+
+    """
+    touch ${prefix}.bam
+    touch ${prefix}.log
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        modkit: \$( modkit --version | sed 's/mod_kit //' )
+    END_VERSIONS
+    """
 }
