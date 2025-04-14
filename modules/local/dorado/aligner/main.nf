@@ -3,6 +3,8 @@ process DORADO_ALIGNER {
     label 'process_medium'
 
     container "ontresearch/dorado:mr597_sha6058abbabae30a845dcc4ac7b481208de9d2af71"
+
+    input:
     tuple val(meta), path(reads), path(ref)
 
     output:
@@ -31,7 +33,7 @@ process DORADO_ALIGNER {
     """
 
     stub:
-    def args = task.ext.args ?: ''
+    def args   = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
@@ -44,7 +46,4 @@ process DORADO_ALIGNER {
         dorado: "\$(dorado --version 2>&1 | head -n1)"
     END_VERSIONS
     """
-}
-    """
-}
 }
