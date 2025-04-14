@@ -2,11 +2,7 @@ process DORADO_ALIGNER {
     tag "${meta.id}"
     label 'process_medium'
 
-    container "${workflow.containerEngine == 'charliecloud'
-        ? 'registry.hub.docker.com/ontresearch/dorado:mr597_sha6058abbabae30a845dcc4ac7b481208de9d2af71'
-        : 'ontresearch/dorado:mr597_sha6058abbabae30a845dcc4ac7b481208de9d2af71'}"
-
-    input:
+    container "ontresearch/dorado:mr597_sha6058abbabae30a845dcc4ac7b481208de9d2af71"
     tuple val(meta), path(reads), path(ref)
 
     output:
@@ -47,6 +43,8 @@ process DORADO_ALIGNER {
     "${task.process}":
         dorado: "\$(dorado --version 2>&1 | head -n1)"
     END_VERSIONS
+    """
+}
     """
 }
 }
