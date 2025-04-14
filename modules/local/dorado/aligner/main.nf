@@ -2,7 +2,7 @@ process DORADO_ALIGNER {
     tag "${meta.id}"
     label 'process_medium'
 
-    container "registry.hub.docker.com/ontresearch/dorado:mr555_shada39cafbee40826d83076f28b596ab59dc3d7211"
+    container "registry.hub.docker.com/ontresearch/dorado:mr597_sha6058abbabae30a845dcc4ac7b481208de9d2af71"
 
     input:
     tuple val(meta), path(reads), path(ref)

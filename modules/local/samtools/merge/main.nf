@@ -1,20 +1,19 @@
 process SAMTOOLS_MERGE {
-    tag "$meta.id"
+    tag "${meta.id}"
     label 'process_medium'
 
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/samtools:1.21--h50ea8bc_0' :
-        'biocontainers/samtools:1.21--h50ea8bc_0' }"
+    container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
+        ? 'https://depot.galaxyproject.org/singularity/samtools:1.21--h50ea8bc_0'
+        : 'biocontainers/samtools:1.21--h50ea8bc_0'}"
 
     input:
     tuple val(meta), path(forwardbam), path(reversebam)
 
     output:
-    tuple val(meta), path("*.bam")      , emit: bam
-    tuple val(meta), path("*.csi")      , emit: index
-    path "versions.yml"                 , emit: versions
-
+    tuple val(meta), path("*.bam"), emit: bam
+    tuple val(meta), path("*.csi"), emit: index
+    path "versions.yml"           , emit: versions
 
     script:
 
@@ -22,8 +21,8 @@ process SAMTOOLS_MERGE {
     samtools \\
         merge \\
         -@ ${task.cpus} \\
-        $forwardbam \\
-        $reversebam \\
+        ${forwardbam} \\
+        ${reversebam} \\
         -o - \\
         | samtools \\
         sort - -@ ${task.cpus} -o sorted_${meta.id}_tagged.bam \\
@@ -34,5 +33,4 @@ process SAMTOOLS_MERGE {
         samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//')
     END_VERSIONS
     """
-
 }

@@ -32,7 +32,8 @@ jobs:
         PARAMETERS:
           - "--bedgraph"
           - "--no_trim"
-          - "--aligner minimap2"
+          - "--pacbio_aligner minimap2"
+          - "--ont_aligner minimap2"
           - "--pileup_method modkit"
           - "--pileup_count count"
           - "--denovo"

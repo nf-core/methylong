@@ -28,15 +28,14 @@ workflow PACBIO_ALIGN_PBMM2 {
     versions = Channel.empty()
 
     input
-        .map { meta, modbam, _ref -> [meta, modbam] }
-        .set { reads_in }
+        .multiMap { meta, modbam, ref ->
+        reads_in: [meta, modbam]
+        ref_in: [meta, ref]
+        }
+        .set{ ch_pbmm_in }
 
-    input
-        .map { meta, _modbam, ref -> [meta, ref] }
-        .set { ref_in }
 
-
-    PBMM2_ALIGN(reads_in, ref_in)
+    PBMM2_ALIGN(ch_pbmm_in.reads_in, ch_pbmm_in.ref_in)
 
     versions = versions.mix(PBMM2_ALIGN.out.versions.first())
 
@@ -51,7 +50,7 @@ workflow PACBIO_ALIGN_PBMM2 {
 
     PBMM2_ALIGN.out.bam
         .join(SAMTOOLS_INDEX.out.bai)
-        .join(ref_in)
+        .join(ch_pbmm_in.ref_in)
         .map { meta, bam, bai, ref -> [meta, bam, bai, ref] }
         .set { ch_pile_in }
 

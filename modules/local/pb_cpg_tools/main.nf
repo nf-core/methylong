@@ -5,20 +5,20 @@ process PB_CPG_TOOLS {
     container "quay.io/pacbio/pb-cpg-tools:3.0.0_build1"
 
     input:
-    tuple val(meta), path(bam), path(index)
+    tuple val(meta) , path(bam), path(index)
     tuple val(meta2), path(ref)
 
     output:
     tuple val(meta), path("*positive.bed.gz"), emit: forwardbed
     tuple val(meta), path("*negative.bed.gz"), emit: reversebed
-    tuple val(meta), path("*.bw"), emit: bw
-    tuple val(meta), path("*.log"), emit: log
-    path "versions.yml", emit: versions
+    tuple val(meta), path("*.bw")            , emit: bw
+    tuple val(meta), path("*.log")           , emit: log
+    path "versions.yml"                      , emit: versions
 
     script:
 
     def pileup_mode = params.pileup_count ? "count" : "model"
-    def mode = params.denovo ? "denovo" : "reference"
+    def mode        = params.denovo ? "denovo" : "reference"
 
     """
     aligned_bam_to_cpg_scores \\

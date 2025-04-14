@@ -22,7 +22,7 @@
 **nf-core/methylong** is a bioinformatics pipeline that is tailored for long-read methylation calling. This pipeline require only modification-basecalled ONT reads or PacBio HiFi reads (modBam) and a genome reference as input. The ONT workflow including preprocessing (trim and repair) of reads, genome alignment and methylation calling. The PacBio HiFi workflow includes genome alignment and methylation calling. Methylation calls are extracted into BED/BEDGRAPH format, readily for direct downstream analysis.
 
 <p align="center">
-  <img src="docs/images/methylong_v3.png">
+  <img src="docs/images/methylong_workflow_v4.png">
 
 </p>
 
@@ -37,7 +37,7 @@
      4. convert trimmed modfastq to modBam - `samtools import`
      5. repair MM/ML tags of trimmed modBam - `modkit repair`
 
-2. align to reference (plus sorting and indexing) - `dorado aligner`
+2. align to reference (plus sorting and indexing) - `dorado aligner`( default) / `minimap2`
 
    - include alignment summary - `samtools flagstat`
 
@@ -72,6 +72,9 @@
 3. create bedgraph (optional)
 
 ## Usage
+
+> [!NOTE]
+> Currently no support of `dorado` through conda.
 
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.

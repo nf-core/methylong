@@ -5,8 +5,8 @@
  */
 
 
-include { SAMTOOLS_FLAGSTAT } from '../../../modules/nf-core/samtools/flagstat/main'
-include { MINIMAP2_ALIGN    } from '../../../modules/nf-core/minimap2/align/main'
+include { SAMTOOLS_FLAGSTAT                       } from '../../../modules/nf-core/samtools/flagstat/main'
+include { MINIMAP2_ALIGN as PACBIO_MINIMAP2_ALIGN } from '../../../modules/nf-core/minimap2/align/main'
 
 /*
 ===========================================
@@ -25,29 +25,26 @@ workflow PACBIO_ALIGN_MINI {
 
     versions = Channel.empty()
 
-    // Prepare input for samtools fastq
     input
-        .map { meta, modbam, _ref -> [meta, modbam] }
-        .set { mini_in }
+        .multiMap { meta, modbam, ref ->
+            mini_in: [meta, modbam]
+            ref_in: [meta, ref]
+        }
+        .set { ch_mini_in }
 
-    input
-        .map { meta, _modbam, ref -> [meta, ref] }
-        .set { ref_in }
+    PACBIO_MINIMAP2_ALIGN(ch_mini_in.mini_in, ch_mini_in.ref_in, "bam_format", "bai", [], [])
 
-
-    MINIMAP2_ALIGN(mini_in, ref_in, "bam_format", "bai", [], [])
-
-    versions = versions.mix(MINIMAP2_ALIGN.out.versions.first())
+    versions = versions.mix(PACBIO_MINIMAP2_ALIGN.out.versions.first())
 
 
     // Prepare input for samtool flagstat and modkit pileup
-    MINIMAP2_ALIGN.out.bam
-        .join(MINIMAP2_ALIGN.out.index)
+    PACBIO_MINIMAP2_ALIGN.out.bam
+        .join(PACBIO_MINIMAP2_ALIGN.out.index)
         .set { ch_flagstat_in }
 
-    MINIMAP2_ALIGN.out.bam
-        .join(MINIMAP2_ALIGN.out.index)
-        .join(ref_in)
+    PACBIO_MINIMAP2_ALIGN.out.bam
+        .join(PACBIO_MINIMAP2_ALIGN.out.index)
+        .join(ch_mini_in.ref_in)
         .map { meta, bam, bai, ref -> [meta, bam, bai, ref] }
         .set { ch_pile_in }
 

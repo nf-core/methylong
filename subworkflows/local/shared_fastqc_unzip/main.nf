@@ -54,7 +54,7 @@ workflow FASTQ_UNZIP {
     // then join back to the original input
     input
         .join(ch_index_in)
-        .map { meta, modbam, _ref, unzip_ref -> [meta, modbam, unzip_ref] }
+        .map { meta, modbam, _gzref, ref -> [meta, modbam, ref] }
         .set { unzip_input }
 
     emit:

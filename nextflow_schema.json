@@ -156,7 +156,13 @@
             "description": "",
             "default": "",
             "properties": {
-                "aligner": {
+                "ont_aligner": {
+                    "type": "string",
+                    "enum": ["dorado", "minimap2"],
+                    "default": "dorado",
+                    "description": "Aligner option in ONT workflow, default is dorado aligner, specify minimap2 to switch"
+                },
+                "pacbio_aligner": {
                     "type": "string",
                     "enum": ["pbmm2", "minimap2"],
                     "default": "pbmm2",
