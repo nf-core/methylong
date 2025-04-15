@@ -4,7 +4,6 @@ lint:
     - conf/igenomes.config
     - conf/igenomes_ignored.config
 nf_core_version: 3.2.0
-org_path:
 repository_type: pipeline
 template:
   author: Jin Yan Khoo
@@ -17,4 +16,3 @@ template:
   skip_features:
     - igenomes
   version: 1.0.0
-update:
