@@ -92,6 +92,7 @@ First, prepare a samplesheet with your input data that looks as follows:
 ```csv title="samplesheet.csv"
 sample,modbam,ref,method
 Col_0,ont_modbam.bam,Col_0.fasta,ont
+
 ```
 
 | Column   | Content                        |
