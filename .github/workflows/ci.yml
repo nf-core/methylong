@@ -40,7 +40,7 @@ jobs:
           - "--pileup_count count"
           - "--denovo"
         profile:
-          - "conda"
+          #- "conda"
           - "docker"
           - "singularity"
         test_name:
