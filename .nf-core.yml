@@ -1,4 +1,5 @@
 lint:
+  template_strings: False
   files_exist:
     - conf/igenomes.config
     - conf/igenomes_ignored.config
