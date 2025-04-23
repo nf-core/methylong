@@ -1,4 +1,3 @@
-bump_version:
 lint:
   files_exist:
     - conf/igenomes.config
