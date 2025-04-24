@@ -127,7 +127,7 @@ workflow METHYLONG {
         )
 
         MULTIQC(
-            ch_multiqc_files.collect(),message:%3CBDC84D45-E8AE-44CA-99ED-F7CB42BEE908@biologie.uni-muenchen.de%3E
+            ch_multiqc_files.collect(),
             ch_multiqc_config.toList(),
             ch_multiqc_custom_config.toList(),
             ch_multiqc_logo.toList(),
