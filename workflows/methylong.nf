@@ -29,6 +29,7 @@ workflow METHYLONG {
 
     ch_versions = Channel.empty()
     ch_multiqc_files = Channel.empty()
+    ch_multiqc_report = Channel.empty()
 
     samplesheet.set { ch_samples }
 
@@ -135,9 +136,11 @@ workflow METHYLONG {
             [],
         )
 
+        ch_multiqc_report = MULTIQC.out.report.toList()
     }
 
     emit:
-        multiqc_report = MULTIQC.out.report.toList() // channel: /path/to/multiqc_report.html
+        multiqc_report = ch_multiqc_report // channel: /path/to/multiqc_report.html
         versions       = ch_versions // channel: [ path(versions.yml) ]
+
 }

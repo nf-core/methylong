@@ -38,13 +38,13 @@ jobs:
           - "--pileup_method modkit"
           - "--pileup_count count"
           - "--denovo"
+          - "test_dorado"
         profile:
           #- "conda"
           - "docker"
           - "singularity"
         test_name:
           - "test"
-          - "test_dorado"
         isMaster:
           - ${{ github.base_ref == 'master' }}
         # Exclude conda and singularity on dev
