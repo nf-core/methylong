@@ -6,7 +6,7 @@
 
 include { PACBIO                 } from '../subworkflows/local/Pacbio_main'
 include { ONT                    } from '../subworkflows/local/ONT_main'
-include { ONT_ALIGN              } from '../modules/local/ont_align/main'
+include { DORADO_ALIGNER         } from '../modules/local/dorado/aligner/main'
 include { FASTQ_UNZIP            } from '../subworkflows/local/shared_fastqc_unzip/main'
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
 include { paramsSummaryMap       } from 'plugin/nf-schema'
@@ -39,7 +39,7 @@ workflow METHYLONG {
         ch_samples
             .set { ch_ont }
 
-        ONT_ALIGN(ch_ont)
+        DORADO_ALIGNER(ch_ont)
 
     } else {
 
