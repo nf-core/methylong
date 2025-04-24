@@ -199,7 +199,8 @@
                 },
                 "test_dorado": {
                     "type": "boolean",
-                    "description": "This parameter is only for testing dorado on singularity"
+                    "description": "This parameter is only for testing dorado on singularity",
+                    "hidden": true
                 }
             }
         },
