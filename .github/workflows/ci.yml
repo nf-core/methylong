@@ -38,7 +38,7 @@ jobs:
           - "--pileup_method modkit"
           - "--pileup_count count"
           - "--denovo"
-          - "test_dorado"
+          - "--test_dorado"
         profile:
           #- "conda"
           - "docker"
