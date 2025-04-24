@@ -35,7 +35,6 @@ jobs:
           - "--bedgraph"
           - "--no_trim"
           - "--pacbio_aligner minimap2"
-          - "--ont_aligner minimap2"
           - "--pileup_method modkit"
           - "--pileup_count count"
           - "--denovo"
@@ -45,6 +44,7 @@ jobs:
           - "singularity"
         test_name:
           - "test"
+          - "test_dorado"
         isMaster:
           - ${{ github.base_ref == 'master' }}
         # Exclude conda and singularity on dev
