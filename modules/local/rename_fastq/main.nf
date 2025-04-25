@@ -2,6 +2,10 @@ process RENAME_FASTQ {
     tag "${meta.id}"
     label 'process_low'
 
+    container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
+        ? 'https://depot.galaxyproject.org/singularity/ubuntu%3A24.04'
+        : 'biocontainers/ubuntu:24.04'}"
+
     input:
     tuple val(meta), path(fastq)
 
