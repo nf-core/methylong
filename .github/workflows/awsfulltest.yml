@@ -42,7 +42,7 @@ jobs:
               "hook_url": "{% raw %}${{ secrets.MEGATESTS_ALERTS_SLACK_HOOK_URL }}{% endraw %}",
               "outdir": "s3://{% raw %}${{ secrets.AWS_S3_BUCKET }}{% endraw %}/{{ short_name }}/{% raw %}results-${{ steps.revision.outputs.revision }}{% endraw %}"
             }
-          profiles: test_full,test_full_minimap2
+          profiles: test_full
 
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
