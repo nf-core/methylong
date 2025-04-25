@@ -196,11 +196,6 @@
                 "no_trim": {
                     "type": "boolean",
                     "description": "Skip trimming in ONT workflow, will directly start from alignment step"
-                },
-                "test_dorado": {
-                    "type": "boolean",
-                    "description": "This parameter is only for testing dorado on singularity",
-                    "hidden": true
                 }
             }
         },
