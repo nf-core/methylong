@@ -18,6 +18,38 @@
 
 > Ewels P, Magnusson M, Lundin S, Käller M. MultiQC: summarize analysis results for multiple tools and samples in a single report. Bioinformatics. 2016 Oct 1;32(19):3047-8. doi: 10.1093/bioinformatics/btw354. Epub 2016 Jun 16. PubMed PMID: 27312411; PubMed Central PMCID: PMC5039924.
 
+- [samtools](https://github.com/samtools/samtools)
+
+> Petr Danecek, James K Bonfield, Jennifer Liddle, John Marshall, Valeriu Ohan, Martin O Pollard, Andrew Whitwham, Thomas Keane, Shane A McCarthy, Robert M Davies, Heng Li (2021) Twelve years of SAMtools and BCFtools. GigaScience, Volume 10, Issue 2, February 2021, giab008, https://doi.org/10.1093/gigascience/giab008
+
+- [gunzip](https://www.gnu.org/software/gzip/manual/gzip.html)
+
+- [pigz](https://zlib.net/pigz/)
+
+- [minimap2](https://github.com/lh3/minimap2)
+
+> Li, H. (2018). Minimap2: pairwise alignment for nucleotide sequences. Bioinformatics, 34:3094-3100. doi:10.1093/bioinformatics/bty191
+
+> Li, H. (2021). New strategies to improve minimap2 alignment accuracy. Bioinformatics, 37:4572-4574. doi:10.1093/bioinformatics/btab705
+
+- [pbmm2](https://github.com/PacificBiosciences/pbmm2)
+
+- [dorado](https://github.com/nanoporetech/dorado)
+
+> licence under: Oxford Nanopore Technologies Plc.
+
+- [porechop](https://github.com/rrwick/Porechop)
+
+  > Wick RR, Judd LM, Gorrie CL, Holt KE. Completing bacterial genome assemblies with multiplex MinION sequencing. Microb Genom. 2017;3(10):e000132. Published 2017 Sep 14. doi:10.1099/mgen.0.000132
+
+- [modkit](https://github.com/nanoporetech/modkit)
+
+> licence under: Oxford Nanopore Technologies Plc.
+
+- [pb-CpG-tools](https://github.com/PacificBiosciences/pb-CpG-tools)
+
+> licence under: Pacific Biosciences Software License Agreement
+
 ## Software packaging/containerisation tools
 
 - [Anaconda](https://anaconda.com)
@@ -39,3 +71,7 @@
 - [Singularity](https://pubmed.ncbi.nlm.nih.gov/28494014/)
 
   > Kurtzer GM, Sochat V, Bauer MW. Singularity: Scientific containers for mobility of compute. PLoS One. 2017 May 11;12(5):e0177459. doi: 10.1371/journal.pone.0177459. eCollection 2017. PubMed PMID: 28494014; PubMed Central PMCID: PMC5426675.
+
+- [charliecloud](https://hpc.github.io/charliecloud/)
+
+  > Reid Priedhorsky and Tim Randles. “Charliecloud: Unprivileged containers for user-defined software stacks in HPC”, 2017. In Proc. Supercomputing. DOI: 10.1145/3126908.3126925.

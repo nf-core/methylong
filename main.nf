@@ -9,24 +9,25 @@
 ----------------------------------------------------------------------------------------
 */
 
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT FUNCTIONS / MODULES / SUBWORKFLOWS / WORKFLOWS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { METHYLONG  } from './workflows/methylong'
+include { METHYLONG               } from './workflows/methylong'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_methylong_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_methylong_pipeline'
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    NAMED WORKFLOWS FOR PIPELINE
+    RUN MAIN WORKFLOW
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-//
-// WORKFLOW: Run main analysis pipeline depending on type of input
-//
+
+
 workflow NFCORE_METHYLONG {
 
     take:
@@ -37,17 +38,13 @@ workflow NFCORE_METHYLONG {
     //
     // WORKFLOW: Run pipeline
     //
+
     METHYLONG (
         samplesheet
     )
     emit:
     multiqc_report = METHYLONG.out.multiqc_report // channel: /path/to/multiqc_report.html
 }
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    RUN MAIN WORKFLOW
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
 
 workflow {
 
@@ -83,7 +80,6 @@ workflow {
         NFCORE_METHYLONG.out.multiqc_report
     )
 }
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     THE END

@@ -23,14 +23,23 @@ jobs:
     name: "Run pipeline with test data (${{ matrix.NXF_VER }} | ${{ matrix.test_name }} | ${{ matrix.profile }})"
     # Only run on push if this is the nf-core dev branch (merged PRs)
     if: "${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'nf-core/methylong') }}"
-    runs-on: ubuntu-latest
+    runs-on:
+      - runs-on=${{ github.run_id }}-test
+      - runner=4cpu-linux-x64
     strategy:
       matrix:
         NXF_VER:
           - "24.04.2"
           - "latest-everything"
+        PARAMETERS:
+          - "--bedgraph"
+          - "--no_trim"
+          - "--pacbio_aligner minimap2"
+          - "--pileup_method modkit"
+          - "--pileup_count count"
+          - "--denovo"
         profile:
-          - "conda"
+          #- "conda"
           - "docker"
           - "singularity"
         test_name:
@@ -85,4 +94,4 @@ jobs:
       - name: "Run pipeline with test data ${{ matrix.NXF_VER }} | ${{ matrix.test_name }} | ${{ matrix.profile }}"
         continue-on-error: ${{ matrix.NXF_VER == 'latest-everything' }}
         run: |
-          nextflow run ${GITHUB_WORKSPACE} -profile ${{ matrix.test_name }},${{ matrix.profile }} --outdir ./results
+          nextflow run ${GITHUB_WORKSPACE} -profile ${{ matrix.test_name }},${{ matrix.profile }} ${{ matrix.PARAMETERS }} --outdir ./results
