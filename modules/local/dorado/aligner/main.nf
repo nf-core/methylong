@@ -2,7 +2,7 @@ process DORADO_ALIGNER {
     tag "${meta.id}"
     label 'process_high'
 
-    container "nanoporetech/dorado:sha268dcb4cd02093e75cdc58821f8b93719c4255ed"
+    container "docker.io/nanoporetech/dorado:sha268dcb4cd02093e75cdc58821f8b93719c4255ed"
 
     input:
     tuple val(meta), path(reads), path(ref)
