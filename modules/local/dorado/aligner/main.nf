@@ -5,12 +5,12 @@ process DORADO_ALIGNER {
     container "docker.io/nanoporetech/dorado:sha268dcb4cd02093e75cdc58821f8b93719c4255ed"
 
     input:
-    tuple val(meta), path(reads), path(ref)
+    tuple val(meta), path(reads)
+    tuple val(meta2), path(ref)
 
     output:
     tuple val(meta), path("${meta.id}/*.bam"), emit: bam
     tuple val(meta), path("${meta.id}/*.bai"), emit: bai
-    tuple val(meta), path("${meta.id}/*.txt"), emit: summary
     path "versions.yml", emit: versions
 
     when:
