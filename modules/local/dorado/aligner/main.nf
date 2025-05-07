@@ -39,7 +39,6 @@ process DORADO_ALIGNER {
     """
     touch ${prefix}/${prefix}.bam
     touch ${prefix}/${prefix}.bai
-    touch ${prefix}/${prefix}.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

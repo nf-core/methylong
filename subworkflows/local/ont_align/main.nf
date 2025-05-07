@@ -52,6 +52,9 @@ workflow ONT_ALIGN {
                 SAMTOOLS_RESET(ch_mini_in.bam_in)
                 SAMTOOLS_RESET.out.unaligned_bam
                                     . set { ch_reset_bam }
+
+                versions = versions.mix(SAMTOOLS_RESET.out.versions.first())
+
                 DORADO_ALIGNER(ch_reset_bam, ch_mini_in.ref_in)
 
             } else {
