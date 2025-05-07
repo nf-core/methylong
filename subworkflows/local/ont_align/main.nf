@@ -47,7 +47,7 @@ workflow ONT_ALIGN {
             .set { ch_pile_in }
     }
     else {
-            if (params.reset) {
+            if (params.reset && params.no_trim) {
 
                 SAMTOOLS_RESET(ch_mini_in.bam_in)
                 SAMTOOLS_RESET.out.unaligned_bam
