@@ -17,12 +17,12 @@
                     },
                     "minimap2/align": {
                         "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "git_sha": "a532706a19b3d83f14b1d48a6a815ed33eb48b0c",
                         "installed_by": ["modules"]
                     },
                     "modkit/pileup": {
                         "branch": "master",
-                        "git_sha": "dbf496251becaa54933305bb494b880253a84ee6",
+                        "git_sha": "becd19893f03bfc7a9ad61574b7060584a6cfa90",
                         "installed_by": ["modules"]
                     },
                     "multiqc": {
