@@ -196,6 +196,10 @@
                 "no_trim": {
                     "type": "boolean",
                     "description": "Skip trimming in ONT workflow, will directly start from alignment step"
+                },
+                "reset": {
+                    "type": "boolean",
+                    "description": "Removes the alignment information added by aligners and updates flags accordingly"
                 }
             }
         },
