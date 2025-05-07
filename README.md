@@ -39,6 +39,7 @@
 
 2. align to reference (plus sorting and indexing) - `dorado aligner`( default) / `minimap2`
 
+   - optional: remove previous alignment information before running `dorado aligner` using `samtools reset`
    - include alignment summary - `samtools flagstat`
 
 3. create bedMethyl - `modkit pileup`, 5x base coverage minimum.
@@ -82,6 +83,7 @@
 ### Required input:
 
 - unaligned modification basecalled bam (modBam)
+  - if input modBam was aligned, remove previous alignment information using `--reset`
   - for ONT R10.4.1 reads: basecall with `dorado basecaller`
     > dorado basecaller hac,5mCG_5hmCG,6mA pod5s/ > calls.bam
   - for PacBio Revio HiFi reads: basecall with `Jasmine`
@@ -142,7 +144,6 @@ Folder stuctures of the outputs:
 │   ├── alignment
 │   │   ├── aligned.bam
 │   │   ├── aligned.bai
-│   │   ├── summary.txt
 │   │   └── aligned.flagstat
 │   │
 │   ├── pileup/modkit
