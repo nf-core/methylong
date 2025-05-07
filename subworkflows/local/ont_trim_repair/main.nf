@@ -11,6 +11,7 @@ include { PORECHOP_PORECHOP } from '../../../modules/nf-core/porechop/porechop/m
 include { SAMTOOLS_IMPORT   } from '../../../modules/nf-core/samtools/import/main'
 include { MODKIT_REPAIR     } from '../../../modules/local/modkit/repair/main'
 include { RENAME_FASTQ      } from '../../../modules/local/rename_fastq/main'
+include { SAMTOOLS_RESET    } from '../../../modules/local/samtools/reset/main'
 
 /*
 ===========================================
@@ -38,7 +39,22 @@ workflow ONT_TRIM_REPAIR {
         .map { meta, _modbam, ref -> [meta, ref] }
         .set { ch_ref_in }
 
-    SAMTOOLS_SORT(ch_sort_in, [[],[]])
+
+    if (params.reset) {
+
+        SAMTOOLS_RESET(ch_sort_in)
+        SAMTOOLS_RESET.out.unaligned_bam
+                            . set { ch_reset_bam }
+
+        versions = versions.mix(SAMTOOLS_RESET.out.versions.first())
+
+        SAMTOOLS_SORT(ch_reset_bam, [[],[]])
+
+    } else {
+
+        SAMTOOLS_SORT(ch_sort_in, [[],[]])
+
+    }
 
     versions = versions.mix(SAMTOOLS_SORT.out.versions.first())
 

@@ -38,6 +38,7 @@ jobs:
           - "--pileup_method modkit"
           - "--pileup_count count"
           - "--denovo"
+          - "--reset"
         profile:
           #- "conda"
           - "docker"
