@@ -55,8 +55,9 @@ workflow ONT_ALIGN {
 
                 versions = versions.mix(SAMTOOLS_RESET.out.versions.first())
 
+                ch_mini_in.ref_in.set{ch_ref_in}
                 ch_reset_bam
-                        .join {align_in}
+                        .join(ch_ref_in)
                         .multiMap { meta, unaligned_bam, ref ->
                             bam_in: [meta, unaligned_bam]
                             ref_in: [meta, ref]
