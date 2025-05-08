@@ -134,7 +134,6 @@ Folder stuctures of the outputs:
 │   │
 │   ├── trim
 │   │   ├── trimmed.fastq.gz
-│   │   ├── trimmed.bam
 │   │   └── trimmed.log
 │   │
 │   ├── repair
@@ -147,7 +146,7 @@ Folder stuctures of the outputs:
 │   │   └── aligned.flagstat
 │   │
 │   ├── pileup/modkit
-│   │   ├── pileup.bed
+│   │   ├── pileup.bed.gz
 │   │   └── pileup.log
 │   │
 │   └── bedgraph
@@ -164,7 +163,7 @@ Folder stuctures of the outputs:
 │   │   └── aligned.flagstat
 │   │
 │   ├── pileup: modkit/pb_cpg_tools
-│   │   ├── pileup.bed
+│   │   ├── pileup.bed.gz
 │   │   ├── pileup.log
 │   │   └── pileup.bw (only pb_cpg_tools)
 │   │
@@ -187,6 +186,7 @@ nf-core/methylong was originally written by Jin Yan Khoo, from the Faculty of Bi
 I thank the following people for their extensive assistance in the development of this pipeline:
 
 - [Felix Lenner](https://github.com/fellen31)
+- [Júlia Mir Pedrol](https://github.com/mirpedrol)
 - [Matthias Hörtenhuber](https://github.com/mashehu)
 - [Sateesh Peri](https://github.com/sateeshperi)
 - [Niklas Schandry](https://github.com/nschan)

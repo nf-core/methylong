@@ -2,18 +2,20 @@
 
 ## Introduction
 
-This document describes the output produced by the pipeline. Most of the plots are taken from the MultiQC report, which summarises results at the end of the pipeline.
+This document describes the output produced by the pipeline.
 
 The directories listed below will be created in the results directory after the pipeline has finished. All paths are relative to the top-level results directory.
-
-<!-- TODO nf-core: Write this documentation describing your workflow's output -->
 
 ## Pipeline overview
 
 The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data using the following steps:
 
 - [FastQC](#fastqc) - Raw read QC
-- [MultiQC](#multiqc) - Aggregate report describing results and QC from the whole pipeline
+- [Preprocessing reads](#preprocessing-reads) - Adapters and Barcodes removal
+- [Alignment](#alignment) - alignment to reference genome
+- [Methylation calling](#pileup) - pile up of methylation calls
+- [Bed to bedgraph conversion](#bedgraph) - convert bed to bedgraph
+- [MultiQC](#multiqc) - Aggregate report describing triming and alignment results and QC from the whole pipeline
 - [Pipeline information](#pipeline-information) - Report metrics generated during the workflow execution
 
 ### FastQC
@@ -28,6 +30,68 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 </details>
 
 [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) gives general quality metrics about your sequenced reads. It provides information about the quality score distribution across your reads, per base sequence content (%A/T/G/C), adapter contamination and overrepresented sequences. For further reading and documentation see the [FastQC help pages](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/).
+
+### Preprocessing reads
+
+Preprocessing of reads are only available for ONT reads. Reads are trimmed, then MM/ML tags are repaired.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `trim/`
+
+  - `*_fastq.gz`: reads after trimming.
+  - `*.log`: trimming log
+
+- `repair/`
+  - `*_repaired_.bam`: reads after repairing MM/ML tags.
+  - `*.log`: repair log
+
+</details>
+
+### Alignment
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `alignment/`
+  - `*.bam`: aligned modBAM.
+  - `*.bam.bai`: alignment index
+  - `*.flagstat`: alignment summary
+
+</details>
+
+### Pileup
+
+Methylation pile up for PacBio data can be preformed by either modkit or pb-CpG-tools.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+#### modkit output:
+
+- `pileup/`
+  - `*.bed.gz`: pileup of methylation calls in compressed bed format
+  - `*_pileup.log`: pileup log
+
+#### pb-CpG-tools output:
+
+- `pileup/`
+  - `*.bed.gz`: pileup of methylation calls in compressed bed format
+  - `*_pileup.log`: pileup log
+  - `*.bw`: bigwig format
+
+</details>
+
+### Bedgraphs
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `bedgraphs/`
+  - `*.bedgraph`: context specific bedgraph output
+
+</details>
 
 ### MultiQC
 
