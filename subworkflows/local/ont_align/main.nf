@@ -55,7 +55,16 @@ workflow ONT_ALIGN {
 
                 versions = versions.mix(SAMTOOLS_RESET.out.versions.first())
 
-                DORADO_ALIGNER(ch_reset_bam, ch_mini_in.ref_in)
+                ch_mini_in.ref_in.set{ch_ref_in}
+                ch_reset_bam
+                        .join(ch_ref_in)
+                        .multiMap { meta, unaligned_bam, ref ->
+                            bam_in: [meta, unaligned_bam]
+                            ref_in: [meta, ref]
+                        }
+                        .set { ch_dorado_in }
+
+                DORADO_ALIGNER(ch_dorado_in.bam_in, ch_dorado_in.ref_in)
 
             } else {
 

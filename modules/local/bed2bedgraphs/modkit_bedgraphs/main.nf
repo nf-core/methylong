@@ -44,7 +44,7 @@ process MODKIT_BEDGRAPH {
             esac
             echo "File Path: ${in_bed}"
             awk -v strand=\$strand -v mod=\$mod 'BEGIN{OFS="\t"} ((\$4==mod) && (\$6==strand)) && (\$5 >= 5) {print \$1,\$2,\$3,\$11,\$12,\$13}' ${in_bed} \
-            | pigz -c > ${meta.id}_\${out_file}.gz
+            | pigz -p ${task.cpus} -c > ${meta.id}_\${out_file}.gz
         done
     done
 
