@@ -18,7 +18,6 @@
                     "exists": true,
                     "schema": "assets/schema_input.json",
                     "mimetype": "text/csv",
-                    "pattern": "^\\S+\\.csv$",
                     "description": "Path to comma-separated file containing information about the samples in the experiment.",
                     "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://nf-co.re/methylong/usage#samplesheet-input).",
                     "fa_icon": "fas fa-file-csv"
@@ -40,45 +39,6 @@
                     "type": "string",
                     "description": "MultiQC report title. Printed as page header, used for filename if not otherwise specified.",
                     "fa_icon": "fas fa-file-signature"
-                }
-            }
-        },
-        "reference_genome_options": {
-            "title": "Reference genome options",
-            "type": "object",
-            "fa_icon": "fas fa-dna",
-            "description": "Reference genome related files and options required for the workflow.",
-            "properties": {
-                "genome": {
-                    "type": "string",
-                    "description": "Name of iGenomes reference.",
-                    "fa_icon": "fas fa-book",
-                    "help_text": "If using a reference genome configured in the pipeline using iGenomes, use this parameter to give the ID for the reference. This is then used to build the full paths for all required reference genome files e.g. `--genome GRCh38`. \n\nSee the [nf-core website docs](https://nf-co.re/usage/reference_genomes) for more details."
-                },
-                "fasta": {
-                    "type": "string",
-                    "format": "file-path",
-                    "exists": true,
-                    "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
-                    "description": "Path to FASTA genome file.",
-                    "help_text": "This parameter is *mandatory* if `--genome` is not specified. If you don't have a BWA index available this will be generated for you automatically. Combine with `--save_reference` to save BWA index for future runs.",
-                    "fa_icon": "far fa-file-code"
-                },
-                "igenomes_ignore": {
-                    "type": "boolean",
-                    "description": "Do not load the iGenomes reference config.",
-                    "fa_icon": "fas fa-ban",
-                    "hidden": true,
-                    "help_text": "Do not load `igenomes.config` when running the pipeline. You may choose this option if you observe clashes between custom parameters and those supplied in `igenomes.config`."
-                },
-                "igenomes_base": {
-                    "type": "string",
-                    "format": "directory-path",
-                    "description": "The base path to the igenomes reference files",
-                    "fa_icon": "fas fa-ban",
-                    "hidden": true,
-                    "default": "s3://ngi-igenomes/igenomes/"
                 }
             }
         },
@@ -166,14 +126,6 @@
                     "fa_icon": "fas fa-remove-format",
                     "hidden": true
                 },
-                "max_multiqc_email_size": {
-                    "type": "string",
-                    "description": "File size limit when attaching MultiQC reports to summary emails.",
-                    "pattern": "^\\d+(\\.\\d+)?\\.?\\s*(K|M|G|T)?B$",
-                    "default": "25.MB",
-                    "fa_icon": "fas fa-file-upload",
-                    "hidden": true
-                },
                 "monochrome_logs": {
                     "type": "boolean",
                     "description": "Do not use coloured log outputs.",
@@ -187,6 +139,76 @@
                     "help_text": "Incoming hook URL for messaging service. Currently, MS Teams and Slack are supported.",
                     "hidden": true
                 },
+                "validate_params": {
+                    "type": "boolean",
+                    "description": "Boolean whether to validate parameters against the schema at runtime",
+                    "default": true,
+                    "fa_icon": "fas fa-check-square",
+                    "hidden": true
+                },
+                "pipelines_testdata_base_path": {
+                    "type": "string",
+                    "fa_icon": "far fa-check-circle",
+                    "description": "Base URL or local path to location of pipeline test dataset files",
+                    "default": "https://raw.githubusercontent.com/nf-core/test-datasets/",
+                    "hidden": true
+                }
+            }
+        },
+        "pipeline_parameters": {
+            "title": "Pipeline_parameters",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "ont_aligner": {
+                    "type": "string",
+                    "enum": ["dorado", "minimap2"],
+                    "default": "dorado",
+                    "description": "Aligner option in ONT workflow, default is dorado aligner, specify minimap2 to switch"
+                },
+                "pacbio_aligner": {
+                    "type": "string",
+                    "enum": ["pbmm2", "minimap2"],
+                    "default": "pbmm2",
+                    "description": "Aligner option in PacBio workflow, default is pbmm2, specify minimap2 to switch"
+                },
+                "pileup_method": {
+                    "type": "string",
+                    "enum": ["pbcpgtools", "modkit"],
+                    "default": "pbcpgtools",
+                    "description": "Pileup method in PacBio workflow, default is pbcpgtools, specify modkit to switch"
+                },
+                "bedgraph": {
+                    "type": "boolean",
+                    "description": "Indicate if required bedgraphs as output"
+                },
+                "pileup_count": {
+                    "type": "string",
+                    "enum": ["model", "count"],
+                    "default": "model",
+                    "description": "Specify pbcpgtools pileup mode, default is using model mode, specify to switch to count mode"
+                },
+                "denovo": {
+                    "type": "boolean",
+                    "description": "This option will identify and output all CG sites found in the consensus sequence from the reads in the `pb-CpG-tools`pileup (reference free); by default reference sequences are used to identify and output all CG sites."
+                },
+                "no_trim": {
+                    "type": "boolean",
+                    "description": "Skip trimming in ONT workflow, will directly start from alignment step"
+                },
+                "reset": {
+                    "type": "boolean",
+                    "description": "Removes the alignment information added by aligners and updates flags accordingly"
+                }
+            }
+        },
+        "multiqc": {
+            "title": "Multiqc",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
                 "multiqc_config": {
                     "type": "string",
                     "format": "file-path",
@@ -205,18 +227,18 @@
                     "description": "Custom MultiQC yaml file containing HTML including a methods description.",
                     "fa_icon": "fas fa-cog"
                 },
-                "validate_params": {
-                    "type": "boolean",
-                    "description": "Boolean whether to validate parameters against the schema at runtime",
-                    "default": true,
-                    "fa_icon": "fas fa-check-square",
+                "max_multiqc_email_size": {
+                    "type": "string",
+                    "description": "File size limit when attaching MultiQC reports to summary emails.",
+                    "pattern": "^\\d+(\\.\\d+)?\\.?\\s*(K|M|G|T)?B$",
+                    "default": "25.MB",
+                    "fa_icon": "fas fa-file-upload",
                     "hidden": true
                 },
-                "pipelines_testdata_base_path": {
+                "trace_report_suffix": {
                     "type": "string",
-                    "fa_icon": "far fa-check-circle",
-                    "description": "Base URL or local path to location of pipeline test dataset files",
-                    "default": "https://raw.githubusercontent.com/nf-core/test-datasets/",
+                    "fa_icon": "far calendar",
+                    "description": "Suffix to add to the trace report filename. Default is the date and time in the format yyyy-MM-dd_HH-mm-ss.",
                     "hidden": true
                 }
             }
@@ -227,13 +249,16 @@
             "$ref": "#/$defs/input_output_options"
         },
         {
-            "$ref": "#/$defs/reference_genome_options"
-        },
-        {
             "$ref": "#/$defs/institutional_config_options"
         },
         {
             "$ref": "#/$defs/generic_options"
+        },
+        {
+            "$ref": "#/$defs/pipeline_parameters"
+        },
+        {
+            "$ref": "#/$defs/multiqc"
         }
     ]
 }

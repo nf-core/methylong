@@ -15,49 +15,96 @@
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
 [![Launch on Seqera Platform](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Seqera%20Platform-%234256e7)](https://cloud.seqera.io/launch?pipeline=https://github.com/nf-core/methylong)
 
-[![Get help on Slack](http://img.shields.io/badge/slack-nf--core%20%23methylong-4A154B?labelColor=000000&logo=slack)](https://nfcore.slack.com/channels/methylong)[![Follow on Twitter](http://img.shields.io/badge/twitter-%40nf__core-1DA1F2?labelColor=000000&logo=twitter)](https://twitter.com/nf_core)[![Follow on Mastodon](https://img.shields.io/badge/mastodon-nf__core-6364ff?labelColor=FFFFFF&logo=mastodon)](https://mstdn.science/@nf_core)[![Watch on YouTube](http://img.shields.io/badge/youtube-nf--core-FF0000?labelColor=000000&logo=youtube)](https://www.youtube.com/c/nf-core)
+[![Get help on Slack](http://img.shields.io/badge/slack-nf--core%20%23methylong-4A154B?labelColor=000000&logo=slack)](https://nfcore.slack.com/channels/methylong)
 
 ## Introduction
 
-**nf-core/methylong** is a bioinformatics pipeline that ...
+**nf-core/methylong** is a bioinformatics pipeline that is tailored for long-read methylation calling. This pipeline require only modification-basecalled ONT reads or PacBio HiFi reads (modBam) and a genome reference as input. The ONT workflow including preprocessing (trim and repair) of reads, genome alignment and methylation calling. The PacBio HiFi workflow includes genome alignment and methylation calling. Methylation calls are extracted into BED/BEDGRAPH format, readily for direct downstream analysis.
 
-<!-- TODO nf-core:
-   Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
-   major pipeline sections and the types of output it produces. You're giving an overview to someone new
-   to nf-core here, in 15-20 seconds. For an example, see https://github.com/nf-core/rnaseq/blob/master/README.md#introduction
--->
+<p align="center">
+  <img src="docs/images/methylong_workflow_v5.png">
 
-<!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
-     workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
+</p>
 
-1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
-2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+### ONT workflow:
+
+1. trim and repair tags of input modBam
+
+   - trim and repair workflow:
+     1. sort modBam - `samtools sort`
+     2. convert modBam to fastq - `samtools fastq`
+     3. trim barcode and adapters - `porechop`
+     4. convert trimmed modfastq to modBam - `samtools import`
+     5. repair MM/ML tags of trimmed modBam - `modkit repair`
+
+2. align to reference (plus sorting and indexing) - `dorado aligner`( default) / `minimap2`
+
+   - optional: remove previous alignment information before running `dorado aligner` using `samtools reset`
+   - include alignment summary - `samtools flagstat`
+
+3. create bedMethyl - `modkit pileup`, 5x base coverage minimum.
+4. create bedgraphs (optional)
+
+### PacBio workflow:
+
+1. align to reference - `pbmm2` (default) or `minimap2`
+
+   - minimap workflow:
+
+     1. convert modBam to fastq - `samtools convert`
+     2. alignment - `minimap2`
+     3. sort and index - `samtools sort`
+     4. alignment summary - `samtools flagstat`
+
+   - pbmm2 workflow:
+     1. alignment and sorting - `pbmm2`
+     2. index - `samtools index`
+     3. alignment summary - `samtools flagstat`
+
+2. create bedMethyl - `pb-CpG-tools` (default) or `modkit pileup`
+
+   - notes about using `pb-CpG-tools` pileup:
+     - 5x base coverage minimum.
+     - 2 pile up methods available from `pb-CpG-tools`:
+       1. default using `model`
+       2. or `count` (differences described here: https://github.com/PacificBiosciences/pb-CpG-tools)
+     - `pb-CpG-tools` by default merge mC signals on CpG into forward strand. To 'force' strand specific signal output, I followed the suggestion mentioned in this issue ([PacificBiosciences/pb-CpG-tools#37](https://github.com/PacificBiosciences/pb-CpG-tools/issues/37)) which uses HP tags to tag forward and reverse reads, so they were output separately.
+
+3. create bedgraph (optional)
 
 ## Usage
 
 > [!NOTE]
+> Currently no support of `dorado` and `pb-CpG-tools` through conda.
+
+> [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
-<!-- TODO nf-core: Describe the minimum required steps to execute the pipeline, e.g. how to prepare samplesheets.
-     Explain what rows and columns represent. For instance (please edit as appropriate):
+### Required input:
+
+- unaligned modification basecalled bam (modBam)
+  - if input modBam was aligned, remove previous alignment information using `--reset`
+  - for ONT R10.4.1 reads: basecall with `dorado basecaller`
+    > dorado basecaller hac,5mCG_5hmCG,6mA pod5s/ > calls.bam
+  - for PacBio Revio HiFi reads: basecall with `Jasmine`
+- reference genome
 
 First, prepare a samplesheet with your input data that looks as follows:
 
-`samplesheet.csv`:
+```csv title="samplesheet.csv"
+sample,modbam,ref,method
+Col_0,ont_modbam.bam,Col_0.fasta,ont
 
-```csv
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
 ```
 
-Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
-
--->
+| Column   | Content                        |
+| -------- | ------------------------------ |
+| `sample` | Name of the sample             |
+| `modBam` | Path to basecalled modBam file |
+| `ref`    | Path to assembly fasta/fa file |
+| `method` | specify ont / pacbio           |
 
 Now, you can run the pipeline using:
-
-<!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
 
 ```bash
 nextflow run nf-core/methylong \
@@ -77,13 +124,72 @@ To see the results of an example test run with a full size dataset refer to the 
 For more details about the output files and reports, please refer to the
 [output documentation](https://nf-co.re/methylong/output).
 
+Folder stuctures of the outputs:
+
+```tree
+
+├── ont/sampleName
+│   │
+│   ├── fastqc
+│   │
+│   ├── trim
+│   │   ├── trimmed.fastq.gz
+│   │   └── trimmed.log
+│   │
+│   ├── repair
+│   │   ├── repaired.bam
+│   │   └── repaired.log
+│   │
+│   ├── alignment
+│   │   ├── aligned.bam
+│   │   ├── aligned.bai
+│   │   └── aligned.flagstat
+│   │
+│   ├── pileup/modkit
+│   │   ├── pileup.bed.gz
+│   │   └── pileup.log
+│   │
+│   └── bedgraph
+│       └── bedgraphs
+│
+│
+├── pacbio/sampleName
+│   │
+│   ├── fastqc
+│   │
+│   ├── aligned_minimap2/ aligned_pbmm2
+│   │   ├── aligned.bam
+│   │   ├── aligned.bai/csi
+│   │   └── aligned.flagstat
+│   │
+│   ├── pileup: modkit/pb_cpg_tools
+│   │   ├── pileup.bed.gz
+│   │   ├── pileup.log
+│   │   └── pileup.bw (only pb_cpg_tools)
+│   │
+│   └── bedgraph
+│      └── bedgraphs
+│
+└── multiqc
+    │
+    ├── fastqc
+    └── flagstat
+
+```
+
+bedgraph outputs all have min. 5x base coverage.
+
 ## Credits
 
-nf-core/methylong was originally written by Jin Yan Khoo.
+nf-core/methylong was originally written by Jin Yan Khoo, from the Faculty of Biology of the Ludwig-Maximilians University (LMU) in Munich, Germany
 
-We thank the following people for their extensive assistance in the development of this pipeline:
+I thank the following people for their extensive assistance in the development of this pipeline:
 
-<!-- TODO nf-core: If applicable, make list of people who have also contributed -->
+- [Felix Lenner](https://github.com/fellen31)
+- [Júlia Mir Pedrol](https://github.com/mirpedrol)
+- [Matthias Hörtenhuber](https://github.com/mashehu)
+- [Sateesh Peri](https://github.com/sateeshperi)
+- [Niklas Schandry](https://github.com/nschan)
 
 ## Contributions and Support
 
