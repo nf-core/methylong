@@ -93,6 +93,17 @@ Methylation pile up for PacBio data can be preformed by either modkit or pb-CpG-
 
 </details>
 
+### SNVcall
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `snvcall/`
+  - `*.vcf.gz`: SNV calls
+  - `*.vcf.gz.tbi`: SNV-call index
+
+</details>
+
 ### MultiQC
 
 <details markdown="1">
