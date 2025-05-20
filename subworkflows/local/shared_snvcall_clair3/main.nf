@@ -11,7 +11,7 @@ def selectModel(meta) {
     def modelDir = file("models/clair3_models/r1041_e82_400bps_sup_v420")
     def packaged_model = null
     def user_model = []
-    
+
     if (meta.method == "ont") {
         if (modelDir.exists()) {
             user_model = modelDir
@@ -53,8 +53,8 @@ workflow SNVCALL_CLAIR3 {
     input
         .join(SAMTOOLS_FAIDX.out.fai)
         .map { meta, bam, bai, _ref, _fai -> 
-               def (packaged_model, user_model) = selectModel(meta)
-               def platform = meta.method ==  "ont" ? "ont" : "hifi"
+            def (packaged_model, user_model) = selectModel(meta)
+            def platform = meta.method ==  "ont" ? "ont" : "hifi"
             [meta, bam, bai, packaged_model, user_model , platform] }
         .set { ch_bam_in }
 
