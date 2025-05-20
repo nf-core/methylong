@@ -115,7 +115,7 @@ workflow METHYLONG {
         )
     )
 
-    // Filt null value and and null list 
+    // Filt null value and and null list
     ch_multiqc_files = ch_multiqc_files
         .filter { it != null &&!(it instanceof List && it.contains(null)) }
         .flatten()
