@@ -8,7 +8,7 @@ include { ONT_ALIGN                        } from './ont_align/main'
 include { ONT_TRIM_REPAIR                  } from './ont_trim_repair/main'
 include { BED2BEDGRAPH                     } from './shared_bed2bedgraph/main'
 include { INDEX_MODKIT_PILEUP              } from './shared_modkit_pileup/main'
-
+include { SNVCALL_CLAIR3                   } from './shared_snvcall_clair3/main'
 
 /*
 ===========================================
@@ -88,6 +88,15 @@ workflow ONT {
 
             ont_versions = ont_versions.mix(INDEX_MODKIT_PILEUP.out.versions)
         }
+
+        SNVCALL_CLAIR3(ONT_ALIGN.out.ch_pile_in)
+        ont_versions = ont_versions.mix(SNVCALL_CLAIR3.out.versions)
+
+
+
+
+
+
     }
 
     emit:
