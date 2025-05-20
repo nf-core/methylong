@@ -52,7 +52,7 @@ workflow SNVCALL_CLAIR3 {
 
     input
         .join(SAMTOOLS_FAIDX.out.fai)
-        .map { meta, bam, bai, _ref, _fai -> 
+        .map { meta, bam, bai, _ref, _fai ->
             def (packaged_model, user_model) = selectModel(meta)
             def platform = meta.method ==  "ont" ? "ont" : "hifi"
             [meta, bam, bai, packaged_model, user_model , platform] }
