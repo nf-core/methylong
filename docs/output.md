@@ -99,8 +99,21 @@ Methylation pile up for PacBio data can be preformed by either modkit or pb-CpG-
 <summary>Output files</summary>
 
 - `snvcall/`
-  - `*.vcf.gz`: SNV calls
-  - `*.vcf.gz.tbi`: SNV-call index
+  - `*.vcf.gz`: snv calls
+  - `*.vcf.gz.tbi`: snv-call index
+  - `*SNV_PASS.vcf`: pass-filtered snv calls
+
+</details>
+
+### Phase
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `phase/`
+  - `*phased.vcf`: phased vcf
+  - `*.bam`: haplotagged bam
+  - `*.readlist`: haplotagged readlist
 
 </details>
 
