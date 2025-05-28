@@ -4,7 +4,7 @@ process WHATSHAP_PHASE {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/whatshap:2.3--py39h2de1943_3':
+        'https://depot.galaxyproject.org/singularity/whatshap:2.6--py39h2de1943_0':
         'biocontainers/whatshap:2.6--py39h2de1943_0' }"
 
     input:
