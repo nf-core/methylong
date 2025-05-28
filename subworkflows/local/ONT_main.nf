@@ -100,14 +100,6 @@ workflow ONT {
         WHATSHAP(GUNZIP_AWK.out.ch_awk_out)
         ont_versions = ont_versions.mix(WHATSHAP.out.versions)
 
-
-
-
-
-
-
-
-
     }
 
     emit:
