@@ -181,7 +181,6 @@ workflow PACBIO {
 
         WHATSHAP(GUNZIP_AWK.out.ch_awk_out)
         pacbio_versions = pacbio_versions.mix(WHATSHAP.out.versions)
-
     }
 
     emit:
