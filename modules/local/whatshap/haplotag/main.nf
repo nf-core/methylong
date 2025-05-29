@@ -26,7 +26,7 @@ process WHATSHAP_HAPLOTAG {
     def reference   = fasta ? "--reference ${fasta}" : ""
     def output_list = "--output-haplotag-list ${prefix}_haplotagged.readlist"
     def output_bam  = "-o ${prefix}_haplotagged.bam"
-    
+
     """
     whatshap \\
         haplotag \\
