@@ -7,23 +7,6 @@
 include { CLAIR3         } from '../../../modules/nf-core/clair3/main'
 include { SAMTOOLS_FAIDX } from '../../../modules/nf-core/samtools/faidx/main'
 
-def selectModel(meta) {
-    def modelDir = file("models/clair3_models/r1041_e82_400bps_sup_v420")
-    def packaged_model = null
-    def user_model = []
-
-    if (meta.method == "ont") {
-        if (modelDir.exists()) {
-            user_model = modelDir
-        } else {
-            packaged_model = "ont"
-        }
-    } else {
-        packaged_model = "hifi_revio"
-    }
-    return [packaged_model, user_model]
-}
-
 /*
 ===========================================
  * Workflows
@@ -53,9 +36,9 @@ workflow SNVCALL_CLAIR3 {
     input
         .join(SAMTOOLS_FAIDX.out.fai)
         .map { meta, bam, bai, _ref, _fai ->
-            def (packaged_model, user_model) = selectModel(meta)
-            def platform = meta.method ==  "ont" ? "ont" : "hifi"
-            [meta, bam, bai, packaged_model, user_model , platform] }
+        def packaged_model = meta.method ==  "ont" ? "r1041_e82_400bps_sup_v500" : "hifi_revio"
+        def platform = meta.method ==  "ont" ? "ont" : "hifi"
+        [meta, bam, bai, packaged_model, [] , platform] }
         .set { ch_bam_in }
 
     input
@@ -73,9 +56,13 @@ workflow SNVCALL_CLAIR3 {
 
     versions = versions.mix(CLAIR3.out.versions.first())
 
-    CLAIR3.out.vcf.set { clair3_out }
+    input
+        .join(SAMTOOLS_FAIDX.out.fai)
+        .join(CLAIR3.out.vcf)
+        .map { meta, bam, bai, ref, fai, vcf -> [meta, bam, bai, ref, fai, vcf] }
+        .set { ch_clair3_out }
 
     emit:
-    clair3_out
+    ch_clair3_out
     versions
 }

@@ -4,8 +4,8 @@ process CLAIR3 {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/clair3:1.0.10--py39hd649744_1':
-        'biocontainers/clair3:1.0.10--py39hd649744_1' }"
+        'https://depot.galaxyproject.org/singularity/clair3:1.1.1--py310h779eee5_0':
+        'biocontainers/clair3:1.1.1--py310h779eee5_0' }"
 
     input:
     tuple val(meta), path(bam), path(bai), val(packaged_model), path(user_model), val(platform)
@@ -49,6 +49,9 @@ process CLAIR3 {
         --platform=$platform \\
         --model=$model \\
         $args
+    
+    mv merge_output.vcf.gz ${prefix}_merge_output.vcf.gz
+    mv merge_output.vcf.gz.tbi ${prefix}_merge_output.vcf.gz.tbi
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -60,6 +63,8 @@ process CLAIR3 {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
+    cp merge_output.vcf.gz ${prefix}_merge_output.vcf.gz
+
     echo "" | gzip > ${prefix}.phased_merge_output.vcf.gz
     touch ${prefix}.phased_merge_output.vcf.gz.tbi
     echo "" | gzip > ${prefix}.merge_output.vcf.gz
