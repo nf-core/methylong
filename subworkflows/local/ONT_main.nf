@@ -35,7 +35,6 @@ workflow ONT {
             map_stat = ONT_ALIGN.out.flagstat_out
 
             INDEX_MODKIT_PILEUP(ONT_ALIGN.out.ch_pile_in)
-            ch_pile_in = ONT_ALIGN.out.ch_pile_in
 
             ont_versions = ont_versions.mix(INDEX_MODKIT_PILEUP.out.versions)
 
@@ -52,7 +51,6 @@ workflow ONT {
             map_stat = ONT_ALIGN.out.flagstat_out
 
             INDEX_MODKIT_PILEUP(ONT_ALIGN.out.ch_pile_in)
-            ch_pile_in = ONT_ALIGN.out.ch_pile_in
 
             ont_versions = ont_versions.mix(INDEX_MODKIT_PILEUP.out.versions)
         }
@@ -71,7 +69,6 @@ workflow ONT {
             map_stat = ONT_ALIGN.out.flagstat_out
 
             INDEX_MODKIT_PILEUP(ONT_ALIGN.out.ch_pile_in)
-            ch_pile_in = ONT_ALIGN.out.ch_pile_in
 
             ont_versions = ont_versions.mix(INDEX_MODKIT_PILEUP.out.versions)
 

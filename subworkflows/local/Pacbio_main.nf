@@ -83,7 +83,6 @@ workflow PACBIO {
             pacbio_versions = pacbio_versions.mix(PACBIO_ALIGN_PBMM2.out.versions)
             map_stat = PACBIO_ALIGN_PBMM2.out.flagstat_out
 
-
             INDEX_MODKIT_PILEUP(PACBIO_ALIGN_PBMM2.out.ch_pile_in)
 
             pacbio_versions = pacbio_versions.mix(INDEX_MODKIT_PILEUP.out.versions)
@@ -101,7 +100,6 @@ workflow PACBIO {
             map_stat = PACBIO_ALIGN_MINI.out.flagstat_out
 
             PACBIO_SPLIT_STRAND_PBCPG_PILEUP(PACBIO_ALIGN_MINI.out.ch_pile_in)
-            ch_pile_in = PACBIO_ALIGN_MINI.out.ch_pile_in
 
             pacbio_versions = pacbio_versions.mix(PACBIO_SPLIT_STRAND_PBCPG_PILEUP.out.versions)
 
@@ -118,7 +116,6 @@ workflow PACBIO {
             map_stat = PACBIO_ALIGN_MINI.out.flagstat_out
 
             PACBIO_SPLIT_STRAND_PBCPG_PILEUP(PACBIO_ALIGN_MINI.out.ch_pile_in)
-            ch_pile_in = PACBIO_ALIGN_MINI.out.ch_pile_in
 
             pacbio_versions = pacbio_versions.mix(PACBIO_SPLIT_STRAND_PBCPG_PILEUP.out.versions)
         }
