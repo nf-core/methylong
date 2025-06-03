@@ -96,6 +96,8 @@ workflow ONT {
 
     DOWNSTREAM(ch_pile_in, ont_versions)
 
+    pacbio_versions = pacbio_versions.mix(DOWNSTREAM.out.versions)
+
     emit:
     ont_versions
     map_stat

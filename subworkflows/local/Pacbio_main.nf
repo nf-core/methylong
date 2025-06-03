@@ -157,6 +157,8 @@ workflow PACBIO {
 
     DOWNSTREAM(ch_pile_in, pacbio_versions)
 
+    pacbio_versions = pacbio_versions.mix(DOWNSTREAM.out.versions)
+
     emit:
     pacbio_versions
     map_stat
