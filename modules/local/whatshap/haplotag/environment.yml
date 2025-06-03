@@ -4,4 +4,4 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - "bioconda::whatshap=2.6"
+  - bioconda::whatshap=2.6

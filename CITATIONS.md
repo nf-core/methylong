@@ -56,6 +56,8 @@
 
 > Marcel Martin, Murray Patterson, Shilpa Garg, Sarah O. Fischer, Nadia Pisanti, Gunnar W. Klau, Alexander Schoenhuth, Tobias Marschall. _WhatsHap: fast and accurate read-based phasing_. bioRxiv 085050; doi: https://doi.org/10.1101/085050
 
+- [gawk](https://www.gnu.org/software/gawk)
+
 ## Software packaging/containerisation tools
 
 - [Anaconda](https://anaconda.com)
