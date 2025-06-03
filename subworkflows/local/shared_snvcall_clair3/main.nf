@@ -37,8 +37,8 @@ workflow SNVCALL_CLAIR3 {
         .join(SAMTOOLS_FAIDX.out.fai)
         .map { meta, bam, bai, _ref, _fai ->
         def packaged_model = meta.method ==  "ont" ? "r1041_e82_400bps_sup_v500" : "hifi_revio"
-        def platform = 
-            meta.method == "ont"  ? "ont" : 
+        def platform =
+            meta.method == "ont"  ? "ont" :
             meta.method == "pacbio" ? "hifi" : error('unknown method')
         [meta, bam, bai, packaged_model, [] , platform] }
         .set { ch_bam_in }
