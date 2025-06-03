@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | ---------- | ----------- | ----------- |
 | `clair3`   | 1.0.10      | 1.1.1       |
 | `whatshap` |             | 2.6         |
+| `gawk`     |             | 5.3.0       |
 
 ### `Deprecated`
 
