@@ -17,19 +17,21 @@ include { WHATSHAP                         } from './shared_whatshap/main'
 
 workflow DOWNSTREAM {
     take:
-    ch_pile_in
+    pileups
     versions
 
     main:
 
-        SNVCALL_CLAIR3(ch_pile_in)
-        versions = versions.mix(SNVCALL_CLAIR3.out.versions)
+        if (!params.skip_snvs) {
+            SNVCALL_CLAIR3(pileups)
+            versions = versions.mix(SNVCALL_CLAIR3.out.versions)
 
-        GUNZIP_AWK(SNVCALL_CLAIR3.out.ch_clair3_out)
-        versions = versions.mix(GUNZIP_AWK.out.versions)
+            GUNZIP_AWK(SNVCALL_CLAIR3.out.ch_clair3_out)
+            versions = versions.mix(GUNZIP_AWK.out.versions)
 
-        WHATSHAP(GUNZIP_AWK.out.ch_awk_out)
-        versions = versions.mix(WHATSHAP.out.versions)
+            WHATSHAP(GUNZIP_AWK.out.ch_awk_out)
+            versions = versions.mix(WHATSHAP.out.versions)
+        }
 
     emit:
     versions

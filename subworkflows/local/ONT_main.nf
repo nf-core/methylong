@@ -8,7 +8,6 @@ include { ONT_ALIGN                        } from './ont_align/main'
 include { ONT_TRIM_REPAIR                  } from './ont_trim_repair/main'
 include { BED2BEDGRAPH                     } from './shared_bed2bedgraph/main'
 include { INDEX_MODKIT_PILEUP              } from './shared_modkit_pileup/main'
-include { DOWNSTREAM                       } from './downstream_main'
 
 /*
 ===========================================
@@ -94,11 +93,8 @@ workflow ONT {
         }
     }
 
-    DOWNSTREAM(ch_pile_in, ont_versions)
-
-    ont_versions = ont_versions.mix(DOWNSTREAM.out.versions)
-
     emit:
+    ch_pile_in
     ont_versions
     map_stat
 }
