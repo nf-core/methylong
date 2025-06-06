@@ -9,7 +9,6 @@ include { PACBIO_ALIGN_PBMM2               } from './pacbio_align_pbmm2/main'
 include { PACBIO_SPLIT_STRAND_PBCPG_PILEUP } from './pacbio_split_strand_pbcpg_pileup/main'
 include { BED2BEDGRAPH                     } from './shared_bed2bedgraph/main'
 include { INDEX_MODKIT_PILEUP              } from './shared_modkit_pileup/main'
-include { DOWNSTREAM                       } from './downstream_main'
 
 /*
 ===========================================
@@ -108,11 +107,8 @@ workflow PACBIO {
 
     }
 
-    DOWNSTREAM(ch_pile_in, pacbio_versions)
-
-    pacbio_versions = pacbio_versions.mix(DOWNSTREAM.out.versions)
-
     emit:
+    ch_pile_in
     pacbio_versions
     map_stat
 }
