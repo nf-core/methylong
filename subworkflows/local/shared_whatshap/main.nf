@@ -27,19 +27,15 @@ workflow WHATSHAP {
     // Prepare inputs for whatshap
 
     input
-        .map { meta, bam, bai, _ref, _fai, _vcf -> [meta, bam, bai] }
-        .set { ch_bam_in }
-
-    input
-        .map { meta, _bam, _bai, ref, fai, _vcf -> [meta, ref, fai] }
-        .set { ch_ref }
-
-    input
-        .map { meta, _bam, _bai, _ref, _fai, vcf -> [meta, vcf] }
-        .set { ch_vcf }
+        .multiMap { meta, bam, bai, ref, fai, vcf ->
+                bam_in: [meta, bam, bai]
+                ref_in: [meta, ref, fai]
+                vcf_in: [meta, vcf]
+        }
+        .set { ch_input }
 
     // WhatsHap phase
-    WHATSHAP_PHASE(ch_bam_in, ch_ref, ch_vcf )
+    WHATSHAP_PHASE(ch_input.bam_in, ch_input.ref_in, ch_input.vcf_in )
 
     versions = versions.mix(WHATSHAP_PHASE.out.versions.first())
 
@@ -48,7 +44,7 @@ workflow WHATSHAP {
     versions = versions.mix(TABIX_BGZIPTABIX.out.versions.first())
 
     // WhatsHap haplotag
-    WHATSHAP_HAPLOTAG(ch_bam_in, ch_ref, TABIX_BGZIPTABIX.out.gz_tbi)
+    WHATSHAP_HAPLOTAG(ch_input.bam_in, ch_input.ref_in, TABIX_BGZIPTABIX.out.gz_tbi)
 
     versions = versions.mix(WHATSHAP_HAPLOTAG.out.versions.first())
 
