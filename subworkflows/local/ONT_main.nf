@@ -9,7 +9,6 @@ include { ONT_TRIM_REPAIR                  } from './ont_trim_repair/main'
 include { BED2BEDGRAPH                     } from './shared_bed2bedgraph/main'
 include { INDEX_MODKIT_PILEUP              } from './shared_modkit_pileup/main'
 
-
 /*
 ===========================================
  * ONT Workflows
@@ -30,6 +29,7 @@ workflow ONT {
 
             ONT_ALIGN(ch_ont)
 
+            ch_pile_in = ONT_ALIGN.out.ch_pile_in
             ont_versions = ont_versions.mix(ONT_ALIGN.out.versions)
             map_stat = ONT_ALIGN.out.flagstat_out
 
@@ -45,6 +45,7 @@ workflow ONT {
 
             ONT_ALIGN(ch_ont)
 
+            ch_pile_in = ONT_ALIGN.out.ch_pile_in
             ont_versions = ont_versions.mix(ONT_ALIGN.out.versions)
             map_stat = ONT_ALIGN.out.flagstat_out
 
@@ -62,6 +63,7 @@ workflow ONT {
 
             ONT_ALIGN(ONT_TRIM_REPAIR.out.dorado_in)
 
+            ch_pile_in = ONT_ALIGN.out.ch_pile_in
             ont_versions = ont_versions.mix(ONT_ALIGN.out.versions)
             map_stat = ONT_ALIGN.out.flagstat_out
 
@@ -81,6 +83,7 @@ workflow ONT {
 
             ONT_ALIGN(ONT_TRIM_REPAIR.out.dorado_in)
 
+            ch_pile_in = ONT_ALIGN.out.ch_pile_in
             ont_versions = ont_versions.mix(ONT_ALIGN.out.versions)
             map_stat = ONT_ALIGN.out.flagstat_out
 
@@ -91,6 +94,7 @@ workflow ONT {
     }
 
     emit:
+    ch_pile_in
     ont_versions
     map_stat
 }

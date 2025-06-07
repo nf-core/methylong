@@ -200,6 +200,10 @@
                 "reset": {
                     "type": "boolean",
                     "description": "Removes the alignment information added by aligners and updates flags accordingly"
+                },
+                "skip_snvs": {
+                    "type": "boolean",
+                    "description": "Indicate if to skip snvcall and phase"
                 }
             }
         },

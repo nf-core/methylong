@@ -5,9 +5,19 @@
         "https://github.com/nf-core/modules.git": {
             "modules": {
                 "nf-core": {
+                    "clair3": {
+                        "branch": "master",
+                        "git_sha": "2fde6ce0b21d1fec5a730e26092033ee1bbe7a12",
+                        "installed_by": ["modules"]
+                    },
                     "fastqc": {
                         "branch": "master",
                         "git_sha": "b1966f36ec9de31927b2603d8f499960b2a4c294",
+                        "installed_by": ["modules"]
+                    },
+                    "gawk": {
+                        "branch": "master",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["modules"]
                     },
                     "gunzip": {
@@ -71,6 +81,11 @@
                         "installed_by": ["modules"]
                     },
                     "samtools/sort": {
+                        "branch": "master",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "installed_by": ["modules"]
+                    },
+                    "tabix/bgziptabix": {
                         "branch": "master",
                         "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["modules"]

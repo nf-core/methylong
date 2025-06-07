@@ -40,7 +40,7 @@
 
 - [porechop](https://github.com/rrwick/Porechop)
 
-  > Wick RR, Judd LM, Gorrie CL, Holt KE. Completing bacterial genome assemblies with multiplex MinION sequencing. Microb Genom. 2017;3(10):e000132. Published 2017 Sep 14. doi:10.1099/mgen.0.000132
+> Wick RR, Judd LM, Gorrie CL, Holt KE. Completing bacterial genome assemblies with multiplex MinION sequencing. Microb Genom. 2017;3(10):e000132. Published 2017 Sep 14. doi:10.1099/mgen.0.000132
 
 - [modkit](https://github.com/nanoporetech/modkit)
 
@@ -49,6 +49,14 @@
 - [pb-CpG-tools](https://github.com/PacificBiosciences/pb-CpG-tools)
 
 > licence under: Pacific Biosciences Software License Agreement
+
+- [Clair3](https://github.com/HKU-BAL/Clair3)
+
+- [WhatsHap](https://github.com/whatshap/whatshap)
+
+> Marcel Martin, Murray Patterson, Shilpa Garg, Sarah O. Fischer, Nadia Pisanti, Gunnar W. Klau, Alexander Schoenhuth, Tobias Marschall. _WhatsHap: fast and accurate read-based phasing_. bioRxiv 085050; doi: https://doi.org/10.1101/085050
+
+- [gawk](https://www.gnu.org/software/gawk)
 
 ## Software packaging/containerisation tools
 
