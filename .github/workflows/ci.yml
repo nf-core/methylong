@@ -39,6 +39,7 @@ jobs:
           - "--pileup_count count"
           - "--denovo"
           - "--reset"
+          - "--skip_snvs"
         profile:
           #- "conda"
           - "docker"
