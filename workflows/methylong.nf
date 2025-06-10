@@ -12,6 +12,8 @@ include { paramsSummaryMap       } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_methylong_pipeline'
+include { DOWNSTREAM             } from '../subworkflows/local/downstream_main'
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -60,6 +62,14 @@ workflow METHYLONG {
 
     ch_versions = ch_versions.mix(ONT.out.ont_versions)
     ch_multiqc_files = ch_multiqc_files.mix(ONT.out.map_stat.collect { it[1] }.ifEmpty([]))
+
+    // downstream analysis
+
+    ch_pile_ups = ONT.out.ch_pile_in.mix(PACBIO.out.ch_pile_in)
+
+    DOWNSTREAM(ch_pile_ups, ch_versions)
+
+    ch_versions = ch_versions.mix(DOWNSTREAM.out.versions)
 
 
     //
@@ -114,6 +124,11 @@ workflow METHYLONG {
             sort: true,
         )
     )
+
+    // Filt null value and and null list
+    ch_multiqc_files = ch_multiqc_files
+        .filter { it != null &&!(it instanceof List && it.contains(null)) }
+        .flatten()
 
     MULTIQC(
         ch_multiqc_files.collect(),
