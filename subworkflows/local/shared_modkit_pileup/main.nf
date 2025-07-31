@@ -50,7 +50,6 @@ workflow INDEX_MODKIT_PILEUP {
 
     versions = versions.mix(MODKIT_PILEUP.out.versions.first())
 
-
     MODKIT_PILEUP.out.bed.set { pileup_out }
 
     PIGZ_COMPRESS(MODKIT_PILEUP.out.bed)

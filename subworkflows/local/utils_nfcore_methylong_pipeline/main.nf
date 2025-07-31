@@ -71,9 +71,11 @@ workflow PIPELINE_INITIALISATION {
         .splitCsv(header: true)
         .map { row ->
             def meta = [:]
+            meta.group = row.group
             meta.id = row.sample
             meta.method = row.method
-            return [meta, row.modbam, row.ref]
+            def modbam  = row.path
+            return [meta, modbam, row.ref]
         }
         .set { ch_samplesheet }
 
