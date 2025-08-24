@@ -193,7 +193,7 @@ Folder stuctures of the outputs:
 │   │   ├── DSS_callDMR.txt
 │   │   └── DSS.log
 │   │
-│   ├── dmr_population_scale
+│   └── dmr_population_scale
 │       ├── population_scale_DMLtest.txt
 │       ├── population_scale_callDML.txt
 │       ├── population_scale_callDMR.txt
@@ -237,7 +237,7 @@ Folder stuctures of the outputs:
 │   │   ├── DSS_callDMR.txt
 │   │   └── DSS.log
 │   │
-│   ├── dmr_population_scale
+│   └── dmr_population_scale
 │       ├── population_scale_DMLtest.txt
 │       ├── population_scale_callDML.txt
 │       ├── population_scale_callDMR.txt
