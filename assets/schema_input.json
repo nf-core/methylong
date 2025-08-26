@@ -21,7 +21,7 @@
             },
             "path": {
                 "type": "string",
-                "format": "uri-reference",
+                "format": "file-path",
                 "exists": true,
                 "oneOf": [
                     {
