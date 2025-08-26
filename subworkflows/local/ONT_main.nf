@@ -34,7 +34,7 @@ workflow ONT {
     ch_input
         .filter { it[1].toString().endsWith('.pod5') || file(it[1]).isDirectory() }
         .set { ch_pod5 }
-    
+
     ONT_BASECALL(ch_pod5)
 
     ont_versions = ont_versions.mix(ONT_BASECALL.out.versions)
@@ -46,7 +46,7 @@ workflow ONT {
     // m6acall
 
     if (params.m6a) {
-        
+
         ONT_M6ACALL(ch_input)
 
         ont_versions = ont_versions.mix(ONT_M6ACALL.out.versions)

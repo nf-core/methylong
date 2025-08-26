@@ -23,7 +23,7 @@ workflow ONT_BASECALL {
     input
         .map { meta, pod5, _ref -> [meta, pod5] }
         .set { ch_pod5 }
-    
+
     DORADO_BASECALLER(ch_pod5)
 
     versions = versions.mix(DORADO_BASECALLER.out.versions.first())

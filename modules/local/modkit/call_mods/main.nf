@@ -28,7 +28,7 @@ process MODKIT_CALL_MODS {
         $bam \\
         --threads ${task.cpus} \\
         ${prefix}.bam
-        
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         modkit: \$( modkit --version | sed 's/mod_kit //' )

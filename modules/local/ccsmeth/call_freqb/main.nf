@@ -33,7 +33,7 @@ process CCSMETH_CALL_FREQB {
         --threads ${task.cpus}
 
     cat <<-END_VERSIONS > versions.yml
-    
+
     "${task.process}":
         ccsmeth: "\$(ccsmeth --version | sed 's/ccsmeth version: //')"
     END_VERSIONS

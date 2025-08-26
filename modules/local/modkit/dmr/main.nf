@@ -37,7 +37,7 @@ process MODKIT_DMR {
         $a_params \\
         $b_params \\
         -o ${prefix}.bed
-        
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         modkit: \$( modkit --version | sed 's/mod_kit //' )

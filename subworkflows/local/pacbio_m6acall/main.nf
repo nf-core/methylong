@@ -23,7 +23,7 @@ workflow PACBIO_M6ACALL {
     input
         .map { meta, bam, _ref -> [meta, bam] }
         .set { ch_bam_in }
-    
+
     FIBERTOOLS_PREDICT(ch_bam_in)
 
     versions = versions.mix(FIBERTOOLS_PREDICT.out.versions.first())

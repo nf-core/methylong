@@ -79,7 +79,7 @@ workflow DOWNSTREAM {
                 DSS_DMR_POPULATION_SCALE(pileups)
 
                 versions = versions.mix(DSS_DMR_POPULATION_SCALE.out.versions)
-                
+
             }
 
         }

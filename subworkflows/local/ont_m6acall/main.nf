@@ -29,7 +29,7 @@ workflow ONT_M6ACALL {
     MODKIT_CALL_MODS(ch_bam_in)
 
     versions = versions.mix(MODKIT_CALL_MODS.out.versions.first())
-    
+
     FIBERTOOLS_ADD_NUCLEOSOMES(MODKIT_CALL_MODS.out.call_mod_bam)
 
     versions = versions.mix(FIBERTOOLS_ADD_NUCLEOSOMES.out.versions.first())

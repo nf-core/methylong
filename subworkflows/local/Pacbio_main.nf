@@ -56,7 +56,7 @@ workflow PACBIO {
 
         }
 
-    } 
+    }
 
     // m6acall
 
@@ -71,12 +71,12 @@ workflow PACBIO {
             PACBIO_M6ACALL(ch_input)
 
         }
-        
+
         pacbio_versions = pacbio_versions.mix(PACBIO_M6ACALL.out.versions)
 
         PACBIO_M6ACALL.out.ch_modbam.set{ input_modbam }
 
-    } 
+    }
 
     if (!params.pacbio_modcall && !params.m6a) {
         ch_input.set { input_modbam }

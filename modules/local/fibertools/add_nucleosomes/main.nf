@@ -27,7 +27,7 @@ process FIBERTOOLS_ADD_NUCLEOSOMES {
         --threads ${task.cpus} \\
         $bam \\
         ${prefix}.bam
-        
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         fibertools: \$(ft --version | sed -E 's/.* ([0-9]+\\.[0-9]+\\.[0-9]+).*/\\1/' )

@@ -52,7 +52,7 @@ workflow MODKIT_DMR_POPULATION_SCALE {
             tuple(metas, beds, tbis)
         }
         .set{ dmr_a }
-    
+
     PREPROCESS_B.out.bed_gz
         .toList()
         .map { sampleList ->
@@ -63,10 +63,10 @@ workflow MODKIT_DMR_POPULATION_SCALE {
         }
         .set{ dmr_b }
     PREPROCESS_A.out.ch_ref_in.take(1).set{ ch_ref }
-    
+
     // Modkit dmr
     DMR_POPULATION_SCALE(dmr_a, dmr_b, ch_ref)
-    
+
     versions = versions.mix(DMR_POPULATION_SCALE.out.versions.first())
 
     DMR_POPULATION_SCALE.out.bed.set { dmr_out }

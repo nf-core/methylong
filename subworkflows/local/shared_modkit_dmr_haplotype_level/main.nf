@@ -37,8 +37,8 @@ workflow MODKIT_DMR_HAPLOTYPE_LEVEL {
     versions = versions.mix(MODKIT_PILEUP_HAPLOTYPE_LEVEL.out.versions.first())
 
     MODKIT_PILEUP_HAPLOTYPE_LEVEL.out.bed
-        .flatMap { meta, files -> 
-            files.collect { file -> 
+        .flatMap { meta, files ->
+            files.collect { file ->
                 [meta, file]
             }
         }

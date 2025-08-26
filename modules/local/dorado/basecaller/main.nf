@@ -33,7 +33,7 @@ process DORADO_BASECALLER {
         > ${prefix}_calls.bam
 
     cat <<-END_VERSIONS > versions.yml
-    
+
     "${task.process}":
         dorado: "\$(dorado --version 2>&1 | head -n1)"
     END_VERSIONS

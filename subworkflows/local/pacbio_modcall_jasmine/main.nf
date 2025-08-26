@@ -23,7 +23,7 @@ workflow PACBIO_MODCALL_JASMINE {
     input
         .map { meta, bam, _ref -> [meta, bam] }
         .set { ch_bam_in }
-    
+
     JASMINE(ch_bam_in)
 
     versions = versions.mix(JASMINE.out.versions.first())

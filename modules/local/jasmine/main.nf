@@ -26,7 +26,7 @@ process JASMINE {
         $args \\
         $bam \\
         ${prefix}.bam
-        
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         jasmine: \$(jasmine --version | head -n1 | sed 's/jasmine //')

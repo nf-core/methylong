@@ -25,7 +25,7 @@ workflow DSS_POPULATION_SCALE_PREPROCESS {
     input
         .map { meta, _bam, _bai, ref -> [meta, ref] }
         .set { ch_ref }
-    
+
     // Index ref
     SAMTOOLS_FAIDX(ch_ref, [[], []], [])
 

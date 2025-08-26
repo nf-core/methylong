@@ -28,7 +28,7 @@ process FIBERTOOLS_EXTRACT {
         --threads ${task.cpus} \\
         $bam \\
         $outbed
-        
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         fibertools: \$(ft --version | sed -E 's/.* ([0-9]+\\.[0-9]+\\.[0-9]+).*/\\1/' )
@@ -45,7 +45,7 @@ process FIBERTOOLS_EXTRACT {
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         fibertools: \$(ft --version | sed -E 's/.* ([0-9]+\\.[0-9]+\\.[0-9]+).*/\\1/' )
-        
+
     END_VERSIONS
     """
 }

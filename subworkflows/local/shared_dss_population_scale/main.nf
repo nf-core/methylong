@@ -51,7 +51,7 @@ workflow DSS_DMR_POPULATION_SCALE {
             [metas, beds]
         }
         .set{ dmr_a }
-    
+
     PREPROCESS_B.out.bed_preprocessed
         .toList()
         .map { sampleList ->

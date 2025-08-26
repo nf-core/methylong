@@ -36,7 +36,7 @@ process DSS {
         $control_sample \\
         $out_dir \\
         > ${prefix}.log 2>&1
-        
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         R: \$( R --version 2>&1 | grep -i '^R version' | head -1 | cut -d' ' -f3 )

@@ -38,8 +38,8 @@ workflow DSS_HAPLOTYPE_LEVEL {
     versions = versions.mix(MODKIT_PILEUP_HAPLOTYPE_LEVEL.out.versions.first())
 
     MODKIT_PILEUP_HAPLOTYPE_LEVEL.out.bed
-        .flatMap { meta, files -> 
-            files.collect { file -> 
+        .flatMap { meta, files ->
+            files.collect { file ->
                 [meta, file]
             }
         }
@@ -71,7 +71,7 @@ workflow DSS_HAPLOTYPE_LEVEL {
             bed_preprocessed_2: [meta, bed2]
         }
         .set { bed }
-    
+
     // // DSS dmr
     DSS( bed.bed_preprocessed_1, bed.bed_preprocessed_2 )
 

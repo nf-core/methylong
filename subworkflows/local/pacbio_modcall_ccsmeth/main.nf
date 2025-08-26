@@ -23,7 +23,7 @@ workflow PACBIO_MODCALL_CCSMETH {
     input
         .map { meta, bam, _ref -> [meta, bam] }
         .set { ch_bam_in }
-    
+
     CCSMETH_CALL_MODS(ch_bam_in)
 
     versions = versions.mix(CCSMETH_CALL_MODS.out.versions.first())

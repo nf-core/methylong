@@ -23,7 +23,7 @@ workflow SHARED_FIBERTOOLS_EXTRACT {
     input
         .map { meta, bam, _bai, _ref -> [meta, bam] }
         .set { ch_bam_in }
-    
+
     FIBERTOOLS_EXTRACT(ch_bam_in)
 
     versions = versions.mix(FIBERTOOLS_EXTRACT.out.versions.first())
