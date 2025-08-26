@@ -42,7 +42,6 @@ Modcalling includes basecall for ONT pod5 reads and modcall for PacBio raw bam r
 <details markdown="1">
 <summary>Output files</summary>
 
-
 - `basecall/`
   - `*_calls.bam`: reads after basecalling.
 - `modcall/`
@@ -62,7 +61,6 @@ Preprocessing of reads are only available for ONT reads. Reads are trimmed, then
 - `trim/`
   - `*_fastq.gz`: reads after trimming.
   - `*.log`: trimming log
-  
 - `repair/`
   - `*_repaired_.bam`: reads after repairing MM/ML tags.
   - `*.log`: repair log
@@ -146,7 +144,6 @@ DMR analysis includes haplotype level and population scale, and can be preformed
 
 #### DSS output:
 
-
 - `dmr_haplotype_level/dss/`
   - `*_preprocessed_<1|2|etc>.bed`: partitioned reads based on HP tag
   - `*_DSS_DMLtest.txt`: DML test results
@@ -157,6 +154,7 @@ DMR analysis includes haplotype level and population scale, and can be preformed
 #### modkit dmr output:
 
 - `dmr_haplotype_level/modkit/`
+
   - `*_<1|2|etc>.bed`: partitioned reads based on HP tag
   - `*_modkit_dmr_haplotype_level.bed`: differential methylation output
 

@@ -47,6 +47,6 @@
                 "errorMessage": "sequencing method must be specify: 'ont' or 'pacbio'"
             }
         },
-        "required": ["group","sample", "path", "ref", "method"]
+        "required": ["group", "sample", "path", "ref", "method"]
     }
 }
