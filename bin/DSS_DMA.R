@@ -91,10 +91,10 @@ for (n in 1:length(All_files)) {
     input_list[[n]] <- read.table(file, header = TRUE, sep = '\t', col.names = c("chr", "pos", "N", "X"))
     print(head(input_list[[n]]))
 
-  # check if file is empty
-  if (nrow(input_list[[n]]) == 0) {
-    stop(paste("File", file, "is empty or could not be read correctly"))
-  }
+    # check if file is empty
+    if (nrow(input_list[[n]]) == 0) {
+        stop(paste("File", file, "is empty or could not be read correctly"))
+    }
 }
 
 # for (n in 1:length(All_files)) {
@@ -144,14 +144,14 @@ if (sf == "FALSE"){
     test<- DMLtest(DSObject, group1=as.vector(unlist(input_list_case, use.names=FALSE)),
         group2=as.vector(unlist(input_list_control, use.names=FALSE)), equal.disp = ed,
         smoothing = FALSE)
-  }
+}
 if (sf == "TRUE"){
     print("DMLtest, smoothing=TRUE")
     print(DSObject)
     test<- DMLtest(DSObject, group1=as.vector(unlist(input_list_case, use.names=FALSE)),
         group2=as.vector(unlist(input_list_control, use.names=FALSE)), equal.disp = ed,
         smoothing = FALSE)
-  }
+}
 write.table(test,DMCpG_results, sep="\t", row.names=F, quote=F)
 
 DM_loci<- callDML(test, delta=del, p.threshold=pv)
