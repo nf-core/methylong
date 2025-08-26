@@ -3,6 +3,31 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.0.0 - [2025-08-25]
+
+### `Added`
+
+- Add `DMR_haplotype_level` subworkflow for DMR analysis in haplotype level
+- Add `DMR_population_scale` subworkflow for DMR analysis in population scale
+- Add `dorado basecaller` module to basecall pod5 reads
+- Add `jasmine` and `ccsmeth` module to modcall raw PacBio HiFi bam reads
+- Add `fibertools` modules for m6A call
+- Change the input samplesheet structure
+
+### `Fixed`
+
+### `Dependencies`
+
+| Dependency   | Old version | New version |
+| ------------ | ----------- | ----------- |
+| `dorado`     |             | 0.9.5       |
+| `jasmine`    |             | 2.4.0       |
+| `ccsmeth`    |             | 0.5.0       |
+| `DSS`        |             | 2.54.0      |
+| `fibertools` |             | 0.6.4       |
+
+### `Deprecated`
+
 ## v1.1.0 - [2025-05-28]
 
 ### `Added`

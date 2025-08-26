@@ -57,6 +57,24 @@
 > Marcel Martin, Murray Patterson, Shilpa Garg, Sarah O. Fischer, Nadia Pisanti, Gunnar W. Klau, Alexander Schoenhuth, Tobias Marschall. _WhatsHap: fast and accurate read-based phasing_. bioRxiv 085050; doi: https://doi.org/10.1101/085050
 
 - [gawk](https://www.gnu.org/software/gawk)
+- [DSS](https://bioconductor.org/packages/release/bioc/html/DSS.html)
+
+> Wu H, Wang C, Wu Z (2013). A new shrinkage estimator for dispersion improves differential expression detection in RNA-seq data. *Biostatistics*. [doi:10.1093/biostatistics/kxs033](https://doi.org/10.1093/biostatistics/kxs033).
+>
+> Feng H, Conneely K, Wu H (2014). A bayesian hierarchical model to detect differentially methylated loci from single nucleotide resolution sequencing data. *Nucleic acids research*. [doi:10.1093/nar/gku154](https://doi.org/10.1093/nar/gku154).
+>
+> Wu H, Xu T, Feng H, Chen L, Li B, Yao B, Qin Z, Jin P, Conneely K (2015). Detection of differentially methylated regions from whole-genome bisulfite sequencing data without replicates. *Nucleic acids research*. [doi: 10.1093/nar/gkv715](https://doi.org/ 10.1093/nar/gkv715).
+>
+> Park Y, Wu H (2016). Differential methylation analysis for BS-seq data under general experimental design. *Bioinformatics*. [doi:10.1093/bioinformatics/btw026](https://doi.org/10.1093/bioinformatics/btw026).
+
+- [jasmine](https://github.com/pacificbiosciences/jasmine/)
+- [ccsmeth](https://github.com/PengNi/ccsmeth)
+
+> Ni P, Nie F, Zhong Z. *et al.* DNA 5-methylcytosine detection and methylation phasing using PacBio circular consensus sequencing. *Nat Commun* **14**, 4054 (2023). https://doi.org/10.1038/s41467-023-39784-9
+
+- [fibertools](https://github.com/fiberseq/fibertools-rs)
+
+> Jha A, Bohaczuk SC, Mao Y, Ranchalis J, Mallory BJ, Min AT, Hamm MO, Swanson E, Dubocanin D, Finkbeiner C, Li T, Whittington D, Noble WS, Stergachis AB, & Vollger MR (2024). DNA-m6A calling and integrated long-read epigenetic and genetic analysis with fibertools. Genome Research. https://doi.org/10.1101/gr.279095.124
 
 ## Software packaging/containerisation tools
 

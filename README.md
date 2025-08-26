@@ -97,6 +97,9 @@
 > Currently no support of `dorado` and `pb-CpG-tools` through conda.
 
 > [!NOTE]
+> The pipeline can identify whether ONT reads are in pod5 or bam format, and automatically determine whether to perform  `basecalling`.
+
+> [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
 ### Required input:
@@ -153,7 +156,6 @@ Folder stuctures of the outputs:
 │   ├── fastqc
 │   │
 │   ├── basecall
-│   │   ├── trimmed.fastq.gz
 │   │   └── calls.bam
 │   │
 │   ├── trim
@@ -171,6 +173,7 @@ Folder stuctures of the outputs:
 │   │
 │   ├── snvcall
 │   │   ├── merge_output.vcf.gz
+│   │   ├── merge_output.vcf.gz.tbi
 │   │   └── SNV_PASS.vcf
 │   │
 │   ├── phase
@@ -186,8 +189,7 @@ Folder stuctures of the outputs:
 │   │   └── bedgraphs
 │   │
 │   ├── dmr_haplotype_level/dss
-│   │   ├── preprocessed_1.bed
-│   │   ├── preprocessed_2.bed
+│   │   ├── preprocessed_<1|2|etc>.bed
 │   │   ├── DSS_DMLtest.txt
 │   │   ├── DSS_callDML.txt
 │   │   ├── DSS_callDMR.txt
@@ -205,7 +207,9 @@ Folder stuctures of the outputs:
 │   ├── fastqc
 │   │
 │   ├── modcall
-│   │   └── modbam.bam
+│   │   ├── modbam.bam
+│   │   ├── m6a_predicted.bam
+│   │   └── m6a.bed
 │   │
 │   ├── aligned_minimap2/ aligned_pbmm2
 │   │   ├── aligned.bam
