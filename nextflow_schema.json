@@ -245,6 +245,19 @@
                 }
             }
         },
+        "ccsmeth": {
+            "title": "Ccsmeth",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "ccsmeth_cm_model": {
+                    "type": "string",
+                    "default": "bin/ccsmeth_models/model_ccsmeth_5mCpG_call_mods_attbigru2s_b21.v3.ckpt",
+                    "description": "Ccsmeth call mods model."
+                }
+            }
+        },
         "dorado": {
             "title": "Dorado",
             "type": "object",
@@ -322,6 +335,9 @@
         },
         {
             "$ref": "#/$defs/dorado"
+        },
+        {
+            "$ref": "#/$defs/ccsmeth"
         }
     ]
 }
