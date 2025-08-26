@@ -66,18 +66,18 @@ input_list_control= list()
 index_list=0
 
 for (n in 1:length(list_case)) {
-  index_list= index_list+1
-  case_num<- paste("C",as.character(n),sep = "")
-  input_vector_list[[index_list]]<- case_num
-  input_list_case[[n]]<- case_num
+    index_list= index_list+1
+    case_num<- paste("C",as.character(n),sep = "")
+    input_vector_list[[index_list]]<- case_num
+    input_list_case[[n]]<- case_num
 }
 
 for (n in 1:length(list_control)) {
-  index_list= index_list+1
-  control_num<- paste("N",as.character(n),sep = "")
-  input_vector_list[[index_list]]<- control_num
-  input_list_control[[n]]<- control_num
-  print(input_vector_list)
+    index_list= index_list+1
+    control_num<- paste("N",as.character(n),sep = "")
+    input_vector_list[[index_list]]<- control_num
+    input_list_control[[n]]<- control_num
+    print(input_vector_list)
 }
 
 All_files= paste(args[1],args[2],sep = ",")
@@ -86,10 +86,10 @@ print(All_files)
 
 # Read files
 for (n in 1:length(All_files)) {
-  file = as.character(All_files[n])
-  print(paste("Reading file:", file))
-  input_list[[n]] <- read.table(file, header = TRUE, sep = '\t', col.names = c("chr", "pos", "N", "X"))
-  print(head(input_list[[n]]))
+    file = as.character(All_files[n])
+    print(paste("Reading file:", file))
+    input_list[[n]] <- read.table(file, header = TRUE, sep = '\t', col.names = c("chr", "pos", "N", "X"))
+    print(head(input_list[[n]]))
 
   # check if file is empty
   if (nrow(input_list[[n]]) == 0) {
@@ -140,17 +140,17 @@ print(as.vector(unlist(input_vector_list, use.names=FALSE)))
 DSObject<- makeBSseqData(input_list,as.vector(unlist(input_vector_list, use.names=FALSE)))
 
 if (sf == "FALSE"){
-  print("DMLtest, smoothing=FALSE")
-  test<- DMLtest(DSObject, group1=as.vector(unlist(input_list_case, use.names=FALSE)),
-                 group2=as.vector(unlist(input_list_control, use.names=FALSE)), equal.disp = ed,
-                 smoothing = FALSE)
+    print("DMLtest, smoothing=FALSE")
+    test<- DMLtest(DSObject, group1=as.vector(unlist(input_list_case, use.names=FALSE)),
+        group2=as.vector(unlist(input_list_control, use.names=FALSE)), equal.disp = ed,
+        smoothing = FALSE)
   }
 if (sf == "TRUE"){
-  print("DMLtest, smoothing=TRUE")
-  print(DSObject)
-  test<- DMLtest(DSObject, group1=as.vector(unlist(input_list_case, use.names=FALSE)),
-               group2=as.vector(unlist(input_list_control, use.names=FALSE)), equal.disp = ed,
-               smoothing = FALSE)
+    print("DMLtest, smoothing=TRUE")
+    print(DSObject)
+    test<- DMLtest(DSObject, group1=as.vector(unlist(input_list_case, use.names=FALSE)),
+        group2=as.vector(unlist(input_list_control, use.names=FALSE)), equal.disp = ed,
+        smoothing = FALSE)
   }
 write.table(test,DMCpG_results, sep="\t", row.names=F, quote=F)
 

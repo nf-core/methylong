@@ -52,7 +52,7 @@ def main_dma(args):
                 raise ValueError(f"Case item {item} does not exist!")
     else:
         raise ValueError("Case files or directories must be provided!")
-    
+
     controls = []
     if args.control:
         control_items = args.control.split()
@@ -140,7 +140,7 @@ def main():
                            type=str,
                            required=True,
                            help="The prefix for the output files")
-    
+
     dma_opt = parser.add_argument_group("optional arguments")
     dma_opt.add_argument("--Rscript", "-rs",
                          action="store",
