@@ -10,7 +10,7 @@
 
 ## Samplesheet input
 
-You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row as shown in the examples below.
+You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 5 columns, and a header row as shown in the examples below.
 
 ```bash
 --input '[path to samplesheet file]'
@@ -18,19 +18,20 @@ You will need to create a samplesheet with information about the samples you wou
 
 ### Full samplesheet
 
-The samplesheet required 4 columns, as defined in the table below. Sample name can be repeated if the corresponding sample has both ONT and PacBio HiFi data.
+The samplesheet required 5 columns, as defined in the table below. Sample name can be repeated if the corresponding sample has both ONT and PacBio HiFi data. One group can contain multiple samples.
 
 ```csv title="samplesheet.csv"
-sample,modbam,ref,method
-sample1,sample1.bam,sample1.fasta,pacbio
-sample2,sample2.bam,sample2.fasta,pacbio
-sample3,sample3.bam,sample3.fasta,pacbio
-sample3,sample3.bam,sample3.fasta,ont
-sample4,sample4.bam,sample4.fasta,ont
+group,sample,path,ref,method
+group1,sample1,sample1.bam,sample1.fasta,pacbio
+group2,sample2,sample2.bam,sample2.fasta,pacbio
+group3,sample3,sample3.bam,sample3.fasta,pacbio
+group3,sample3,sample3.bam,sample3.fasta,ont
+group3,sample4,sample4.bam,sample4.fasta,ont
 ```
 
 | Column   | Description                                                                                                                                                     |
 | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `group`  | Custom sample group name.                                                                                                                                       |
 | `sample` | Custom sample name.                                                                                                                                             |
 | `modbam` | Full path to modification basecalled bam file. This bam file has to be unaligned bam file. File has to have the extension ".bam".                               |
 | `ref`    | Full path to reference genome file . File can be either gzipped or not. File has to have the extension '.fa', '.fasta', '.fna' or their equivalent gzip format. |

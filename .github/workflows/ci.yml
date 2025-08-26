@@ -40,6 +40,8 @@ jobs:
           - "--denovo"
           - "--reset"
           - "--skip_snvs"
+          - "--haplotype_dmrer dss"
+          - "--m6a"
         profile:
           #- "conda"
           - "docker"

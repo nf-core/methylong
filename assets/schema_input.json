@@ -7,25 +7,39 @@
     "items": {
         "type": "object",
         "properties": {
+            "group": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "errorMessage": "Group name must be provided and cannot contain spaces",
+                "meta": ["group"]
+            },
             "sample": {
                 "type": "string",
                 "pattern": "^\\S+$",
                 "errorMessage": "Sample name must be provided and cannot contain spaces",
                 "meta": ["id"]
             },
-            "modbam": {
+            "path": {
                 "type": "string",
                 "format": "file-path",
                 "exists": true,
-                "pattern": "^\\S+\\.bam$",
-                "errorMessage": "modBam must be presence, cannot contain spaces and must have extension '.bam'"
+                "oneOf": [
+                    {
+                        "pattern": "^\\S+$",
+                        "not": { "pattern": "\\.(bam|pod5)$" }
+                    },
+                    {
+                        "pattern": "^\\S+\\.(bam|pod5)$"
+                    }
+                ],
+                "errorMessage": "path must be presence, cannot contain spaces and must have extension '.bam' or '.pod5' or be a directory path"
             },
             "ref": {
                 "type": "string",
                 "format": "file-path",
                 "exists": true,
                 "pattern": "^\\S+\\.(fa|fasta|fna)(\\.gz)?$",
-                "errorMessage": "FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+                "errorMessage": "Reference file cannot contain spaces and must have extension '.fa' , '.fasta' or '.fna'. Compressed files (.gz) are allowed."
             },
             "method": {
                 "type": "string",
@@ -33,6 +47,6 @@
                 "errorMessage": "sequencing method must be specify: 'ont' or 'pacbio'"
             }
         },
-        "required": ["sample", "modbam", "ref", "method"]
+        "required": ["group", "sample", "path", "ref", "method"]
     }
 }

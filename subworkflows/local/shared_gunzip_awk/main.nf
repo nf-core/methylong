@@ -34,6 +34,8 @@ workflow GUNZIP_AWK {
 
     GAWK(ch_gz_out, [], [])
 
+    versions = versions.mix(GAWK.out.versions.first())
+
     input
         .join(GAWK.out.output)
         .map { meta, bam, bai, ref, fai, _old_vcf, new_vcf -> [meta, bam, bai, ref, fai, new_vcf] }

@@ -204,6 +204,74 @@
                 "skip_snvs": {
                     "type": "boolean",
                     "description": "Indicate if to skip snvcall and phase"
+                },
+                "pacbio_modcall": {
+                    "type": "boolean",
+                    "description": "Indicate if required modcalling in PacBio workflow"
+                },
+                "pacbio_modcaller": {
+                    "type": "string",
+                    "enum": ["jasmine", "ccsmeth"],
+                    "default": "jasmine",
+                    "description": "Modcaller option in PacBio workflow, default is jasmine, specify ccsmeth to switch"
+                },
+                "haplotype_dmrer": {
+                    "type": "string",
+                    "enum": ["dss", "modkit"],
+                    "default": "dss",
+                    "description": "DMRer option in DMR analysis for haplotype level, default is dss, specify modkit to switch"
+                },
+                "dmr_population_scale": {
+                    "type": "boolean",
+                    "description": "Indicate if required DMR analysis for population scale"
+                },
+                "population_dmrer": {
+                    "type": "string",
+                    "enum": ["dss", "modkit"],
+                    "default": "dss",
+                    "description": "DMRer option in DMR analysis for population scale, default is dss, specify modkit to switch"
+                },
+                "dmr_a": {
+                    "type": "string",
+                    "description": "One of the group of DMR analysis in population scale"
+                },
+                "dmr_b": {
+                    "type": "string",
+                    "description": "Another group of DMR analysis in population scale"
+                },
+                "m6a": {
+                    "type": "boolean",
+                    "description": "Indicate if required m6a calling"
+                }
+            }
+        },
+        "ccsmeth": {
+            "title": "Ccsmeth",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "ccsmeth_cm_model": {
+                    "type": "string",
+                    "description": "Ccsmeth call mods model."
+                }
+            }
+        },
+        "dorado": {
+            "title": "Dorado",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "dorado_model": {
+                    "type": "string",
+                    "default": "hac",
+                    "description": "Specify dorado model, default is hac, other available models can be found on Dorado's GitHub repository."
+                },
+                "dorado_modification": {
+                    "type": "string",
+                    "default": "5mCG_5hmCG",
+                    "description": "Specify dorado modification, default is 5mCG_5hmCG, other available modifications can be found on Dorado's GitHub repository."
                 }
             }
         },
@@ -263,6 +331,12 @@
         },
         {
             "$ref": "#/$defs/multiqc"
+        },
+        {
+            "$ref": "#/$defs/dorado"
+        },
+        {
+            "$ref": "#/$defs/ccsmeth"
         }
     ]
 }
