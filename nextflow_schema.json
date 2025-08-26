@@ -319,6 +319,9 @@
         },
         {
             "$ref": "#/$defs/multiqc"
+        },
+        {
+            "$ref": "#/$defs/dorado"
         }
     ]
 }
