@@ -253,7 +253,6 @@
             "properties": {
                 "ccsmeth_cm_model": {
                     "type": "string",
-                    "default": "${projectDir}/bin/ccsmeth_models/model_ccsmeth_5mCpG_call_mods_attbigru2s_b21.v3.ckpt",
                     "description": "Ccsmeth call mods model."
                 }
             }
