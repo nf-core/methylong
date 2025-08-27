@@ -47,7 +47,7 @@ jobs:
           - "docker"
           - "singularity"
         test_name:
-          - "test"
+          - "test_pod5"
         isMaster:
           - ${{ github.base_ref == 'master' }}
         # Exclude conda and singularity on dev
@@ -94,10 +94,6 @@ jobs:
 
       - name: Clean up Disk space
         uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
-
-      - name: Extra disk cleanup
-        run: |
-          df -h
 
       - name: "Run pipeline with test data ${{ matrix.NXF_VER }} | ${{ matrix.test_name }} | ${{ matrix.profile }}"
         continue-on-error: ${{ matrix.NXF_VER == 'latest-everything' }}
