@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Dependency   | Old version | New version |
 | ------------ | ----------- | ----------- |
-| `dorado`     |             | 0.9.5       |
+| `dorado`     | 0.9.5       | 1.1.1       |
 | `jasmine`    |             | 2.4.0       |
 | `ccsmeth`    |             | 0.5.0       |
 | `DSS`        |             | 2.54.0      |
