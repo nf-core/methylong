@@ -2,7 +2,7 @@ process DORADO_BASECALLER {
     tag "${meta.id}"
     label 'process_high'
 
-    container "docker.io/nanoporetech/dorado:sha268dcb4cd02093e75cdc58821f8b93719c4255ed"
+    container "docker.io/nanoporetech/dorado:shae423e761540b9d08b526a1eb32faf498f32e8f22"
 
     input:
     tuple val(meta), path(pod5_path)
