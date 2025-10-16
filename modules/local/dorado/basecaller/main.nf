@@ -47,7 +47,6 @@ process DORADO_BASECALLER {
 
     """
     echo $args
-    
     touch ${prefix}/${prefix}.bam
 
     cat <<-END_VERSIONS > versions.yml

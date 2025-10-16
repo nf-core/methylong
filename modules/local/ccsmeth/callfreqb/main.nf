@@ -46,7 +46,6 @@ process CCSMETH_CALLFREQB {
 
     """
     echo $args
-    
     touch ${prefix}/${prefix}.bed
 
     cat <<-END_VERSIONS > versions.yml

@@ -49,7 +49,6 @@ process MODKIT_DMR {
 
     """
     echo $args
-    
     touch ${prefix}.bed
 
     cat <<-END_VERSIONS > versions.yml

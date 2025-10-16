@@ -48,7 +48,7 @@ workflow PACBIO {
                 .set { ch_bam_in }
 
         if (params.pacbio_modcaller == "ccsmeth") {
-            
+
             CCSMETH_CALLMODS(ch_bam_in)
 
             pacbio_versions = pacbio_versions.mix(CCSMETH_CALLMODS.out.versions.first())
@@ -73,7 +73,7 @@ workflow PACBIO {
             .set { input_modbam }
 
     } else {
-        
+
         ch_input.set { input_modbam }
 
     }
@@ -179,7 +179,7 @@ workflow PACBIO {
                     ref_in: [meta, ref]
             }
             .set { ch_ccsmeth_in }
-            
+
         CCSMETH_CALLFREQB( ch_ccsmeth_in.bam_in, ch_ccsmeth_in.ref_in )
 
         pacbio_versions = pacbio_versions.mix(CCSMETH_CALLFREQB.out.versions.first())
