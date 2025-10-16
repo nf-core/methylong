@@ -28,7 +28,7 @@
 
 ### ONT workflow:
 
-1. modcalling (optional) 
+1. modcalling (optional)
    - basecall pod5 reads to modBam - `dorado basecaller`
    - optional: m6A call - `fibertools add-nucleosomes`
 2. trim and repair tags of input modBam
@@ -43,12 +43,13 @@
    - optional: remove previous alignment information before running `dorado aligner` using `samtools reset`
    - include alignment summary - `samtools flagstat`
 4. create bedMethyl - `modkit pileup`, 5x base coverage minimum.
+
    - optional: extract m6A information into bedMethyl - `fibertools extract`
 5. create bedgraphs (optional)
 
 ### PacBio workflow:
 
-1. modcalling (optional) 
+1. modcalling (optional)
 
    - modcall bam reads to modBam - `jasmine` (default) or `ccsmeth`
    - optional: m6A call - `fibertools predict-m6a`
@@ -70,6 +71,7 @@
 3. create bedMethyl - `pb-CpG-tools` (default) or `modkit pileup`
 
    - notes about using `pb-CpG-tools` pileup:
+
      - 5x base coverage minimum.
      - 2 pile up methods available from `pb-CpG-tools`:
        1. default using `model`
@@ -97,7 +99,7 @@
 > Currently no support of `dorado` and `pb-CpG-tools` through conda.
 
 > [!NOTE]
-> The pipeline can identify whether ONT reads are in pod5 or bam format, and automatically determine whether to perform  `basecalling`.
+> The pipeline can identify whether ONT reads are in pod5 or bam format, and automatically determine whether to perform `basecalling`.
 
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
@@ -263,7 +265,7 @@ bedgraph outputs all have min. 5x base coverage.
 
 ## Credits
 
-nf-core/methylong was originally written by [Jin Yan Khoo](https://github.com/jkh00), from the Faculty of Biology of the Ludwig-Maximilians University (LMU) in Munich, Germany, further contributions were made by [Yi Jin Xiong](https://github.com/YiJin-Xiong), from Central South University (CSU) in Changsha, China. 
+nf-core/methylong was originally written by [Jin Yan Khoo](https://github.com/jkh00), from the Faculty of Biology of the Ludwig-Maximilians University (LMU) in Munich, Germany, further contributions were made by [Yi Jin Xiong](https://github.com/YiJin-Xiong), from Central South University (CSU) in Changsha, China.
 
 I thank the following people for their extensive assistance in the development of this pipeline:
 
