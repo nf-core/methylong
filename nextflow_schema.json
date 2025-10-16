@@ -242,6 +242,14 @@
                 "m6a": {
                     "type": "boolean",
                     "description": "Indicate if required m6a calling"
+                },
+                "haplotype_context": {
+                    "type": "string",
+                    "description": "Specify context in modkit_pileup_haplotype_level, default is cpg"
+                },
+                "population_context": {
+                    "type": "string",
+                    "description": "Specify context in modkit_pileup_population_scale, default is cpg"
                 }
             }
         },
@@ -254,6 +262,10 @@
                 "ccsmeth_cm_model": {
                     "type": "string",
                     "description": "Ccsmeth call mods model."
+                },
+                "ccsmeth_ag_model": {
+                    "type": "string",
+                    "description": "Ccsmeth call freqb model."
                 }
             }
         },

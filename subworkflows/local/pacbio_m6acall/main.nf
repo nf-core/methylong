@@ -4,7 +4,8 @@
 ===========================================
  */
 
-include { FIBERTOOLS_PREDICT               } from '../../../modules/local/fibertools/predict'
+include { FIBERTOOLSRS_PREDICTM6A          } from '../../../modules/nf-core/fibertoolsrs/predictm6a'
+include { FIBERTOOLSRS_EXTRACT             } from '../../../modules/nf-core/fibertoolsrs/extract'
 
 /*
 ===========================================
@@ -21,19 +22,17 @@ workflow PACBIO_M6ACALL {
     versions = Channel.empty()
 
     input
-        .map { meta, bam, _ref -> [meta, bam] }
+        .map { meta, bam, _bai, _ref -> [meta, bam] }
         .set { ch_bam_in }
 
-    FIBERTOOLS_PREDICT(ch_bam_in)
+    FIBERTOOLSRS_PREDICTM6A(ch_bam_in)
 
-    versions = versions.mix(FIBERTOOLS_PREDICT.out.versions.first())
+    versions = versions.mix(FIBERTOOLSRS_PREDICTM6A.out.versions.first())
 
-    input
-        .join(FIBERTOOLS_PREDICT.out.modbam)
-        .map { meta, _bam, ref , modbam -> [meta, modbam, ref] }
-        .set { ch_modbam }
+    FIBERTOOLSRS_EXTRACT(FIBERTOOLSRS_PREDICTM6A.out.bam,'m6a')
+
+    versions = versions.mix(FIBERTOOLSRS_EXTRACT.out.versions.first())
 
     emit:
-    ch_modbam
     versions
 }

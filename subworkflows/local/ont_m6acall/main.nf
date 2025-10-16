@@ -4,9 +4,9 @@
 ===========================================
  */
 
-include { MODKIT_CALL_MODS                 } from '../../../modules/local/modkit/call_mods'
-include { FIBERTOOLS_ADD_NUCLEOSOMES       } from '../../../modules/local/fibertools/add_nucleosomes'
-
+include { MODKIT_CALLMODS                  } from '../../../modules/nf-core/modkit/callmods'
+include { FIBERTOOLSRS_ADDNUCLEOSOMES      } from '../../../modules/nf-core/fibertoolsrs/addnucleosomes'
+include { FIBERTOOLSRS_EXTRACT             } from '../../../modules/nf-core/fibertoolsrs/extract'
 
 /*
 ===========================================
@@ -23,23 +23,21 @@ workflow ONT_M6ACALL {
     versions = Channel.empty()
 
     input
-        .map { meta, bam, _ref -> [meta, bam] }
+        .map { meta, bam, _bai, _ref -> [meta, bam] }
         .set { ch_bam_in }
 
-    MODKIT_CALL_MODS(ch_bam_in)
+    MODKIT_CALLMODS(ch_bam_in)
 
-    versions = versions.mix(MODKIT_CALL_MODS.out.versions.first())
+    versions = versions.mix(MODKIT_CALLMODS.out.versions.first())
 
-    FIBERTOOLS_ADD_NUCLEOSOMES(MODKIT_CALL_MODS.out.call_mod_bam)
+    FIBERTOOLSRS_ADDNUCLEOSOMES(MODKIT_CALLMODS.out.bam)
 
-    versions = versions.mix(FIBERTOOLS_ADD_NUCLEOSOMES.out.versions.first())
+    versions = versions.mix(FIBERTOOLSRS_ADDNUCLEOSOMES.out.versions.first())
 
-    input
-        .join(FIBERTOOLS_ADD_NUCLEOSOMES.out.modbam)
-        .map { meta, _bam, ref , modbam -> [meta, modbam, ref] }
-        .set { ch_modbam }
+    FIBERTOOLSRS_EXTRACT(FIBERTOOLSRS_ADDNUCLEOSOMES.out.bam, 'm6a')
+
+    versions = versions.mix(FIBERTOOLSRS_EXTRACT.out.versions.first())
 
     emit:
-    ch_modbam
     versions
 }

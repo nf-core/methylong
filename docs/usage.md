@@ -29,25 +29,47 @@ group3,sample3,sample3.bam,sample3.fasta,ont
 group3,sample4,sample4.bam,sample4.fasta,ont
 ```
 
-| Column   | Description                                                                                                                                                     |
-| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `group`  | Custom sample group name.                                                                                                                                       |
-| `sample` | Custom sample name.                                                                                                                                             |
-| `modbam` | Full path to modification basecalled bam file. This bam file has to be unaligned bam file. File has to have the extension ".bam".                               |
+| Column   | Description                                                  |
+| -------- | ------------------------------------------------------------ |
+| `group`  | Custom sample group name.                                    |
+| `sample` | Custom sample name.                                          |
+| `modbam` | Full path to modification basecalled bam file. This bam file has to be unaligned bam file. File has to have the extension ".bam". |
 | `ref`    | Full path to reference genome file . File can be either gzipped or not. File has to have the extension '.fa', '.fasta', '.fna' or their equivalent gzip format. |
-| `method` | Sequencing method has to be specified. Either 'ont' or 'pacbio' can be accepted.                                                                                |
+| `method` | Sequencing method has to be specified. Either 'ont' or 'pacbio' can be accepted. |
 
 An [example samplesheet](../assets/test_data/test_samplesheet.csv) has been provided with the pipeline.
 
 ## Running the pipeline
 
-The typical command for running the pipeline is as follows:
+**The typical command for running the pipeline is as follows:**
 
 ```bash
 nextflow run nf-core/methylong --input ./samplesheet.csv --outdir ./results -profile docker
 ```
 
 This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
+
+**Example command for PacBio unmodified BAM inputs is as follows:**
+
+```bash
+nextflow run nf-core/methylong --input ./samplesheet_unmodified_bam.csv --outdir ./results -profile docker --pacbio_modcall
+```
+
+**Example command for m6a-calling is as follows:**
+
+```bash
+nextflow run nf-core/methylong --input ./samplesheet_dorado.csv --outdir ./results -profile docker --dorado_modification 5mCG_5hmCG 6mA --m6a
+```
+
+```bash
+nextflow run nf-core/methylong --input ./samplesheet_pacbio.csv --outdir ./results -profile docker --m6a
+```
+
+**Example command for DMR population scale is as follows:**
+
+```bash
+nextflow run nf-core/methylong --input ./samplesheet_dmr.csv --outdir ./results -profile docker --dmr_population_scale --dmr_a group_name_1 --dmr_b group_name_2
+```
 
 Note that the pipeline will create the following files in your working directory:
 
@@ -142,6 +164,8 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
   - A generic configuration profile to enable [Wave](https://seqera.io/wave/) containers. Use together with one of the above (requires Nextflow ` 24.03.0-edge` or later).
 - `conda`
   - A generic configuration profile to be used with [Conda](https://conda.io/docs/). Please only use Conda as a last resort i.e. when it's not possible to run the pipeline with Docker, Singularity, Podman, Shifter, Charliecloud, or Apptainer.
+- `gpu`
+  - A generic configuration profile for enabling GPU execution for modules that have `process_gpu` label.
 
 ### `-resume`
 

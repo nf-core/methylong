@@ -46,7 +46,9 @@ process WHATSHAP_HAPLOTAG {
     stub:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}_haplotagged"
+    
     """
+    echo $args
     touch ${prefix}.bam
     touch ${prefix}.readlist
 

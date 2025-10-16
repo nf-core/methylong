@@ -8,7 +8,6 @@ process MODKIT_DMR {
         : 'biocontainers/ont-modkit:0.4.3--hcdda2d0_0'}"
 
     input:
-    // tuple val(meta), path(bed_hp1), path(bed_hp1_tbi), path(bed_hp2), path(bed_hp2_tbi), path(fasta), path(fai)
     tuple val(meta), path(bed_hp1), path(bed_hp1_tbi)
     tuple val(meta2), path(bed_hp2), path(bed_hp2_tbi)
     tuple val(meta3), path(fasta), path(fai)
@@ -49,6 +48,8 @@ process MODKIT_DMR {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
+    echo $args
+    
     touch ${prefix}.bed
 
     cat <<-END_VERSIONS > versions.yml
