@@ -70,7 +70,7 @@
 - [jasmine](https://github.com/pacificbiosciences/jasmine/)
 - [ccsmeth](https://github.com/PengNi/ccsmeth)
 
-> Ni P, Nie F, Zhong Z. *et al.* DNA 5-methylcytosine detection and methylation phasing using PacBio circular consensus sequencing. *Nat Commun* **14**, 4054 (2023). https://doi.org/10.1038/s41467-023-39784-9
+> Ni P, Nie F, Zhong Z. _et al._ DNA 5-methylcytosine detection and methylation phasing using PacBio circular consensus sequencing. _Nat Commun_ **14**, 4054 (2023). https://doi.org/10.1038/s41467-023-39784-9
 
 - [fibertools](https://github.com/fiberseq/fibertools-rs)
 

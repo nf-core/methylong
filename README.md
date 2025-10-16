@@ -42,8 +42,8 @@
 
    - optional: remove previous alignment information before running `dorado aligner` using `samtools reset`
    - include alignment summary - `samtools flagstat`
-4. create bedMethyl - `modkit pileup`, 5x base coverage minimum.
 
+4. create bedMethyl - `modkit pileup`, 5x base coverage minimum.
    - optional: extract m6A information into bedMethyl - `fibertools extract`
 5. create bedgraphs (optional)
 
@@ -87,11 +87,12 @@
 1. SNV calling - `clair3`
 2. phasing - `whatshap phase`
 3. DMR analysis
+
    - includes DMR haplotype level and population scale:
 
      1. tag reads by haplotype - `whatshap haplotype`
      2. create bedMethyl - `modkit pileup`
-     3. DMR  - `DSS` (default) or `modkit dmr`
+     3. DMR - `DSS` (default) or `modkit dmr`
 
 ## Usage
 
