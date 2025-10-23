@@ -181,12 +181,14 @@
                     "description": "Modcaller option in PacBio workflow, default is jasmine, specify ccsmeth to switch"
                 },
                 "ccsmeth_cm_model": {
-                    "type": "file-path",
+                    "type": "string",
+                    "format": "file-path",
                     "description": "Ccsmeth call mods model.",
                     "default": "${projectDir}/bin/ccsmeth_models/model_ccsmeth_5mCpG_call_mods_attbigru2s_b21.v3.ckpt"
                 },
                 "ccsmeth_ag_model": {
-                    "type": "file-path",
+                    "type": "string",
+                    "format": "file-path",
                     "description": "Ccsmeth call freqb model.",
                     "default": "${projectDir}/bin/ccsmeth_models/model_ccsmeth_5mCpG_aggregate_attbigru_b11.v2p.ckpt"
                 }
