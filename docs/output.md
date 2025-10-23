@@ -154,7 +154,6 @@ DMR analysis includes haplotype level and population scale, and can be preformed
 #### modkit dmr output:
 
 - `dmr_haplotype_level/modkit/`
-
   - `*_<1|2|etc>.bed`: partitioned reads based on HP tag
   - `*_modkit_dmr_haplotype_level.bed`: differential methylation output
 
