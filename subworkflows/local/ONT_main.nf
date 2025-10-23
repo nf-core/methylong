@@ -17,7 +17,7 @@ include { ONT_ALIGN                        } from './ont_align/main'
 include { ONT_TRIM_REPAIR                  } from './ont_trim_repair/main'
 include { BED2BEDGRAPH                     } from './shared_bed2bedgraph/main'
 include { INDEX_MODKIT_PILEUP              } from './shared_modkit_pileup/main'
-include { ONT_M6ACALL                      } from './ont_m6acall/main'
+include { ONT_FIBERSEQ                     } from './ont_fiberseq/main'
 
 /*
 ===========================================
@@ -133,13 +133,13 @@ workflow ONT {
     }
 
 
-    // m6acall
+    // fiberseq
 
-    if (params.m6a) {
+    if (params.fiberseq) {
 
-        ONT_M6ACALL(ch_pile_in)
+        ONT_FIBERSEQ(ch_pile_in)
 
-        ont_versions = ont_versions.mix(ONT_M6ACALL.out.versions)
+        ont_versions = ont_versions.mix(ONT_FIBERSEQ.out.versions)
 
     }
 

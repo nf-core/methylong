@@ -8,7 +8,7 @@
         "input_output_options": {
             "title": "Input/output options",
             "type": "object",
-            "fa_icon": "fas fa-terminal",
+            "fa_icon": "fas fa-clipboard-list",
             "description": "Define where the pipeline should find input data and save output data.",
             "required": ["input", "outdir"],
             "properties": {
@@ -155,8 +155,63 @@
                 }
             }
         },
-        "pipeline_parameters": {
-            "title": "Pipeline_parameters",
+        "mod_calling_options": {
+            "title": "Mod calling options",
+            "type": "object",
+            "default": "",
+            "properties": {
+                "dorado_model": {
+                    "type": "string",
+                    "default": "hac",
+                    "description": "Specify dorado model, default is hac, other available models can be found on Dorado's GitHub repository."
+                },
+                "dorado_modification": {
+                    "type": "string",
+                    "default": "5mCG_5hmCG",
+                    "description": "Specify dorado modification, default is 5mCG_5hmCG, other available modifications can be found on Dorado's GitHub repository."
+                },
+                "pacbio_modcall": {
+                    "type": "boolean",
+                    "description": "Indicate if required modcalling in PacBio workflow"
+                },
+                "pacbio_modcaller": {
+                    "type": "string",
+                    "enum": ["jasmine", "ccsmeth"],
+                    "default": "jasmine",
+                    "description": "Modcaller option in PacBio workflow, default is jasmine, specify ccsmeth to switch"
+                },
+                "ccsmeth_cm_model": {
+                    "type": "string",
+                    "description": "Ccsmeth call mods model.",
+                    "default": "${projectDir}/bin/ccsmeth_models/model_ccsmeth_5mCpG_call_mods_attbigru2s_b21.v3.ckpt"
+                },
+                "ccsmeth_ag_model": {
+                    "type": "string",
+                    "description": "Ccsmeth call freqb model.",
+                    "default": "${projectDir}/bin/ccsmeth_models/model_ccsmeth_5mCpG_aggregate_attbigru_b11.v2p.ckpt"
+                }
+            },
+            "fa_icon": "fas fa-search"
+        },
+        "preprocessing_options": {
+            "title": "Preprocessing options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "fa_icon": "fas fa-cut",
+            "properties": {
+                "reset": {
+                    "type": "boolean",
+                    "description": "Removes the alignment information added by aligners and updates flags accordingly"
+                },
+                "no_trim": {
+                    "type": "boolean",
+                    "description": "Skip trimming in ONT workflow, will directly start from alignment step"
+                }
+            }
+        },
+        "alignment_options": {
+            "title": "Alignment options",
             "type": "object",
             "description": "",
             "default": "",
@@ -172,16 +227,22 @@
                     "enum": ["pbmm2", "minimap2"],
                     "default": "pbmm2",
                     "description": "Aligner option in PacBio workflow, default is pbmm2, specify minimap2 to switch"
-                },
+                }
+            },
+            "fa_icon": "fas fa-newspaper",
+            "help_text": ""
+        },
+        "mod_pileup_options": {
+            "title": "Mod pileup options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
                 "pileup_method": {
                     "type": "string",
                     "enum": ["pbcpgtools", "modkit"],
                     "default": "pbcpgtools",
                     "description": "Pileup method in PacBio workflow, default is pbcpgtools, specify modkit to switch"
-                },
-                "bedgraph": {
-                    "type": "boolean",
-                    "description": "Indicate if required bedgraphs as output"
                 },
                 "pileup_count": {
                     "type": "string",
@@ -193,27 +254,35 @@
                     "type": "boolean",
                     "description": "This option will identify and output all CG sites found in the consensus sequence from the reads in the `pb-CpG-tools`pileup (reference free); by default reference sequences are used to identify and output all CG sites."
                 },
-                "no_trim": {
+                "bedgraph": {
                     "type": "boolean",
-                    "description": "Skip trimming in ONT workflow, will directly start from alignment step"
-                },
-                "reset": {
+                    "description": "Indicate if required bedgraphs as output"
+                }
+            },
+            "fa_icon": "fab fa-buffer"
+        },
+        "fiberseq_options": {
+            "title": "Fiberseq options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "m6a": {
                     "type": "boolean",
-                    "description": "Removes the alignment information added by aligners and updates flags accordingly"
-                },
+                    "description": "Indicate if required m6a calling for fiberseq data"
+                }
+            },
+            "fa_icon": "far fa-chart-bar"
+        },
+        "dmr_options": {
+            "title": "DMR options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
                 "skip_snvs": {
                     "type": "boolean",
                     "description": "Indicate if to skip snvcall and phase"
-                },
-                "pacbio_modcall": {
-                    "type": "boolean",
-                    "description": "Indicate if required modcalling in PacBio workflow"
-                },
-                "pacbio_modcaller": {
-                    "type": "string",
-                    "enum": ["jasmine", "ccsmeth"],
-                    "default": "jasmine",
-                    "description": "Modcaller option in PacBio workflow, default is jasmine, specify ccsmeth to switch"
                 },
                 "haplotype_dmrer": {
                     "type": "string",
@@ -239,53 +308,18 @@
                     "type": "string",
                     "description": "Another group of DMR analysis in population scale"
                 },
-                "m6a": {
-                    "type": "boolean",
-                    "description": "Indicate if required m6a calling"
-                },
                 "haplotype_context": {
                     "type": "string",
-                    "description": "Specify context in modkit_pileup_haplotype_level, default is cpg"
+                    "description": "Specify context in modkit_pileup_haplotype_level, default is cpg",
+                    "default": "cpg"
                 },
                 "population_context": {
                     "type": "string",
-                    "description": "Specify context in modkit_pileup_population_scale, default is cpg"
+                    "description": "Specify context in modkit_pileup_population_scale, default is cpg",
+                    "default": "cpg"
                 }
-            }
-        },
-        "ccsmeth": {
-            "title": "Ccsmeth",
-            "type": "object",
-            "description": "",
-            "default": "",
-            "properties": {
-                "ccsmeth_cm_model": {
-                    "type": "string",
-                    "description": "Ccsmeth call mods model."
-                },
-                "ccsmeth_ag_model": {
-                    "type": "string",
-                    "description": "Ccsmeth call freqb model."
-                }
-            }
-        },
-        "dorado": {
-            "title": "Dorado",
-            "type": "object",
-            "description": "",
-            "default": "",
-            "properties": {
-                "dorado_model": {
-                    "type": "string",
-                    "default": "hac",
-                    "description": "Specify dorado model, default is hac, other available models can be found on Dorado's GitHub repository."
-                },
-                "dorado_modification": {
-                    "type": "string",
-                    "default": "5mCG_5hmCG",
-                    "description": "Specify dorado modification, default is 5mCG_5hmCG, other available modifications can be found on Dorado's GitHub repository."
-                }
-            }
+            },
+            "fa_icon": "fas fa-chart-area"
         },
         "multiqc": {
             "title": "Multiqc",
@@ -324,8 +358,21 @@
                     "fa_icon": "far calendar",
                     "description": "Suffix to add to the trace report filename. Default is the date and time in the format yyyy-MM-dd_HH-mm-ss.",
                     "hidden": true
+                },
+                "help": {
+                    "type": ["boolean", "string"],
+                    "description": "Display the help message."
+                },
+                "help_full": {
+                    "type": "boolean",
+                    "description": "Display the full detailed help message."
+                },
+                "show_hidden": {
+                    "type": "boolean",
+                    "description": "Display hidden parameters in the help message (only works when --help or --help_full are provided)."
                 }
-            }
+            },
+            "fa_icon": "fas fa-glass-cheers"
         }
     },
     "allOf": [
@@ -339,16 +386,25 @@
             "$ref": "#/$defs/generic_options"
         },
         {
-            "$ref": "#/$defs/pipeline_parameters"
+            "$ref": "#/$defs/mod_calling_options"
+        },
+        {
+            "$ref": "#/$defs/preprocessing_options"
+        },
+        {
+            "$ref": "#/$defs/alignment_options"
+        },
+        {
+            "$ref": "#/$defs/mod_pileup_options"
+        },
+        {
+            "$ref": "#/$defs/fiberseq_options"
+        },
+        {
+            "$ref": "#/$defs/dmr_options"
         },
         {
             "$ref": "#/$defs/multiqc"
-        },
-        {
-            "$ref": "#/$defs/dorado"
-        },
-        {
-            "$ref": "#/$defs/ccsmeth"
         }
     ]
 }

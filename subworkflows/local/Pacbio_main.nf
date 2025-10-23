@@ -5,7 +5,6 @@
  */
 
 include { CCSMETH_CALLMODS                 } from '../../modules/local/ccsmeth/callmods/main'
-include { CCSMETH_CALLFREQB                } from '../../modules/local/ccsmeth/callfreqb/main'
 include { PBJASMINE                        } from '../../modules/nf-core/pbjasmine/main'
 
 /*
@@ -20,7 +19,8 @@ include { PACBIO_ALIGN_PBMM2               } from './pacbio_align_pbmm2/main'
 include { PACBIO_SPLIT_STRAND_PBCPG_PILEUP } from './pacbio_split_strand_pbcpg_pileup/main'
 include { BED2BEDGRAPH                     } from './shared_bed2bedgraph/main'
 include { INDEX_MODKIT_PILEUP              } from './shared_modkit_pileup/main'
-include { PACBIO_M6ACALL                   } from './pacbio_m6acall/main'
+include { PACBIO_FIBERSEQ                  } from './pacbio_fiberseq/main'
+include { CCSMETH_CALLFREQB_PIGZ           } from './shared_ccsmeth_freqb/main'
 
 /*
 ===========================================
@@ -173,24 +173,17 @@ workflow PACBIO {
 
     if (params.pacbio_modcaller == "ccsmeth") {
 
-        ch_pile_in
-            .multiMap { meta, bam, _bai, ref ->
-                    bam_in: [meta, bam]
-                    ref_in: [meta, ref]
-            }
-            .set { ch_ccsmeth_in }
+        CCSMETH_CALLFREQB_PIGZ(ch_pile_in)
 
-        CCSMETH_CALLFREQB( ch_ccsmeth_in.bam_in, ch_ccsmeth_in.ref_in )
-
-        pacbio_versions = pacbio_versions.mix(CCSMETH_CALLFREQB.out.versions.first())
+        pacbio_versions = pacbio_versions.mix(CCSMETH_CALLFREQB_PIGZ.out.versions)
 
     }
 
-    if (params.m6a) {
+    if (params.fiberseq) {
 
-        PACBIO_M6ACALL(ch_pile_in)
+        PACBIO_FIBERSEQ(ch_pile_in)
 
-        pacbio_versions = pacbio_versions.mix(PACBIO_M6ACALL.out.versions)
+        pacbio_versions = pacbio_versions.mix(PACBIO_FIBERSEQ.out.versions)
 
     }
 

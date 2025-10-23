@@ -4,8 +4,7 @@
 ===========================================
  */
 
-include { MODKIT_CALLMODS                  } from '../../../modules/nf-core/modkit/callmods'
-include { FIBERTOOLSRS_ADDNUCLEOSOMES      } from '../../../modules/nf-core/fibertoolsrs/addnucleosomes'
+include { FIBERTOOLSRS_PREDICTM6A          } from '../../../modules/nf-core/fibertoolsrs/predictm6a'
 include { FIBERTOOLSRS_EXTRACT             } from '../../../modules/nf-core/fibertoolsrs/extract'
 
 /*
@@ -14,7 +13,7 @@ include { FIBERTOOLSRS_EXTRACT             } from '../../../modules/nf-core/fibe
 ===========================================
  */
 
-workflow ONT_M6ACALL {
+workflow PACBIO_FIBERSEQ {
     take:
     input
 
@@ -26,15 +25,11 @@ workflow ONT_M6ACALL {
         .map { meta, bam, _bai, _ref -> [meta, bam] }
         .set { ch_bam_in }
 
-    MODKIT_CALLMODS(ch_bam_in)
+    FIBERTOOLSRS_PREDICTM6A(ch_bam_in)
 
-    versions = versions.mix(MODKIT_CALLMODS.out.versions.first())
+    versions = versions.mix(FIBERTOOLSRS_PREDICTM6A.out.versions.first())
 
-    FIBERTOOLSRS_ADDNUCLEOSOMES(MODKIT_CALLMODS.out.bam)
-
-    versions = versions.mix(FIBERTOOLSRS_ADDNUCLEOSOMES.out.versions.first())
-
-    FIBERTOOLSRS_EXTRACT(FIBERTOOLSRS_ADDNUCLEOSOMES.out.bam, 'm6a')
+    FIBERTOOLSRS_EXTRACT(FIBERTOOLSRS_PREDICTM6A.out.bam,'m6a')
 
     versions = versions.mix(FIBERTOOLSRS_EXTRACT.out.versions.first())
 

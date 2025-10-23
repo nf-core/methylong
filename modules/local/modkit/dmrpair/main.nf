@@ -1,4 +1,4 @@
-process MODKIT_DMR {
+process MODKIT_DMRPAIR {
     tag "${meta.id}"
     label 'process_medium'
 
