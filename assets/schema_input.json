@@ -23,10 +23,6 @@
                 "type": "string",
                 "format": "uri-reference",
                 "exists": true,
-<<<<<<< HEAD
-                "pattern": "^([\\S\\s]*\\/)?[^\\s\\/]+\\.f(ast)?q\\.gz$",
-                "errorMessage": "FastQ file for reads 1 must be provided, cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
-=======
                 "oneOf": [
                     {
                         "pattern": "^\\S+$",
@@ -37,16 +33,11 @@
                     }
                 ],
                 "errorMessage": "path must be presence, cannot contain spaces and must have extension '.bam' or '.pod5' or be a directory path"
->>>>>>> origin/dev
             },
             "ref": {
                 "type": "string",
                 "format": "file-path",
                 "exists": true,
-<<<<<<< HEAD
-                "pattern": "^([\\S\\s]*\\/)?[^\\s\\/]+\\.f(ast)?q\\.gz$",
-                "errorMessage": "FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
-=======
                 "pattern": "^\\S+\\.(fa|fasta|fna)(\\.gz)?$",
                 "errorMessage": "Reference file cannot contain spaces and must have extension '.fa' , '.fasta' or '.fna'. Compressed files (.gz) are allowed."
             },
@@ -54,7 +45,6 @@
                 "type": "string",
                 "enum": ["ont", "pacbio"],
                 "errorMessage": "sequencing method must be specify: 'ont' or 'pacbio'"
->>>>>>> origin/dev
             }
         },
         "required": ["group", "sample", "path", "ref", "method"]
