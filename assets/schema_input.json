@@ -7,27 +7,56 @@
     "items": {
         "type": "object",
         "properties": {
+            "group": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "errorMessage": "Group name must be provided and cannot contain spaces",
+                "meta": ["group"]
+            },
             "sample": {
                 "type": "string",
                 "pattern": "^\\S+$",
                 "errorMessage": "Sample name must be provided and cannot contain spaces",
                 "meta": ["id"]
             },
-            "fastq_1": {
+            "path": {
                 "type": "string",
-                "format": "file-path",
+                "format": "uri-reference",
                 "exists": true,
+<<<<<<< HEAD
                 "pattern": "^([\\S\\s]*\\/)?[^\\s\\/]+\\.f(ast)?q\\.gz$",
                 "errorMessage": "FastQ file for reads 1 must be provided, cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+=======
+                "oneOf": [
+                    {
+                        "pattern": "^\\S+$",
+                        "not": { "pattern": "\\.(bam|pod5)$" }
+                    },
+                    {
+                        "pattern": "^\\S+\\.(bam|pod5)$"
+                    }
+                ],
+                "errorMessage": "path must be presence, cannot contain spaces and must have extension '.bam' or '.pod5' or be a directory path"
+>>>>>>> origin/dev
             },
-            "fastq_2": {
+            "ref": {
                 "type": "string",
                 "format": "file-path",
                 "exists": true,
+<<<<<<< HEAD
                 "pattern": "^([\\S\\s]*\\/)?[^\\s\\/]+\\.f(ast)?q\\.gz$",
                 "errorMessage": "FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+=======
+                "pattern": "^\\S+\\.(fa|fasta|fna)(\\.gz)?$",
+                "errorMessage": "Reference file cannot contain spaces and must have extension '.fa' , '.fasta' or '.fna'. Compressed files (.gz) are allowed."
+            },
+            "method": {
+                "type": "string",
+                "enum": ["ont", "pacbio"],
+                "errorMessage": "sequencing method must be specify: 'ont' or 'pacbio'"
+>>>>>>> origin/dev
             }
         },
-        "required": ["sample", "fastq_1"]
+        "required": ["group", "sample", "path", "ref", "method"]
     }
 }

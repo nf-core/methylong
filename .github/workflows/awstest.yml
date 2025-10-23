@@ -23,7 +23,7 @@ jobs:
             {
               "outdir": "s3://${{ vars.AWS_S3_BUCKET }}/methylong/results-test-${{ github.sha }}"
             }
-          profiles: test
+          profiles: test_aws_small
 
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
