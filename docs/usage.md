@@ -55,14 +55,14 @@ This will launch the pipeline with the `docker` configuration profile. See below
 nextflow run nf-core/methylong --input ./samplesheet_unmodified_bam.csv --outdir ./results -profile docker --pacbio_modcall
 ```
 
-**Example command for m6a-calling is as follows:**
+**Example command for fiberseq-m6a-calling is as follows:**
 
 ```bash
-nextflow run nf-core/methylong --input ./samplesheet_dorado.csv --outdir ./results -profile docker --dorado_modification 5mCG_5hmCG 6mA --m6a
+nextflow run nf-core/methylong --input ./samplesheet_dorado.csv --outdir ./results -profile docker --dorado_modification 5mCG_5hmCG 6mA --fiberseq
 ```
 
 ```bash
-nextflow run nf-core/methylong --input ./samplesheet_pacbio.csv --outdir ./results -profile docker --m6a
+nextflow run nf-core/methylong --input ./samplesheet_pacbio.csv --outdir ./results -profile docker --fiberseq
 ```
 
 **Example command for DMR population scale is as follows:**
