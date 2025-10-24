@@ -12,7 +12,7 @@ process CCSMETH_CALLFREQB {
     tuple val(meta2), path(ref)
 
     output:
-    tuple val(meta), path("*.bed")  , emit: bed
+    tuple val(meta), path("*.bed.gz")  , emit: bed
     path "versions.yml", emit: versions
 
     when:
@@ -46,7 +46,7 @@ process CCSMETH_CALLFREQB {
 
     """
     echo $args
-    touch ${prefix}/${prefix}.bed
+    echo "" | gzip > ${prefix}.bed.gz
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
