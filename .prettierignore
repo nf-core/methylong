@@ -11,4 +11,4 @@ testing*
 *.pyc
 bin/
 ro-crate-metadata.json
-modules/nf-core/**/*.meta.yml
+modules/nf-core/**/meta.yml
