@@ -69,9 +69,6 @@
                 },
                 "WHATSHAP_PHASE": {
                     "whatshap": 2.6
-                },
-                "Workflow": {
-                    "nf-core/methylong": "v1.0.0"
                 }
             },
             [
@@ -149,9 +146,6 @@
                 "samtools-flagstat-pct-table.txt:md5,2b206e73550707faea58fd0c762ce9a2",
                 "samtools-flagstat-table.txt:md5,d85b96e27bcf53c9a7ad885e6b280ab3",
                 "homo_sapiens_ont.flagstat:md5,8664205b2167ad7783211565ee87d71c",
-                "homo_sapiens_aligned.bam:md5,f973b00ce29e836614829bd45b87416a",
-                "homo_sapiens_aligned.bam.bai:md5,fbb11237280c2f836f32aed3997321b9",
-                "homo_sapiens_haplotagged.bam.bai:md5,032f63079e0ae34d82a30004ec3105d5",
                 "homo_sapiens_DSS_DMLtest.txt:md5,26fe24ee84562c124ed0d5b5177902a7",
                 "homo_sapiens_DSS_callDML.txt:md5,405ef2b191a7e47f577b003ebfec84e5",
                 "homo_sapiens_DSS_callDMR.txt:md5,68b329da9893e34099c7d8ad5cb9c940",
@@ -160,20 +154,13 @@
                 "homo_sapiens_1.bed:md5,28ce53958966d15c001654b17e89df2f",
                 "homo_sapiens_2.bed:md5,8edec65360f0a7cb29de869fc708236d",
                 "homo_sapiens_ungrouped.bed:md5,ea59b50c41a8f656a5ab5b965bddcdea",
-                "homo_sapiens_haplotagged.bam:md5,96de5b0bef0b76d65f285c47a9b5c630",
-                "homo_sapiens_haplotagged.readlist:md5,e25bcbb1e3327bd7fb9030ccbf6b9e14",
-                "homo_sapiens_phased.vcf:md5,5975b376e9e7b4e87b449d50397736f4",
                 "homo_sapiens.bed.gz:md5,5006816d886f62eef521fec87257dbcc",
-                "homo_sapiens_repaired.bam:md5,dcd7c6d2f839916b0d833dc1c0f50a59",
-                "homo_sapiens_SNV_PASS.vcf:md5,ed5d2a4e42998497aa0253551334e367",
-                "homo_sapiensmerge_output.vcf.gz:md5,c3217ab915bdad84c70bce6a91c53c05",
-                "homo_sapiensmerge_output.vcf.gz.tbi:md5,c5c545e667a31b3cd8adf870060ea761",
                 "homo_sapiens.fastq.gz:md5,9de5335e8d250471458bf563920a3186"
             ],
             [
-                "homo_sapiens_aligned.bam:md5,da8d994a050ad211264eb71538897401",
-                "homo_sapiens_haplotagged.bam:md5,da8d994a050ad211264eb71538897401",
-                "homo_sapiens_repaired.bam:md5,80f005b1f72dd76bde0afc3fdcc4a8fe"
+                "homo_sapiens_aligned.bam:md5,43260b24e5ab551044bd5f373c9bc4fa",
+                "homo_sapiens_haplotagged.bam:md5,43260b24e5ab551044bd5f373c9bc4fa",
+                "homo_sapiens_repaired.bam:md5,fc564135d79f0bce0d5730d6b64eb8e6"
             ],
             "No CRAM files",
             [
@@ -194,7 +181,7 @@
                 ],
                 [
                     "homo_sapiensmerge_output.vcf.gz",
-                    "VcfFile [chromosomes=[chr22], sampleCount=1, variantCount=81, phased=false, phasedAutodetect=false]"
+                    "VcfFile [chromosomes=[chr22], sampleCount=1, variantCount=82, phased=false, phasedAutodetect=false]"
                 ]
             ]
         ],
@@ -202,6 +189,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.04.2"
         },
-        "timestamp": "2025-10-27T14:44:04.79274132"
+        "timestamp": "2025-10-27T17:12:48.641813492"
     }
 }
