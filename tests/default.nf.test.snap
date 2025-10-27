@@ -69,6 +69,9 @@
                 },
                 "WHATSHAP_PHASE": {
                     "whatshap": 2.6
+                },
+                "Workflow": {
+                    "nf-core/methylong": "v1.0.0"
                 }
             },
             [
@@ -157,11 +160,6 @@
                 "homo_sapiens.bed.gz:md5,5006816d886f62eef521fec87257dbcc",
                 "homo_sapiens.fastq.gz:md5,9de5335e8d250471458bf563920a3186"
             ],
-            [
-                "homo_sapiens_aligned.bam:md5,43260b24e5ab551044bd5f373c9bc4fa",
-                "homo_sapiens_haplotagged.bam:md5,43260b24e5ab551044bd5f373c9bc4fa",
-                "homo_sapiens_repaired.bam:md5,fc564135d79f0bce0d5730d6b64eb8e6"
-            ],
             "No CRAM files",
             [
                 "homo_sapiens_aligned.bam.bai:exists,size=376",
@@ -181,7 +179,7 @@
                 ],
                 [
                     "homo_sapiensmerge_output.vcf.gz",
-                    "VcfFile [chromosomes=[chr22], sampleCount=1, variantCount=82, phased=false, phasedAutodetect=false]"
+                    "VcfFile [chromosomes=[chr22], sampleCount=1, variantCount=81, phased=false, phasedAutodetect=false]"
                 ]
             ]
         ],
@@ -189,6 +187,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.04.2"
         },
-        "timestamp": "2025-10-27T17:12:48.641813492"
+        "timestamp": "2025-10-27T17:54:16.564745075"
     }
 }

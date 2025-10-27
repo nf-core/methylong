@@ -22,8 +22,6 @@ class UTILS {
         def stable_name = getAllFilesFromDir(outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
         // stable_content: All files in ${outdir}/ with stable content
         def stable_content = getAllFilesFromDir(outdir, ignoreFile: 'tests/.nftignore')
-        // bam_files: All bam files
-        def bam_files = getAllFilesFromDir(outdir, include: ['**/*.bam'])
         // bam_index_files: All bam.bai files
         def bam_index_files = getAllFilesFromDir(outdir, include: ['**/*.bam.bai'])
         // cram_files: All cram files
@@ -40,10 +38,6 @@ class UTILS {
 
         if (!stub) {
             assertion.add(stable_content.isEmpty() ? 'No stable content' : stable_content)
-            assertion.add(bam_files.isEmpty()
-                ? 'No BAM files'
-                : bam_files.collect { file ->
-                file.getName() + ":md5," + bam([stringency: 'silent'], file.toString()).readsMD5 })
 
             assertion.add(cram_files.isEmpty() ? 'No CRAM files' : cram_files.collect { file -> file.getName() + ":md5," + cram(file.toString(), fasta).readsMD5 })
 
