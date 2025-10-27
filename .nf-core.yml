@@ -7,6 +7,7 @@ lint:
         - params.ccsmeth_cm_model
         - params.ccsmeth_ag_model
   template_strings: false
+  nf_test_content: false
 nf_core_version: 3.4.1
 repository_type: pipeline
 template:

@@ -18,9 +18,6 @@ class UTILS {
         // It will only print the vcf summary to avoid differing md5sums because of small differences in QUAL score
         def include_freebayes_unfiltered = args.include_freebayes_unfiltered
 
-        // Will print the summary instead of the md5sum for vcf files
-        def no_vcf_md5sum = args.no_vcf_md5sum
-
         // stable_name: All files + folders in ${outdir}/ with a stable name
         def stable_name = getAllFilesFromDir(outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
         // stable_content: All files in ${outdir}/ with stable content
@@ -43,36 +40,33 @@ class UTILS {
 
         if (!stub) {
             assertion.add(stable_content.isEmpty() ? 'No stable content' : stable_content)
-            assertion.add(bam_files.isEmpty() 
-                ? 'No BAM files' 
-                : bam_files.collect { file -> 
+            assertion.add(bam_files.isEmpty()
+                ? 'No BAM files'
+                : bam_files.collect { file ->
                 file.getName() + ":md5," + bam([stringency: 'silent'], file.toString()).readsMD5 })
 
             assertion.add(cram_files.isEmpty() ? 'No CRAM files' : cram_files.collect { file -> file.getName() + ":md5," + cram(file.toString(), fasta).readsMD5 })
-            
+
             assertion.add(
-                bam_index_files.isEmpty() 
-                    ? 'No BAM index files' 
-                    : bam_index_files.collect { file -> 
-                    def f = new File(file.toString()) 
-                    def size = f.length() 
-                    return file.getName() + ":exists,size=" + size }
-                    )
-            
-            assertion.add(
-                vcf_index_files.isEmpty() 
-                    ? 'No VCF index files' 
-                    : vcf_index_files.collect { file -> 
-                    def f = new File(file.toString()) 
-                    def size = f.length() 
+                bam_index_files.isEmpty()
+                    ? 'No BAM index files'
+                    : bam_index_files.collect { file ->
+                    def f = new File(file.toString())
+                    def size = f.length()
                     return file.getName() + ":exists,size=" + size }
                     )
 
-            if (no_vcf_md5sum) {
-                assertion.add(vcf_files.isEmpty() ? 'No VCF files' : vcf_files.collect { file -> [ file.getName(), path(file.toString()).vcf.summary ] })
-            } else {
-                assertion.add(vcf_files.isEmpty() ? 'No VCF files' : vcf_files.collect { file -> file.getName() + ":md5," + path(file.toString()).vcf.variantsMD5 })
-            }
+            assertion.add(
+                vcf_index_files.isEmpty()
+                    ? 'No VCF index files'
+                    : vcf_index_files.collect { file ->
+                    def f = new File(file.toString())
+                    def size = f.length()
+                    return file.getName() + ":exists,size=" + size }
+                    )
+
+            assertion.add(vcf_files.isEmpty() ? 'No VCF files' : vcf_files.collect { file -> [ file.getName(), path(file.toString()).vcf.summary ] })
+
         }
 
         return assertion
@@ -154,7 +148,7 @@ class UTILS {
                             // Number of successful tasks
                             workflow.trace.succeeded().size(),
                             // All assertions based on the scenario
-                            *UTILS.get_assertion( no_vcf_md5sum: scenario.no_vcf_md5sum, outdir: params.outdir, stub: scenario.stub)
+                            *UTILS.get_assertion(outdir: params.outdir, stub: scenario.stub)
                         ).match() }
                     )
                     // Check stdout if specified

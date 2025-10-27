@@ -12,4 +12,5 @@ multiqc/multiqc_report.html
 {ont,pacbio}/*/trim/*.log
 {ont,pacbio}/*/repair/*.log
 {ont,pacbio}/*/pileup/*.log
+{ont,pacbio}/*/*/dss/*.log
 pipeline_info/*.{html,json,txt,yml}
