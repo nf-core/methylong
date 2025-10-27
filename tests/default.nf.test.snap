@@ -1,6 +1,7 @@
 {
     "-profile test": {
         "content": [
+            25,
             {
                 "CLAIR3": {
                     "clair3": "1.2.0"
@@ -150,8 +151,8 @@
                 "homo_sapiens_ont.flagstat:md5,8664205b2167ad7783211565ee87d71c",
                 "homo_sapiens_aligned.bam:md5,f973b00ce29e836614829bd45b87416a",
                 "homo_sapiens_aligned.bam.bai:md5,fbb11237280c2f836f32aed3997321b9",
-                "homo_sapiens_haplotagged.bam.bai:md5,62df559a11200eeded95e16f1338d5b4",
-                "homo_sapiens_DSS.log:md5,6c2eb90fdebb5966dcaff941cc0b3e40",
+                "homo_sapiens_haplotagged.bam.bai:md5,95048ecb06a3e72e31934b80b8ccdc38",
+                "homo_sapiens_DSS.log:md5,3ab57dd22a42a2894b76a3af06372049",
                 "homo_sapiens_DSS_DMLtest.txt:md5,26fe24ee84562c124ed0d5b5177902a7",
                 "homo_sapiens_DSS_callDML.txt:md5,405ef2b191a7e47f577b003ebfec84e5",
                 "homo_sapiens_DSS_callDMR.txt:md5,68b329da9893e34099c7d8ad5cb9c940",
@@ -160,26 +161,39 @@
                 "homo_sapiens_1.bed:md5,28ce53958966d15c001654b17e89df2f",
                 "homo_sapiens_2.bed:md5,8edec65360f0a7cb29de869fc708236d",
                 "homo_sapiens_ungrouped.bed:md5,ea59b50c41a8f656a5ab5b965bddcdea",
-                "homo_sapiens_ont_fastqc.html:md5,c887f90fdbf7d3a51a1c4b3c4e452a01",
-                "homo_sapiens_ont_fastqc.zip:md5,4b0661bc04cae05a314aa5fc4ce7aa32",
-                "homo_sapiens_haplotagged.bam:md5,2d18e833863bb249e45488e3d9321701",
+                "homo_sapiens_haplotagged.bam:md5,44a200ed14330b368ea8234646aba726",
                 "homo_sapiens_haplotagged.readlist:md5,e25bcbb1e3327bd7fb9030ccbf6b9e14",
-                "homo_sapiens_phased.vcf:md5,3d0b53320756ff78b92f497d83ad4104",
+                "homo_sapiens_phased.vcf:md5,a3a16261df48412e94269812f849a5e2",
                 "homo_sapiens.bed.gz:md5,5006816d886f62eef521fec87257dbcc",
-                "homo_sapiens_pileup.log:md5,b3dacb9efff074c7754685e3e0baffdf",
-                "homo_sapiens_repair.log:md5,c41d33fb63678cf00da321b9e25e3661",
-                "homo_sapiens_repaired.bam:md5,7f21900084668163a75fa80449a08864",
-                "homo_sapiens_SNV_PASS.vcf:md5,4fc709006650d3048a2046c69fc3c2d2",
-                "homo_sapiensmerge_output.vcf.gz:md5,00f0d3051b5df73da5d827352c04a03f",
+                "homo_sapiens_repaired.bam:md5,ea5bb3d6e2ff1ce9c8dcf948a8cc0187",
+                "homo_sapiens_SNV_PASS.vcf:md5,64cba4760c585730e67db2495c9fd9df",
+                "homo_sapiensmerge_output.vcf.gz:md5,5b3a14d50a5d063d24cb62f0ba52b3eb",
                 "homo_sapiensmerge_output.vcf.gz.tbi:md5,c5c545e667a31b3cd8adf870060ea761",
-                "homo_sapiens.fastq.gz:md5,9de5335e8d250471458bf563920a3186",
-                "homo_sapiens.log:md5,1e37e57055e10ace59cbd5e3b14dba33"
+                "homo_sapiens.fastq.gz:md5,9de5335e8d250471458bf563920a3186"
+            ],
+            [
+                "homo_sapiens_aligned.bam:md5,da8d994a050ad211264eb71538897401",
+                "homo_sapiens_haplotagged.bam:md5,da8d994a050ad211264eb71538897401",
+                "homo_sapiens_repaired.bam:md5,e759e83ae9ad7a2703084a8ddc7968d"
+            ],
+            "No CRAM files",
+            [
+                "homo_sapiens_aligned.bam.bai:exists,size=376",
+                "homo_sapiens_haplotagged.bam.bai:exists,size=376"
+            ],
+            [
+                "homo_sapiensmerge_output.vcf.gz.tbi:exists,size=131"
+            ],
+            [
+                "homo_sapiens_phased.vcf:md5,48edc0d365e2090f022bfa86308a325b",
+                "homo_sapiens_SNV_PASS.vcf:md5,ca4760ae19ac582580e25b815c747dc5",
+                "homo_sapiensmerge_output.vcf.gz:md5,45ce7516540b64345293e5786a536a4f"
             ]
         ],
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.04.2"
         },
-        "timestamp": "2025-10-24T13:08:40.571107718"
+        "timestamp": "2025-10-27T13:51:47.344405749"
     }
 }
