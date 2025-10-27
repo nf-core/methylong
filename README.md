@@ -5,11 +5,13 @@
   </picture>
 </h1>
 
-[![GitHub Actions CI Status](https://github.com/nf-core/methylong/actions/workflows/ci.yml/badge.svg)](https://github.com/nf-core/methylong/actions/workflows/ci.yml)
-[![GitHub Actions Linting Status](https://github.com/nf-core/methylong/actions/workflows/linting.yml/badge.svg)](https://github.com/nf-core/methylong/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/methylong/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.15366448-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/nf-core/methylong)
+[![GitHub Actions CI Status](https://github.com/nf-core/methylong/actions/workflows/nf-test.yml/badge.svg)](https://github.com/nf-core/methylong/actions/workflows/nf-test.yml)
+[![GitHub Actions Linting Status](https://github.com/nf-core/methylong/actions/workflows/linting.yml/badge.svg)](https://github.com/nf-core/methylong/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/methylong/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
 [![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
 
-[![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A524.04.2-23aa62.svg)](https://www.nextflow.io/)
+[![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.04.0-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
+[![nf-core template version](https://img.shields.io/badge/nf--core_template-3.4.1-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/3.4.1)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
@@ -39,7 +41,6 @@
      4. convert trimmed modfastq to modBam - `samtools import`
      5. repair MM/ML tags of trimmed modBam - `modkit repair`
 3. align to reference (plus sorting and indexing) - `dorado aligner`( default) / `minimap2`
-
    - optional: remove previous alignment information before running `dorado aligner` using `samtools reset`
    - include alignment summary - `samtools flagstat`
 
@@ -50,14 +51,11 @@
 ### PacBio workflow:
 
 1. modcalling (optional)
-
    - modcall bam reads to modBam - `jasmine` (default) or `ccsmeth`
    - optional: m6A call - `fibertools predict-m6a`
 
 2. align to reference - `pbmm2` (default) or `minimap2`
-
    - minimap workflow:
-
      1. convert modBam to fastq - `samtools convert`
      2. alignment - `minimap2`
      3. sort and index - `samtools sort`
@@ -69,9 +67,7 @@
      3. alignment summary - `samtools flagstat`
 
 3. create bedMethyl - `pb-CpG-tools` (default) or `modkit pileup`
-
    - notes about using `pb-CpG-tools` pileup:
-
      - 5x base coverage minimum.
      - 2 pile up methods available from `pb-CpG-tools`:
        1. default using `model`
@@ -87,9 +83,7 @@
 1. SNV calling - `clair3`
 2. phasing - `whatshap phase`
 3. DMR analysis
-
    - includes DMR haplotype level and population scale:
-
      1. tag reads by haplotype - `whatshap haplotype`
      2. create bedMethyl - `modkit pileup`
      3. DMR - `DSS` (default) or `modkit dmr`
