@@ -29,13 +29,13 @@ group3,sample3,sample3.bam,sample3.fasta,ont
 group3,sample4,sample4.bam,sample4.fasta,ont
 ```
 
-| Column   | Description                                                                                                                                                     |
-| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `group`  | Custom sample group name.                                                                                                                                       |
-| `sample` | Custom sample name.                                                                                                                                             |
-| `modbam` | Full path to modification basecalled bam file. This bam file has to be unaligned bam file. File has to have the extension ".bam".                               |
+| Column   | Description                                                  |
+| -------- | ------------------------------------------------------------ |
+| `group`  | Custom sample group name.                                    |
+| `sample` | Custom sample name.                                          |
+| `modbam` | Full path to modification basecalled bam file. This bam file has to be unaligned bam file. File has to have the extension ".bam". |
 | `ref`    | Full path to reference genome file . File can be either gzipped or not. File has to have the extension '.fa', '.fasta', '.fna' or their equivalent gzip format. |
-| `method` | Sequencing method has to be specified. Either 'ont' or 'pacbio' can be accepted.                                                                                |
+| `method` | Sequencing method has to be specified. Either 'ont' or 'pacbio' can be accepted. |
 
 An [example samplesheet](../assets/test_data/test_samplesheet.csv) has been provided with the pipeline.
 
