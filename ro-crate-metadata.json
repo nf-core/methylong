@@ -147,10 +147,10 @@
             },
             "url": [
                 "https://github.com/nf-core/methylong",
-                "https://nf-co.re/methylong/1.0.0/"
+                "https://nf-co.re/methylong/2.0.0/"
             ],
             "version": [
-                "1.0.0"
+                "2.0.0"
             ]
         },
         {
