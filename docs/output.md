@@ -62,9 +62,10 @@ Preprocessing of reads are only available for ONT reads. Reads are trimmed, then
 - `trim/`
   - `*_fastq.gz`: reads after trimming.
   - `*.log`: trimming log
+  
 - `repair/`
-  - `*_repaired_.bam`: reads after repairing MM/ML tags.
-  - `*.log`: repair log
+  - `*_repaired.bam`: reads after repairing MM/ML tags.
+  - `*_repaired.log`: repair log
 
 </details>
 
@@ -144,6 +145,7 @@ DMR analysis includes haplotype level and population scale, and can be preformed
 <summary>Output files</summary>
 
 #### DSS output:
+
 
 - `dmr_haplotype_level/dss/`
   - `*_preprocessed_<1|2|etc>.bed`: partitioned reads based on HP tag
