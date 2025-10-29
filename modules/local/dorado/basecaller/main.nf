@@ -24,7 +24,6 @@ process DORADO_BASECALLER {
 
     """
 
-    
     ${!(dorado_model in ['hac','sup']) ? "dorado download --model $dorado_model" : ""}
 
     dorado basecaller \\
