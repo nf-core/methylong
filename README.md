@@ -42,6 +42,7 @@
 
    - optional: remove previous alignment information before running `dorado aligner` using `samtools reset`
    - include alignment summary - `samtools flagstat`
+
 4. create bedMethyl - `modkit pileup`, 5x base coverage minimum.
 5. create bedgraphs (optional)
 
@@ -50,6 +51,7 @@
 1. modcalling (optional)
 
    - modcall bam reads to modBam - `jasmine` (default) or `ccsmeth`
+
 2. align to reference - `pbmm2` (default) or `minimap2`
 
    - minimap workflow:
@@ -63,6 +65,7 @@
      1. alignment and sorting - `pbmm2`
      2. index - `samtools index`
      3. alignment summary - `samtools flagstat`
+
 3. create bedMethyl - `pb-CpG-tools` (default) or `modkit pileup`
 
    - notes about using `pb-CpG-tools` pileup:
@@ -72,6 +75,7 @@
        1. default using `model`
        2. or `count` (differences described here: https://github.com/PacificBiosciences/pb-CpG-tools)
      - `pb-CpG-tools` by default merge mC signals on CpG into forward strand. To 'force' strand specific signal output, I followed the suggestion mentioned in this issue ([PacificBiosciences/pb-CpG-tools#37](https://github.com/PacificBiosciences/pb-CpG-tools/issues/37)) which uses HP tags to tag forward and reverse reads, so they were output separately.
+
 4. create bedgraph (optional)
 
 ### Downstream workflow:
