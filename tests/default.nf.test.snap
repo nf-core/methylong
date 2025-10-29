@@ -1,0 +1,192 @@
+{
+    "-profile test": {
+        "content": [
+            25,
+            {
+                "CLAIR3": {
+                    "clair3": "1.2.0"
+                },
+                "DSS": {
+                    "R": "4.4.2"
+                },
+                "FASTQC": {
+                    "fastqc": "0.12.1"
+                },
+                "GAWK": {
+                    "gawk": "5.3.0"
+                },
+                "GAWK_1": {
+                    "gawk": "5.3.0"
+                },
+                "GAWK_2": {
+                    "gawk": "5.3.0"
+                },
+                "GUNZIP": {
+                    "gunzip": 1.13
+                },
+                "MODKIT_PILEUP": {
+                    "modkit": "0.4.4"
+                },
+                "MODKIT_PILEUP_HAPLOTYPE_LEVEL": {
+                    "modkit": "0.4.4"
+                },
+                "MODKIT_REPAIR": {
+                    "modkit": "0.4.3"
+                },
+                "ONT_MINIMAP2_ALIGN": {
+                    "minimap2": "2.29-r1283",
+                    "samtools": 1.21
+                },
+                "PIGZ_COMPRESS": {
+                    "pigz": 2.8
+                },
+                "PORECHOP_PORECHOP": {
+                    "porechop": "0.2.4"
+                },
+                "SAMTOOLS_FAIDX": {
+                    "samtools": 1.21
+                },
+                "SAMTOOLS_FASTQ": {
+                    "samtools": 1.21
+                },
+                "SAMTOOLS_FLAGSTAT": {
+                    "samtools": 1.21
+                },
+                "SAMTOOLS_IMPORT": {
+                    "samtools": 1.21
+                },
+                "SAMTOOLS_INDEX": {
+                    "samtools": 1.21
+                },
+                "SAMTOOLS_SORT": {
+                    "samtools": 1.21
+                },
+                "TABIX_BGZIPTABIX": {
+                    "tabix": 1.21
+                },
+                "WHATSHAP_HAPLOTAG": {
+                    "whatshap": 2.6
+                },
+                "WHATSHAP_PHASE": {
+                    "whatshap": 2.6
+                },
+                "Workflow": {
+                    "nf-core/methylong": "v1.0.0"
+                }
+            },
+            [
+                "multiqc",
+                "multiqc/multiqc_data",
+                "multiqc/multiqc_data/llms-full.txt",
+                "multiqc/multiqc_data/multiqc.log",
+                "multiqc/multiqc_data/multiqc.parquet",
+                "multiqc/multiqc_data/multiqc_citations.txt",
+                "multiqc/multiqc_data/multiqc_data.json",
+                "multiqc/multiqc_data/multiqc_general_stats.txt",
+                "multiqc/multiqc_data/multiqc_samtools_flagstat.txt",
+                "multiqc/multiqc_data/multiqc_software_versions.txt",
+                "multiqc/multiqc_data/multiqc_sources.txt",
+                "multiqc/multiqc_data/samtools-flagstat-pct-table.txt",
+                "multiqc/multiqc_data/samtools-flagstat-table.txt",
+                "multiqc/multiqc_plots",
+                "multiqc/multiqc_plots/pdf",
+                "multiqc/multiqc_plots/pdf/samtools-flagstat-pct-table.pdf",
+                "multiqc/multiqc_plots/pdf/samtools-flagstat-table.pdf",
+                "multiqc/multiqc_plots/png",
+                "multiqc/multiqc_plots/png/samtools-flagstat-pct-table.png",
+                "multiqc/multiqc_plots/png/samtools-flagstat-table.png",
+                "multiqc/multiqc_plots/svg",
+                "multiqc/multiqc_plots/svg/samtools-flagstat-pct-table.svg",
+                "multiqc/multiqc_plots/svg/samtools-flagstat-table.svg",
+                "multiqc/multiqc_report.html",
+                "ont",
+                "ont/homo_sapiens",
+                "ont/homo_sapiens/alignment",
+                "ont/homo_sapiens/alignment/flagstat",
+                "ont/homo_sapiens/alignment/flagstat/homo_sapiens_ont.flagstat",
+                "ont/homo_sapiens/alignment/homo_sapiens_aligned.bam",
+                "ont/homo_sapiens/alignment/homo_sapiens_aligned.bam.bai",
+                "ont/homo_sapiens/alignment/homo_sapiens_haplotagged.bam.bai",
+                "ont/homo_sapiens/dmr_haplotype_level",
+                "ont/homo_sapiens/dmr_haplotype_level/dss",
+                "ont/homo_sapiens/dmr_haplotype_level/dss/homo_sapiens_DSS.log",
+                "ont/homo_sapiens/dmr_haplotype_level/dss/homo_sapiens_DSS_DMLtest.txt",
+                "ont/homo_sapiens/dmr_haplotype_level/dss/homo_sapiens_DSS_callDML.txt",
+                "ont/homo_sapiens/dmr_haplotype_level/dss/homo_sapiens_DSS_callDMR.txt",
+                "ont/homo_sapiens/dmr_haplotype_level/dss/homo_sapiens_preprocessed_1.bed",
+                "ont/homo_sapiens/dmr_haplotype_level/dss/homo_sapiens_preprocessed_2.bed",
+                "ont/homo_sapiens/dmr_haplotype_level/modkit",
+                "ont/homo_sapiens/dmr_haplotype_level/modkit/homo_sapiens_1.bed",
+                "ont/homo_sapiens/dmr_haplotype_level/modkit/homo_sapiens_2.bed",
+                "ont/homo_sapiens/dmr_haplotype_level/modkit/homo_sapiens_ungrouped.bed",
+                "ont/homo_sapiens/fastqc",
+                "ont/homo_sapiens/fastqc/homo_sapiens_ont_fastqc.html",
+                "ont/homo_sapiens/fastqc/homo_sapiens_ont_fastqc.zip",
+                "ont/homo_sapiens/phase",
+                "ont/homo_sapiens/phase/homo_sapiens_haplotagged.bam",
+                "ont/homo_sapiens/phase/homo_sapiens_haplotagged.readlist",
+                "ont/homo_sapiens/phase/homo_sapiens_phased.vcf",
+                "ont/homo_sapiens/pileup",
+                "ont/homo_sapiens/pileup/homo_sapiens.bed.gz",
+                "ont/homo_sapiens/pileup/homo_sapiens_pileup.log",
+                "ont/homo_sapiens/repair",
+                "ont/homo_sapiens/repair/homo_sapiens_repair.log",
+                "ont/homo_sapiens/repair/homo_sapiens_repaired.bam",
+                "ont/homo_sapiens/snvcall",
+                "ont/homo_sapiens/snvcall/homo_sapiens_SNV_PASS.vcf",
+                "ont/homo_sapiens/snvcall/homo_sapiensmerge_output.vcf.gz",
+                "ont/homo_sapiens/snvcall/homo_sapiensmerge_output.vcf.gz.tbi",
+                "ont/homo_sapiens/trim",
+                "ont/homo_sapiens/trim/homo_sapiens.fastq.gz",
+                "ont/homo_sapiens/trim/homo_sapiens.log",
+                "pipeline_info",
+                "pipeline_info/nf_core_methylong_software_mqc_versions.yml"
+            ],
+            [
+                "multiqc_citations.txt:md5,ee1baba4adea57b43a9ae59ce7e1dd7f",
+                "multiqc_general_stats.txt:md5,1c16638497cac94e1db58e4357a5acc8",
+                "multiqc_samtools_flagstat.txt:md5,fdba54ace41086bb3f1ec3619ac36452",
+                "samtools-flagstat-pct-table.txt:md5,2b206e73550707faea58fd0c762ce9a2",
+                "samtools-flagstat-table.txt:md5,d85b96e27bcf53c9a7ad885e6b280ab3",
+                "homo_sapiens_ont.flagstat:md5,8664205b2167ad7783211565ee87d71c",
+                "homo_sapiens_DSS_DMLtest.txt:md5,26fe24ee84562c124ed0d5b5177902a7",
+                "homo_sapiens_DSS_callDML.txt:md5,405ef2b191a7e47f577b003ebfec84e5",
+                "homo_sapiens_DSS_callDMR.txt:md5,68b329da9893e34099c7d8ad5cb9c940",
+                "homo_sapiens_preprocessed_1.bed:md5,e796ffcd505dd58303ecd51b29ab56b8",
+                "homo_sapiens_preprocessed_2.bed:md5,fe904d5fcf6e4f4820c7dfb2e498c9fe",
+                "homo_sapiens_1.bed:md5,28ce53958966d15c001654b17e89df2f",
+                "homo_sapiens_2.bed:md5,8edec65360f0a7cb29de869fc708236d",
+                "homo_sapiens_ungrouped.bed:md5,ea59b50c41a8f656a5ab5b965bddcdea",
+                "homo_sapiens.bed.gz:md5,5006816d886f62eef521fec87257dbcc",
+                "homo_sapiens.fastq.gz:md5,9de5335e8d250471458bf563920a3186"
+            ],
+            "No CRAM files",
+            [
+                "homo_sapiens_aligned.bam.bai:exists,size=376",
+                "homo_sapiens_haplotagged.bam.bai:exists,size=376"
+            ],
+            [
+                "homo_sapiensmerge_output.vcf.gz.tbi:exists,size=131"
+            ],
+            [
+                [
+                    "homo_sapiens_phased.vcf",
+                    "VcfFile [chromosomes=[chr22], sampleCount=1, variantCount=61, phased=false, phasedAutodetect=false]"
+                ],
+                [
+                    "homo_sapiens_SNV_PASS.vcf",
+                    "VcfFile [chromosomes=[chr22], sampleCount=1, variantCount=61, phased=false, phasedAutodetect=false]"
+                ],
+                [
+                    "homo_sapiensmerge_output.vcf.gz",
+                    "VcfFile [chromosomes=[chr22], sampleCount=1, variantCount=81, phased=false, phasedAutodetect=false]"
+                ]
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.2"
+        },
+        "timestamp": "2025-10-27T17:54:16.564745075"
+    }
+}
