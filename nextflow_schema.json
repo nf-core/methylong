@@ -259,6 +259,14 @@
                 "bedgraph": {
                     "type": "boolean",
                     "description": "Indicate if required bedgraphs as output"
+                },
+                "all_contexts": {
+                    "type": "boolean",
+                    "description": "Specify pileup context"
+                },
+                "m6a": {
+                    "type": "boolean",
+                    "description": "Indicate if pileup m6a motif"
                 }
             },
             "fa_icon": "fab fa-buffer"
@@ -309,16 +317,6 @@
                 "dmr_b": {
                     "type": "string",
                     "description": "Another group of DMR analysis in population scale"
-                },
-                "haplotype_context": {
-                    "type": "string",
-                    "description": "Specify context in modkit_pileup_haplotype_level, default is cpg",
-                    "default": "cpg"
-                },
-                "population_context": {
-                    "type": "string",
-                    "description": "Specify context in modkit_pileup_population_scale, default is cpg",
-                    "default": "cpg"
                 }
             },
             "fa_icon": "fas fa-chart-area"

@@ -5,13 +5,11 @@
   </picture>
 </h1>
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/nf-core/methylong)
-[![GitHub Actions CI Status](https://github.com/nf-core/methylong/actions/workflows/nf-test.yml/badge.svg)](https://github.com/nf-core/methylong/actions/workflows/nf-test.yml)
-[![GitHub Actions Linting Status](https://github.com/nf-core/methylong/actions/workflows/linting.yml/badge.svg)](https://github.com/nf-core/methylong/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/methylong/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![GitHub Actions CI Status](https://github.com/nf-core/methylong/actions/workflows/ci.yml/badge.svg)](https://github.com/nf-core/methylong/actions/workflows/ci.yml)
+[![GitHub Actions Linting Status](https://github.com/nf-core/methylong/actions/workflows/linting.yml/badge.svg)](https://github.com/nf-core/methylong/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/methylong/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.15366448-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
 [![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
 
-[![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.04.0-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
-[![nf-core template version](https://img.shields.io/badge/nf--core_template-3.4.1-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/3.4.1)
+[![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A524.04.2-23aa62.svg)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
@@ -32,7 +30,6 @@
 
 1. modcalling (optional)
    - basecall pod5 reads to modBam - `dorado basecaller`
-   - optional: m6A call - `fibertools add-nucleosomes`
 2. trim and repair tags of input modBam
    - trim and repair workflow:
      1. sort modBam - `samtools sort`
@@ -41,21 +38,21 @@
      4. convert trimmed modfastq to modBam - `samtools import`
      5. repair MM/ML tags of trimmed modBam - `modkit repair`
 3. align to reference (plus sorting and indexing) - `dorado aligner`( default) / `minimap2`
+
    - optional: remove previous alignment information before running `dorado aligner` using `samtools reset`
    - include alignment summary - `samtools flagstat`
-
 4. create bedMethyl - `modkit pileup`, 5x base coverage minimum.
-   - optional: extract m6A information into bedMethyl - `fibertools extract`
 5. create bedgraphs (optional)
 
 ### PacBio workflow:
 
 1. modcalling (optional)
-   - modcall bam reads to modBam - `jasmine` (default) or `ccsmeth`
-   - optional: m6A call - `fibertools predict-m6a`
 
+   - modcall bam reads to modBam - `jasmine` (default) or `ccsmeth`
 2. align to reference - `pbmm2` (default) or `minimap2`
+
    - minimap workflow:
+
      1. convert modBam to fastq - `samtools convert`
      2. alignment - `minimap2`
      3. sort and index - `samtools sort`
@@ -65,17 +62,15 @@
      1. alignment and sorting - `pbmm2`
      2. index - `samtools index`
      3. alignment summary - `samtools flagstat`
-
 3. create bedMethyl - `pb-CpG-tools` (default) or `modkit pileup`
+
    - notes about using `pb-CpG-tools` pileup:
+
      - 5x base coverage minimum.
      - 2 pile up methods available from `pb-CpG-tools`:
        1. default using `model`
        2. or `count` (differences described here: https://github.com/PacificBiosciences/pb-CpG-tools)
      - `pb-CpG-tools` by default merge mC signals on CpG into forward strand. To 'force' strand specific signal output, I followed the suggestion mentioned in this issue ([PacificBiosciences/pb-CpG-tools#37](https://github.com/PacificBiosciences/pb-CpG-tools/issues/37)) which uses HP tags to tag forward and reverse reads, so they were output separately.
-
-   - optional: extract m6A information into bedMethyl - `fibertools extract`
-
 4. create bedgraph (optional)
 
 ### Downstream workflow:
@@ -83,10 +78,23 @@
 1. SNV calling - `clair3`
 2. phasing - `whatshap phase`
 3. DMR analysis
+
    - includes DMR haplotype level and population scale:
+
      1. tag reads by haplotype - `whatshap haplotype`
      2. create bedMethyl - `modkit pileup`
      3. DMR - `DSS` (default) or `modkit dmr`
+        - in `DSS` , regions with statistically significant CpG sites will be detected as DMRs.
+
+### Fiberseq workflow:
+
+- ONT alignedBAM
+  1. filtering m6A calls - `modkit call-mods`
+  2. infer nucleosomes and MSPs - `ft add-nuleosomes`
+  3. create bedMethyl - `ft extract`
+- PacBio alignedBAM
+  1. predict m6a and infer nucleosomes - `ft predict-m6a`
+  2. create bedMethyl - `ft extract`
 
 ## Usage
 
@@ -155,7 +163,7 @@ Folder stuctures of the outputs:
 │   ├── basecall
 │   │   └── calls.bam
 │   │
-│   ├── modcall
+│   ├── fiberseq
 │   │   ├── m6acall.bam
 │   │   └── m6a.bed
 │   │
@@ -208,7 +216,9 @@ Folder stuctures of the outputs:
 │   ├── fastqc
 │   │
 │   ├── modcall
-│   │   ├── modbam.bam
+│   │   └── modbam.bam
+│   │
+│   ├── fiberseq
 │   │   ├── m6a_predicted.bam
 │   │   └── m6a.bed
 │   │

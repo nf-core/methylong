@@ -19,6 +19,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [SNV calling](#snv-calling) - germline small variant calls
 - [Phasing](#phasing) - phase genomic variant
 - [DMR analysis](#dmr-analysis) - DMR results
+- [Fiberseq](#fiberseq) - fiberseq results
 - [MultiQC](#multiqc) - Aggregate report describing triming and alignment results and QC from the whole pipeline
 - [Pipeline information](#pipeline-information) - Report metrics generated during the workflow execution
 
@@ -41,14 +42,12 @@ Modcalling includes basecall for ONT pod5 reads and modcall.
 
 <details markdown="1">
 <summary>Output files</summary>
+
 - `basecall/`
   - `*_calls.bam`: reads after basecalling.
 - `modcall/`
   - `*_modbam.bam`: reads after modcalling with MM/ML tags, if pacbio_modcaller is jasmine.
   - `*_ccsmeth_modbam.bam`: reads after modcalling with MM/ML tags, if pacbio_modcaller is ccsmeth.
-  - `*_m6a_predicted.bam`: PacBio reads after m6a calling.
-  - `*_m6acall.bam`: ONT reads after m6a calling.
-  - `*_m6a.bed`: pileup of m6a calls.
 
 </details>
 
@@ -163,6 +162,19 @@ DMR analysis includes haplotype level and population scale, and can be preformed
   - `*_DSS_callDML.txt`: DML
   - `*_DSS_callDMR.txt`: DMR
   - `*_DSS.log`: DSS log
+
+</details>
+
+### Fiberseq
+
+<details markdown="1">
+<summary>Output files</summary>
+
+
+- `fiberseq/`
+  - `*_m6a_predicted.bam`: PacBio reads after m6a calling.
+  - `*_m6acall.bam`: ONT reads after m6a calling.
+  - `*_m6a.bed`: pileup of m6a calls.
 
 </details>
 
