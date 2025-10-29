@@ -39,6 +39,7 @@
      4. convert trimmed modfastq to modBam - `samtools import`
      5. repair MM/ML tags of trimmed modBam - `modkit repair`
 3. align to reference (plus sorting and indexing) - `dorado aligner`( default) / `minimap2`
+
    - optional: remove previous alignment information before running `dorado aligner` using `samtools reset`
    - include alignment summary - `samtools flagstat`
 
@@ -48,10 +49,13 @@
 ### PacBio workflow:
 
 1. modcalling (optional)
+
    - modcall bam reads to modBam - `jasmine` (default) or `ccsmeth`
 
 2. align to reference - `pbmm2` (default) or `minimap2`
+
    - minimap workflow:
+
      1. convert modBam to fastq - `samtools convert`
      2. alignment - `minimap2`
      3. sort and index - `samtools sort`
@@ -63,6 +67,7 @@
      3. alignment summary - `samtools flagstat`
 
 3. create bedMethyl - `pb-CpG-tools` (default) or `modkit pileup`
+
    - notes about using `pb-CpG-tools` pileup:
      - 5x base coverage minimum.
      - 2 pile up methods available from `pb-CpG-tools`:
