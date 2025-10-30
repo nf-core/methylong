@@ -17,107 +17,107 @@
                     },
                     "fibertoolsrs/addnucleosomes": {
                         "branch": "master",
-                        "git_sha": "41bb4c97dfa8e393214dd59f9ba4cc943a6bd970",
+                        "git_sha": "b29fd980347bbb0c0d6abb332c83a2be114b4b89",
                         "installed_by": ["modules"]
                     },
                     "fibertoolsrs/extract": {
                         "branch": "master",
-                        "git_sha": "41bb4c97dfa8e393214dd59f9ba4cc943a6bd970",
+                        "git_sha": "b29fd980347bbb0c0d6abb332c83a2be114b4b89",
                         "installed_by": ["modules"]
                     },
                     "fibertoolsrs/predictm6a": {
                         "branch": "master",
-                        "git_sha": "41bb4c97dfa8e393214dd59f9ba4cc943a6bd970",
+                        "git_sha": "b29fd980347bbb0c0d6abb332c83a2be114b4b89",
                         "installed_by": ["modules"]
                     },
                     "gawk": {
                         "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
                         "installed_by": ["modules"]
                     },
                     "gunzip": {
                         "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
                         "installed_by": ["modules"]
                     },
                     "minimap2/align": {
                         "branch": "master",
-                        "git_sha": "a532706a19b3d83f14b1d48a6a815ed33eb48b0c",
+                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
                         "installed_by": ["modules"]
                     },
                     "modkit/callmods": {
                         "branch": "master",
-                        "git_sha": "a75314948cecf6a16edfa3c734c31163f712047d",
+                        "git_sha": "f274c188ef81409164a74178d15ee3359eeb39d7",
                         "installed_by": ["modules"]
                     },
                     "modkit/pileup": {
                         "branch": "master",
-                        "git_sha": "becd19893f03bfc7a9ad61574b7060584a6cfa90",
+                        "git_sha": "208c242320433d6d32ea7bf5212ee9577c6baa3d",
                         "installed_by": ["modules"]
                     },
                     "modkit/repair": {
                         "branch": "master",
-                        "git_sha": "b5584db74318136acf6c495e3585c601146b1691",
+                        "git_sha": "f274c188ef81409164a74178d15ee3359eeb39d7",
                         "installed_by": ["modules"]
                     },
                     "multiqc": {
                         "branch": "master",
-                        "git_sha": "e10b76ca0c66213581bec2833e30d31f239dec0b",
+                        "git_sha": "af27af1be706e6a2bb8fe454175b0cdf77f47b49",
                         "installed_by": ["modules"]
                     },
                     "pbjasmine": {
                         "branch": "master",
-                        "git_sha": "5cde76650c4a5fe83bc42ed4f7864a429d325b82",
+                        "git_sha": "5e00a5b1453f6ca5e64a3c8034d74e24bc03ef7e",
                         "installed_by": ["modules"]
                     },
                     "pbmm2/align": {
                         "branch": "master",
-                        "git_sha": "09d3392740a0d0a84180b9a40c3a2608716f28f9",
+                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
                         "installed_by": ["modules"]
                     },
                     "pigz/compress": {
                         "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
                         "installed_by": ["modules"]
                     },
                     "porechop/porechop": {
                         "branch": "master",
-                        "git_sha": "dbf496251becaa54933305bb494b880253a84ee6",
+                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
                         "installed_by": ["modules"]
                     },
                     "samtools/faidx": {
                         "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "git_sha": "c8be52dba1166c678e74cda9c3a3c221635c8bb1",
                         "installed_by": ["modules"]
                     },
                     "samtools/fastq": {
                         "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "git_sha": "c8be52dba1166c678e74cda9c3a3c221635c8bb1",
                         "installed_by": ["modules"]
                     },
                     "samtools/flagstat": {
                         "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "git_sha": "e334e12a1e985adc5ffc3fc78a68be1de711de45",
                         "installed_by": ["modules"]
                     },
                     "samtools/import": {
                         "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "git_sha": "c8be52dba1166c678e74cda9c3a3c221635c8bb1",
                         "installed_by": ["modules"]
                     },
                     "samtools/index": {
                         "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "git_sha": "c8be52dba1166c678e74cda9c3a3c221635c8bb1",
                         "installed_by": ["modules"]
                     },
                     "samtools/sort": {
                         "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "git_sha": "c8be52dba1166c678e74cda9c3a3c221635c8bb1",
                         "installed_by": ["modules"]
                     },
                     "tabix/bgziptabix": {
                         "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "git_sha": "f2cfcf9d3f6a2d123e6c44aefa788aa232204a7a",
                         "installed_by": ["modules"]
                     }
                 }
