@@ -72,4 +72,4 @@ Initial release of nf-core/methylong, created with the [nf-core](https://nf-co.r
 
 ### Credits
 
-- speacial thanks to @fellen31 for valuable code review and feedback on the pipeline structure.
+- special thanks to @fellen31 for valuable code review and feedback on the pipeline structure.
