@@ -1,18 +1,18 @@
-Oct-30 11:47:26.905 [main] INFO  com.askimed.nf.test.App - nf-test 0.9.3
-Oct-30 11:47:26.939 [main] INFO  com.askimed.nf.test.App - Arguments: [test, tests/default.nf.test, --profile=+singularity, --updateSnapshot]
-Oct-30 11:47:28.563 [main] INFO  com.askimed.nf.test.App - Nextflow Version: 25.04.2
-Oct-30 11:47:28.566 [main] INFO  com.askimed.nf.test.commands.RunTestsCommand - Load config from file /dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong/nf-test.config...
-Oct-30 11:47:30.443 [main] INFO  com.askimed.nf.test.lang.dependencies.DependencyResolver - Loaded 68 files from directory /dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong in 0.991 sec
-Oct-30 11:47:30.446 [main] INFO  com.askimed.nf.test.lang.dependencies.DependencyResolver - Found 1 files containing tests.
-Oct-30 11:47:30.447 [main] DEBUG com.askimed.nf.test.lang.dependencies.DependencyResolver - Found files: [/dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong/tests/default.nf.test]
-Oct-30 11:47:31.011 [main] INFO  com.askimed.nf.test.commands.RunTestsCommand - Found 1 tests to execute.
-Oct-30 11:47:31.012 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Started test plan
-Oct-30 11:47:31.013 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Running testsuite 'Test pipeline' from file '/dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong/tests/default.nf.test'.
-Oct-30 11:47:31.013 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Run test '4a8ebd5b: -profile test'. type: com.askimed.nf.test.lang.pipeline.PipelineTest
-Oct-30 12:00:34.573 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Load snapshots from file '/dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong/tests/default.nf.test.snap'
-Oct-30 12:00:34.965 [main] DEBUG com.askimed.nf.test.lang.extensions.Snapshot - Snapshots '-profile test' do not match. Update snapshots flag set.
-Oct-30 12:00:34.966 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Updated snapshot '-profile test'
-Oct-30 12:00:35.188 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Wrote snapshots to file '/dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong/tests/default.nf.test.snap'
-Oct-30 12:00:35.189 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Test '4a8ebd5b: -profile test' finished. status: PASSED
-Oct-30 12:00:35.192 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Testsuite 'Test pipeline' finished. snapshot file: true, skipped tests: false, failed tests: false
-Oct-30 12:00:35.194 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Executed 1 tests. 0 tests failed. Done!
+Oct-30 15:30:57.200 [main] INFO  com.askimed.nf.test.App - nf-test 0.9.3
+Oct-30 15:30:57.219 [main] INFO  com.askimed.nf.test.App - Arguments: [test, tests/default.nf.test, --profile=+singularity, --updateSnapshot]
+Oct-30 15:30:58.828 [main] INFO  com.askimed.nf.test.App - Nextflow Version: 25.04.2
+Oct-30 15:30:58.832 [main] INFO  com.askimed.nf.test.commands.RunTestsCommand - Load config from file /dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong/nf-test.config...
+Oct-30 15:31:00.162 [main] INFO  com.askimed.nf.test.lang.dependencies.DependencyResolver - Loaded 68 files from directory /dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong in 0.755 sec
+Oct-30 15:31:00.163 [main] INFO  com.askimed.nf.test.lang.dependencies.DependencyResolver - Found 1 files containing tests.
+Oct-30 15:31:00.164 [main] DEBUG com.askimed.nf.test.lang.dependencies.DependencyResolver - Found files: [/dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong/tests/default.nf.test]
+Oct-30 15:31:00.721 [main] INFO  com.askimed.nf.test.commands.RunTestsCommand - Found 1 tests to execute.
+Oct-30 15:31:00.722 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Started test plan
+Oct-30 15:31:00.723 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Running testsuite 'Test pipeline' from file '/dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong/tests/default.nf.test'.
+Oct-30 15:31:00.723 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Run test '4a8ebd5b: -profile test'. type: com.askimed.nf.test.lang.pipeline.PipelineTest
+Oct-30 15:44:15.752 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Load snapshots from file '/dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong/tests/default.nf.test.snap'
+Oct-30 15:44:16.017 [main] DEBUG com.askimed.nf.test.lang.extensions.Snapshot - Snapshots '-profile test' do not match. Update snapshots flag set.
+Oct-30 15:44:16.017 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Updated snapshot '-profile test'
+Oct-30 15:44:16.235 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Wrote snapshots to file '/dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong/tests/default.nf.test.snap'
+Oct-30 15:44:16.236 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Test '4a8ebd5b: -profile test' finished. status: PASSED
+Oct-30 15:44:16.239 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Testsuite 'Test pipeline' finished. snapshot file: true, skipped tests: false, failed tests: false
+Oct-30 15:44:16.242 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Executed 1 tests. 0 tests failed. Done!

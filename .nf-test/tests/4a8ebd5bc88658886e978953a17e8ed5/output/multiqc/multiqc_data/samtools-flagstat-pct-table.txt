@@ -1,0 +1,2 @@
+Sample	Total Reads	Total Passed QC	Mapped	Supplementary Alignments	Duplicates	Paired in Sequencing	Properly Paired	Self and mate mapped	Singletons	Mate mapped to diff chr	Diff chr (mapQ >= 5)
+homo_sapiens_ont	100.0	100.0	100.0	84.02777777777779	0.0	0.0	0.0	0.0	0.0	0.0	0.0

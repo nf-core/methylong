@@ -71,7 +71,7 @@
                     "whatshap": 2.6
                 },
                 "Workflow": {
-                    "nf-core/methylong": "v2"
+                    "nf-core/methylong": "v2.0.0"
                 }
             },
             [
@@ -187,6 +187,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.04.2"
         },
-        "timestamp": "2025-10-30T12:00:34.966171363"
+        "timestamp": "2025-10-30T15:44:16.017769879"
     }
 }

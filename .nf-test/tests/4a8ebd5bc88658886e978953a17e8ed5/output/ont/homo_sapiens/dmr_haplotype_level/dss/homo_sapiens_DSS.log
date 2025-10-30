@@ -1,0 +1,159 @@
+Loading required package: DSS
+Loading required package: Biobase
+Loading required package: BiocGenerics
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, aperm, append, as.data.frame, basename, cbind,
+    colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
+    get, grep, grepl, intersect, is.unsorted, lapply, Map, mapply,
+    match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
+    Position, rank, rbind, Reduce, rownames, sapply, saveRDS, setdiff,
+    table, tapply, union, unique, unsplit, which.max, which.min
+
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+Loading required package: BiocParallel
+Loading required package: bsseq
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: S4Vectors
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:utils’:
+
+    findMatches
+
+The following objects are masked from ‘package:base’:
+
+    expand.grid, I, unname
+
+Loading required package: IRanges
+
+Attaching package: ‘IRanges’
+
+The following object is masked from ‘package:R.oo’:
+
+    trim
+
+Loading required package: GenomeInfoDb
+Loading required package: SummarizedExperiment
+Loading required package: MatrixGenerics
+Loading required package: matrixStats
+
+Attaching package: ‘matrixStats’
+
+The following objects are masked from ‘package:Biobase’:
+
+    anyMissing, rowMedians
+
+
+Attaching package: ‘MatrixGenerics’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars
+
+The following object is masked from ‘package:Biobase’:
+
+    rowMedians
+
+Loading required package: parallel
+[1] "######################################################################################################################"
+[1] "DSS Arguments:"
+[1] "Case:"
+[1] "/dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong/.nf-test/tests/4a8ebd5bc88658886e978953a17e8ed5/work/42/622745737f93764678bcf119c5ed35/homo_sapiens_preprocessed_1.bed"
+[1] "Control:"
+[1] "/dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong/.nf-test/tests/4a8ebd5bc88658886e978953a17e8ed5/work/42/622745737f93764678bcf119c5ed35/homo_sapiens_preprocessed_2.bed"
+[1] "Output:"
+[1] "/dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong/.nf-test/tests/4a8ebd5bc88658886e978953a17e8ed5/work/42/622745737f93764678bcf119c5ed35/homo_sapiens_DSS"
+[1] "dis_merge:"
+[1] "50"
+[1] "min_len"
+[1] "50"
+[1] "min_CG"
+[1] "3"
+[1] "Smoothing_span"
+[1] "500"
+[1] "smoothing_flag"
+[1] "TRUE"
+[1] "pval_cutoff"
+[1] "0.001"
+[1] "delta"
+[1] "0.05"
+[1] "pct_sig"
+[1] "0.5"
+[1] "equal_disp"
+[1] "TRUE"
+[1] "######################################################################################################################"
+[1] "reading files"
+[[1]]
+[1] "C1"
+
+[[2]]
+[1] "N1"
+
+[[1]]
+[1] "/dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong/.nf-test/tests/4a8ebd5bc88658886e978953a17e8ed5/work/42/622745737f93764678bcf119c5ed35/homo_sapiens_preprocessed_1.bed"
+
+[[2]]
+[1] "/dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong/.nf-test/tests/4a8ebd5bc88658886e978953a17e8ed5/work/42/622745737f93764678bcf119c5ed35/homo_sapiens_preprocessed_2.bed"
+
+[1] "Reading file: /dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong/.nf-test/tests/4a8ebd5bc88658886e978953a17e8ed5/work/42/622745737f93764678bcf119c5ed35/homo_sapiens_preprocessed_1.bed"
+    chr pos N X
+1 chr22 441 6 0
+2 chr22 441 6 0
+3 chr22 621 5 0
+4 chr22 621 5 0
+5 chr22 685 5 0
+6 chr22 685 5 0
+[1] "Reading file: /dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong/.nf-test/tests/4a8ebd5bc88658886e978953a17e8ed5/work/42/622745737f93764678bcf119c5ed35/homo_sapiens_preprocessed_2.bed"
+    chr pos N X
+1 chr22 441 2 0
+2 chr22 441 2 0
+3 chr22 621 1 0
+4 chr22 621 1 0
+5 chr22 685 1 0
+6 chr22 685 1 0
+[1] "DMA process started"
+[1] "C1" "N1"
+Warning message:
+In BSseq(chr = alldat$chr, pos = pos.ordered, M = M.ordered, Cov = Cov.ordered) :
+  Detected duplicate loci. Collapsing counts in 'M' and 'Cov' at these positions.
+[1] "DMLtest, smoothing=TRUE"
+An object of type 'BSseq' with
+  755 methylation loci
+  2 samples
+has not been smoothed
+All assays are in-memory
+Estimating dispersion for each CpG site, this will take a while ...
+Warning message:
+In callDMR(test, delta = del, p.threshold = pv, minlen = min_len,  :
+  No DMR found! Please use less stringent criteria. 
+
+===DSS call DMR costs 21.8 seconds

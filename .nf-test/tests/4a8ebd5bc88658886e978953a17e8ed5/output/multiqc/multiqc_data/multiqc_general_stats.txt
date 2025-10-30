@@ -1,0 +1,2 @@
+Sample	samtools_flagstat-flagstat_total	samtools_flagstat-mapped_passed	samtools_flagstat-mapped_passed_pct
+homo_sapiens_ont	0.000144	0.000144	100.0
