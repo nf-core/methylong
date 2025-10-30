@@ -48,11 +48,11 @@ workflow ONT_TRIM_REPAIR {
 
         versions = versions.mix(SAMTOOLS_RESET.out.versions.first())
 
-        SAMTOOLS_SORT(ch_reset_bam, [[],[]])
+        SAMTOOLS_SORT(ch_reset_bam, [[],[]], 'bai')
 
     } else {
 
-        SAMTOOLS_SORT(ch_sort_in, [[],[]])
+        SAMTOOLS_SORT(ch_sort_in, [[],[]], 'bai')
 
     }
 

@@ -25,6 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | `ccsmeth`    |             | 0.5.0       |
 | `DSS`        |             | 2.54.0      |
 | `fibertools` |             | 0.6.4       |
+| `modkit`     | 0.4.4       | 0.5.0       |
+| `samtools`   | 1.21        | 1.22.1      |
 
 ### `Deprecated`
 

@@ -1,0 +1,2 @@
+Module	Section	Sample Name	Source
+Samtools	flagstat	homo_sapiens_ont	/dss/dsslegfs01/pn73so/pn73so-dss-0000/becker_common/Jin/methylong_pull_request/PR_v2/methylong/.nf-test/tests/4a8ebd5bc88658886e978953a17e8ed5/work/90/dfa62133a0a8edeb5a2cf012299904/3/homo_sapiens_ont.flagstat

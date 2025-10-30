@@ -1,0 +1,48 @@
+CLAIR3:
+  clair3: 1.2.0
+DSS:
+  R: 4.4.2
+FASTQC:
+  fastqc: 0.12.1
+GAWK:
+  gawk: 5.3.0
+GAWK_1:
+  gawk: 5.3.0
+GAWK_2:
+  gawk: 5.3.0
+GUNZIP:
+  gunzip: 1.13
+MODKIT_PILEUP:
+  modkit: modkit 0.5.0
+MODKIT_PILEUP_HAPLOTYPE_LEVEL:
+  modkit: modkit 0.5.0
+MODKIT_REPAIR:
+  modkit: 0.5.0
+ONT_MINIMAP2_ALIGN:
+  minimap2: 2.29-r1283
+  samtools: 1.21
+PIGZ_COMPRESS:
+  pigz: 2.8
+PORECHOP_PORECHOP:
+  porechop: 0.2.4
+SAMTOOLS_FAIDX:
+  samtools: 1.22.1
+SAMTOOLS_FASTQ:
+  samtools: 1.22.1
+SAMTOOLS_FLAGSTAT:
+  samtools: 1.22.1
+SAMTOOLS_IMPORT:
+  samtools: 1.22.1
+SAMTOOLS_INDEX:
+  samtools: 1.22.1
+SAMTOOLS_SORT:
+  samtools: 1.22.1
+TABIX_BGZIPTABIX:
+  tabix: 1.21
+WHATSHAP_HAPLOTAG:
+  whatshap: 2.6
+WHATSHAP_PHASE:
+  whatshap: 2.6
+Workflow:
+    nf-core/methylong: v2
+    Nextflow: 25.04.2

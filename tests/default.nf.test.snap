@@ -25,13 +25,13 @@
                     "gunzip": 1.13
                 },
                 "MODKIT_PILEUP": {
-                    "modkit": "0.4.4"
+                    "modkit": "modkit 0.5.0"
                 },
                 "MODKIT_PILEUP_HAPLOTYPE_LEVEL": {
-                    "modkit": "0.4.4"
+                    "modkit": "modkit 0.5.0"
                 },
                 "MODKIT_REPAIR": {
-                    "modkit": "0.4.3"
+                    "modkit": "0.5.0"
                 },
                 "ONT_MINIMAP2_ALIGN": {
                     "minimap2": "2.29-r1283",
@@ -44,22 +44,22 @@
                     "porechop": "0.2.4"
                 },
                 "SAMTOOLS_FAIDX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_FASTQ": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_FLAGSTAT": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_IMPORT": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_INDEX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_SORT": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "TABIX_BGZIPTABIX": {
                     "tabix": 1.21
@@ -71,7 +71,7 @@
                     "whatshap": 2.6
                 },
                 "Workflow": {
-                    "nf-core/methylong": "v1.0.0"
+                    "nf-core/methylong": "v2"
                 }
             },
             [
@@ -130,8 +130,8 @@
                 "ont/homo_sapiens/pileup/homo_sapiens.bed.gz",
                 "ont/homo_sapiens/pileup/homo_sapiens_pileup.log",
                 "ont/homo_sapiens/repair",
-                "ont/homo_sapiens/repair/homo_sapiens_repair.log",
                 "ont/homo_sapiens/repair/homo_sapiens_repaired.bam",
+                "ont/homo_sapiens/repair/homo_sapiens_repaired.log",
                 "ont/homo_sapiens/snvcall",
                 "ont/homo_sapiens/snvcall/homo_sapiens_SNV_PASS.vcf",
                 "ont/homo_sapiens/snvcall/homo_sapiensmerge_output.vcf.gz",
@@ -157,7 +157,7 @@
                 "homo_sapiens_1.bed:md5,28ce53958966d15c001654b17e89df2f",
                 "homo_sapiens_2.bed:md5,8edec65360f0a7cb29de869fc708236d",
                 "homo_sapiens_ungrouped.bed:md5,ea59b50c41a8f656a5ab5b965bddcdea",
-                "homo_sapiens.bed.gz:md5,5006816d886f62eef521fec87257dbcc",
+                "homo_sapiens.bed.gz:md5,401e2a44b482f96d3518c08b9c007936",
                 "homo_sapiens.fastq.gz:md5,9de5335e8d250471458bf563920a3186"
             ],
             "No CRAM files",
@@ -187,6 +187,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.04.2"
         },
-        "timestamp": "2025-10-27T17:54:16.564745075"
+        "timestamp": "2025-10-30T12:00:34.966171363"
     }
 }
