@@ -1,6 +1,0 @@
-[modkit-logging/src/lib.rs::69][2025-10-30 15:32:22][DEBUG] command line: modkit repair --threads 4 --donor-bam homo_sapiens.sorted.bam --acceptor-bam homo_sapiens_after_trim.bam --output-bam homo_sapiens_repaired.bam --log-filepath ./homo_sapiens_repaired.log
-[modkit-core/src/repair_tags.rs::50][2025-10-30 15:32:22][WARN] in the next version of modkit this command will be `modkit modbam repair`
-[modkit-core/src/repair_tags.rs::62][2025-10-30 15:32:22][DEBUG] assigning 1 to each reader and using 2 to process records
-[modkit-core/src/repair_tags.rs::78][2025-10-30 15:32:22][INFO] repairing records in homo_sapiens_after_trim.bam with base modification information in homo_sapiens.sorted.bam
-[modkit-core/src/repair_tags.rs::296][2025-10-30 15:32:22][DEBUG] exhausted acceptor BAM reader, finished.
-[modkit-core/src/repair_tags.rs::157][2025-10-30 15:32:22][INFO] finished, repaired 23 records, 0 failed.

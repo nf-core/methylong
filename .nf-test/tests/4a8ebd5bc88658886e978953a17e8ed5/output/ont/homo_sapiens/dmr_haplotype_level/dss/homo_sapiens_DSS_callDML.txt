@@ -1,1 +1,0 @@
-chr	pos	mu1	mu2	diff	diff.se	stat	phi1	phi2	pval	fdr	postprob.overThreshold
