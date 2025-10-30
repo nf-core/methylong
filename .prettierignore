@@ -12,3 +12,4 @@ testing*
 bin/
 .nf-test/
 ro-crate-metadata.json
+modules/nf-core/**/meta.yml

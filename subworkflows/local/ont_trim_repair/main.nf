@@ -9,7 +9,7 @@ include { SAMTOOLS_FASTQ    } from '../../../modules/nf-core/samtools/fastq/main
 include { SAMTOOLS_SORT     } from '../../../modules/nf-core/samtools/sort/main'
 include { PORECHOP_PORECHOP } from '../../../modules/nf-core/porechop/porechop/main'
 include { SAMTOOLS_IMPORT   } from '../../../modules/nf-core/samtools/import/main'
-include { MODKIT_REPAIR     } from '../../../modules/local/modkit/repair/main'
+include { MODKIT_REPAIR     } from '../../../modules/nf-core/modkit/repair/main'
 include { RENAME_FASTQ      } from '../../../modules/local/rename_fastq/main'
 include { SAMTOOLS_RESET    } from '../../../modules/local/samtools/reset/main'
 
@@ -48,11 +48,11 @@ workflow ONT_TRIM_REPAIR {
 
         versions = versions.mix(SAMTOOLS_RESET.out.versions.first())
 
-        SAMTOOLS_SORT(ch_reset_bam, [[],[]])
+        SAMTOOLS_SORT(ch_reset_bam, [[],[]], 'bai')
 
     } else {
 
-        SAMTOOLS_SORT(ch_sort_in, [[],[]])
+        SAMTOOLS_SORT(ch_sort_in, [[],[]], 'bai')
 
     }
 

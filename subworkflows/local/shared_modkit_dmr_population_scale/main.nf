@@ -6,7 +6,7 @@
 
 include { MODKIT_DMR_POPULATION_SCALE_PREPROCESS as PREPROCESS_A } from './preprocess/main'
 include { MODKIT_DMR_POPULATION_SCALE_PREPROCESS as PREPROCESS_B } from './preprocess/main'
-include { MODKIT_DMR as DMR_POPULATION_SCALE                     } from '../../../modules/local/modkit/dmr/main'
+include { MODKIT_DMRPAIR as DMR_POPULATION_SCALE                 } from '../../../modules/local/modkit/dmrpair/main'
 
 /*
 ===========================================

@@ -5,7 +5,7 @@
  */
 
 include { MODKIT_PILEUP as MODKIT_PILEUP_HAPLOTYPE_LEVEL } from '../../../modules/nf-core/modkit/pileup/main'
-include { MODKIT_DMR    as DMR_HAPLOTYPE_LEVEL           } from '../../../modules/local/modkit/dmr/main'
+include { MODKIT_DMRPAIR    as DMR_HAPLOTYPE_LEVEL       } from '../../../modules/local/modkit/dmrpair/main'
 include { TABIX_BGZIPTABIX as TABIX_BGZIPTABIX_1         } from '../../../modules/nf-core/tabix/bgziptabix/main'
 include { TABIX_BGZIPTABIX as TABIX_BGZIPTABIX_2         } from '../../../modules/nf-core/tabix/bgziptabix/main'
 

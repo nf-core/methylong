@@ -1,8 +1,9 @@
 process DORADO_BASECALLER {
     tag "${meta.id}"
     label 'process_high'
+    label 'process_gpu'
 
-    container "docker.io/nanoporetech/dorado:sha268dcb4cd02093e75cdc58821f8b93719c4255ed"
+    container "docker.io/nanoporetech/dorado:shae423e761540b9d08b526a1eb32faf498f32e8f22"
 
     input:
     tuple val(meta), path(pod5_path)
@@ -19,18 +20,19 @@ process DORADO_BASECALLER {
     def prefix        = task.ext.prefix ?: "${meta.id}"
     def dorado_model  = params.dorado_model
     def modification  = "--modified-bases $params.dorado_modification"
-    // def dorado_device = params.dorado_device       ? "--device $params.dorado_device" : "--device cuda:all"
+    def use_gpu       = task.ext.use_gpu ? "--device cuda:all" : ""
 
     """
 
-    ${dorado_model != 'hac' ? "dorado download --model $dorado_model" : ""}
+    ${!(dorado_model in ['hac','sup']) ? "dorado download --model $dorado_model" : ""}
 
     dorado basecaller \\
         $args \\
         $dorado_model \\
         $pod5_path \\
         $modification \\
-        > ${prefix}_calls.bam
+        $use_gpu \\
+        > ${prefix}.bam
 
     cat <<-END_VERSIONS > versions.yml
 
@@ -44,6 +46,7 @@ process DORADO_BASECALLER {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
+    echo $args
     touch ${prefix}/${prefix}.bam
 
     cat <<-END_VERSIONS > versions.yml

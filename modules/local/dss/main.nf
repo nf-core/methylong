@@ -48,6 +48,7 @@ process DSS {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
+    echo $args
     touch ${prefix}.txt
     touch ${prefix}.log
 

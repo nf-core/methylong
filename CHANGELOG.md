@@ -14,19 +14,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `fibertools` modules for m6A call
 - Change the input samplesheet structure
 
-### `Fixed`
-
 ### `Dependencies`
 
 | Dependency   | Old version | New version |
 | ------------ | ----------- | ----------- |
-| `dorado`     |             | 0.9.5       |
+| `dorado`     | 0.9.5       | 1.1.1       |
 | `jasmine`    |             | 2.4.0       |
 | `ccsmeth`    |             | 0.5.0       |
 | `DSS`        |             | 2.54.0      |
 | `fibertools` |             | 0.6.4       |
+| `modkit`     | 0.4.4       | 0.5.0       |
+| `samtools`   | 1.21        | 1.22.1      |
 
-### `Deprecated`
+### Requirements
+
+- Nextflow `>=25.04.0`
+
+### Contributors
+
+- @YiJin-Xiong for implementing `fiberseq`, `dmr calling` subworkflows.
+- @jkh00 for code review, suggestions and template updates.
 
 ## v1.1.0 - [2025-05-28]
 
@@ -47,7 +54,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | `whatshap` |             | 2.6         |
 | `gawk`     |             | 5.3.0       |
 
-### `Deprecated`
+### New Contributors
+
+- New subworkflows were created by @YiJin-Xiong
 
 ## v1.0.0 'Niveous Tiger' - [2025-05-08]
 
@@ -60,3 +69,7 @@ Initial release of nf-core/methylong, created with the [nf-core](https://nf-co.r
 ### `Dependencies`
 
 ### `Deprecated`
+
+### Credits
+
+- special thanks to @fellen31 for valuable code review and feedback on the pipeline structure.

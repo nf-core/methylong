@@ -32,7 +32,6 @@
 
 1. modcalling (optional)
    - basecall pod5 reads to modBam - `dorado basecaller`
-   - optional: m6A call - `fibertools add-nucleosomes`
 2. trim and repair tags of input modBam
    - trim and repair workflow:
      1. sort modBam - `samtools sort`
@@ -45,14 +44,12 @@
    - include alignment summary - `samtools flagstat`
 
 4. create bedMethyl - `modkit pileup`, 5x base coverage minimum.
-   - optional: extract m6A information into bedMethyl - `fibertools extract`
 5. create bedgraphs (optional)
 
 ### PacBio workflow:
 
 1. modcalling (optional)
    - modcall bam reads to modBam - `jasmine` (default) or `ccsmeth`
-   - optional: m6A call - `fibertools predict-m6a`
 
 2. align to reference - `pbmm2` (default) or `minimap2`
    - minimap workflow:
@@ -74,8 +71,6 @@
        2. or `count` (differences described here: https://github.com/PacificBiosciences/pb-CpG-tools)
      - `pb-CpG-tools` by default merge mC signals on CpG into forward strand. To 'force' strand specific signal output, I followed the suggestion mentioned in this issue ([PacificBiosciences/pb-CpG-tools#37](https://github.com/PacificBiosciences/pb-CpG-tools/issues/37)) which uses HP tags to tag forward and reverse reads, so they were output separately.
 
-   - optional: extract m6A information into bedMethyl - `fibertools extract`
-
 4. create bedgraph (optional)
 
 ### Downstream workflow:
@@ -87,6 +82,17 @@
      1. tag reads by haplotype - `whatshap haplotype`
      2. create bedMethyl - `modkit pileup`
      3. DMR - `DSS` (default) or `modkit dmr`
+        - in `DSS` , regions with statistically significant CpG sites will be detected as DMRs.
+
+### Fiberseq workflow:
+
+- ONT alignedBAM
+  1. filtering m6A calls - `modkit call-mods`
+  2. infer nucleosomes and MSPs - `ft add-nuleosomes`
+  3. create bedMethyl - `ft extract`
+- PacBio alignedBAM
+  1. predict m6a and infer nucleosomes - `ft predict-m6a`
+  2. create bedMethyl - `ft extract`
 
 ## Usage
 
@@ -155,6 +161,10 @@ Folder stuctures of the outputs:
 │   ├── basecall
 │   │   └── calls.bam
 │   │
+│   ├── fiberseq
+│   │   ├── m6acall.bam
+│   │   └── m6a.bed
+│   │
 │   ├── trim
 │   │   ├── trimmed.fastq.gz
 │   │   └── trimmed.log
@@ -204,7 +214,9 @@ Folder stuctures of the outputs:
 │   ├── fastqc
 │   │
 │   ├── modcall
-│   │   ├── modbam.bam
+│   │   └── modbam.bam
+│   │
+│   ├── fiberseq
 │   │   ├── m6a_predicted.bam
 │   │   └── m6a.bed
 │   │
@@ -274,11 +286,7 @@ For further information or help, don't hesitate to get in touch on the [Slack `#
 
 ## Citations
 
-<!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
-
 If you use nf-core/methylong for your analysis, please cite it using the following doi: [10.5281/zenodo.15366448](https://doi.org/10.5281/zenodo.15366448)
-
-<!-- TODO nf-core: Add bibliography of tools and data used in your pipeline -->
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 

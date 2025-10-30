@@ -1,5 +1,13 @@
 /*
 ===========================================
+ * Import modules
+===========================================
+ */
+
+include { DORADO_BASECALLER                } from '../../modules/local/dorado/basecaller/main'
+
+/*
+===========================================
  * Import subworkflows
 ===========================================
  */
@@ -9,9 +17,7 @@ include { ONT_ALIGN                        } from './ont_align/main'
 include { ONT_TRIM_REPAIR                  } from './ont_trim_repair/main'
 include { BED2BEDGRAPH                     } from './shared_bed2bedgraph/main'
 include { INDEX_MODKIT_PILEUP              } from './shared_modkit_pileup/main'
-include { ONT_M6ACALL                      } from './ont_m6acall/main'
-include { ONT_BASECALL                     } from './ont_basecall/main'
-include { SHARED_FIBERTOOLS_EXTRACT        } from './shared_fibertools_extract/main'
+include { ONT_FIBERSEQ                     } from './ont_fiberseq/main'
 
 /*
 ===========================================
@@ -33,35 +39,22 @@ workflow ONT {
 
     ch_input
         .filter { it[1].toString().endsWith('.pod5') || file(it[1]).isDirectory() }
+        .map { meta, pod5, _ref -> [meta, pod5] }
         .set { ch_pod5 }
 
-    ONT_BASECALL(ch_pod5)
+    DORADO_BASECALLER(ch_pod5)
 
-    ont_versions = ont_versions.mix(ONT_BASECALL.out.versions)
+    ont_versions = ont_versions.mix(DORADO_BASECALLER.out.versions.first())
 
-    ONT_BASECALL.out.ch_pile_in
-        .mix( ch_input.filter { it[1].toString().endsWith('.bam') } )
-        .set{ ch_input }
-
-    // m6acall
-
-    if (params.m6a) {
-
-        ONT_M6ACALL(ch_input)
-
-        ont_versions = ont_versions.mix(ONT_M6ACALL.out.versions)
-
-        ONT_M6ACALL.out.ch_modbam.set{ input }
-
-    } else {
-
-        ch_input.set{ input }
-
-    }
+    ch_input
+        .join ( DORADO_BASECALLER.out.bam )
+        .map { meta, _pod5, ref, modbam -> [meta, modbam, ref] }
+        .mix ( ch_input.filter { it[1].toString().endsWith('.bam') } )
+        .set { ch_input }
 
     // fastq and gunzip
 
-    FASTQ_UNZIP(input)
+    FASTQ_UNZIP(ch_input)
 
     ont_versions = ont_versions.mix(FASTQ_UNZIP.out.versions)
     map_stat = map_stat.mix(FASTQ_UNZIP.out.fastqc_log.collect { it[1] }.ifEmpty([]))
@@ -78,7 +71,7 @@ workflow ONT {
             ont_versions = ont_versions.mix(ONT_ALIGN.out.versions)
             map_stat = ONT_ALIGN.out.flagstat_out
 
-            INDEX_MODKIT_PILEUP(ONT_ALIGN.out.ch_pile_in)
+            INDEX_MODKIT_PILEUP(ch_pile_in)
 
             ont_versions = ont_versions.mix(INDEX_MODKIT_PILEUP.out.versions)
 
@@ -94,7 +87,7 @@ workflow ONT {
             ont_versions = ont_versions.mix(ONT_ALIGN.out.versions)
             map_stat = ONT_ALIGN.out.flagstat_out
 
-            INDEX_MODKIT_PILEUP(ONT_ALIGN.out.ch_pile_in)
+            INDEX_MODKIT_PILEUP(ch_pile_in)
 
             ont_versions = ont_versions.mix(INDEX_MODKIT_PILEUP.out.versions)
         }
@@ -112,7 +105,7 @@ workflow ONT {
             ont_versions = ont_versions.mix(ONT_ALIGN.out.versions)
             map_stat = ONT_ALIGN.out.flagstat_out
 
-            INDEX_MODKIT_PILEUP(ONT_ALIGN.out.ch_pile_in)
+            INDEX_MODKIT_PILEUP(ch_pile_in)
 
             ont_versions = ont_versions.mix(INDEX_MODKIT_PILEUP.out.versions)
 
@@ -132,18 +125,21 @@ workflow ONT {
             ont_versions = ont_versions.mix(ONT_ALIGN.out.versions)
             map_stat = ONT_ALIGN.out.flagstat_out
 
-            INDEX_MODKIT_PILEUP(ONT_ALIGN.out.ch_pile_in)
+            INDEX_MODKIT_PILEUP(ch_pile_in)
 
             ont_versions = ont_versions.mix(INDEX_MODKIT_PILEUP.out.versions)
 
         }
     }
 
-    if (params.m6a) {
 
-        SHARED_FIBERTOOLS_EXTRACT(ch_pile_in)
+    // fiberseq
 
-        ont_versions = ont_versions.mix(SHARED_FIBERTOOLS_EXTRACT.out.versions)
+    if (params.fiberseq) {
+
+        ONT_FIBERSEQ(ch_pile_in)
+
+        ont_versions = ont_versions.mix(ONT_FIBERSEQ.out.versions)
 
     }
 

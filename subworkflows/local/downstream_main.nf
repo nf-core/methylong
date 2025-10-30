@@ -10,7 +10,7 @@ include { WHATSHAP                         } from './shared_whatshap/main'
 include { MODKIT_DMR_HAPLOTYPE_LEVEL       } from './shared_modkit_dmr_haplotype_level/main'
 include { DSS_HAPLOTYPE_LEVEL              } from './shared_dss_haplotype_level/main'
 include { MODKIT_DMR_POPULATION_SCALE      } from './shared_modkit_dmr_population_scale/main'
-include { DSS_DMR_POPULATION_SCALE             } from './shared_dss_population_scale/main'
+include { DSS_DMR_POPULATION_SCALE         } from './shared_dss_population_scale/main'
 
 /*
 ===========================================

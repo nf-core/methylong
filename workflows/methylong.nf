@@ -6,14 +6,12 @@
 
 include { PACBIO                 } from '../subworkflows/local/Pacbio_main'
 include { ONT                    } from '../subworkflows/local/ONT_main'
-include { FASTQ_UNZIP            } from '../subworkflows/local/shared_fastqc_unzip/main'
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
 include { paramsSummaryMap       } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_methylong_pipeline'
 include { DOWNSTREAM             } from '../subworkflows/local/downstream_main'
-include { ONT_BASECALL           } from '../subworkflows/local/ont_basecall/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

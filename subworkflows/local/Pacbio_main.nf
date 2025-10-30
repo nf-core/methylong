@@ -1,5 +1,15 @@
 /*
 ===========================================
+ * Import modules
+===========================================
+ */
+
+include { CCSMETH_CALLMODS                 } from '../../modules/local/ccsmeth/callmods/main'
+include { CCSMETH_CALLFREQB                } from '../../modules/local/ccsmeth/callfreqb/main'
+include { PBJASMINE                        } from '../../modules/nf-core/pbjasmine/main'
+
+/*
+===========================================
  * Import subworkflows
 ===========================================
  */
@@ -10,10 +20,7 @@ include { PACBIO_ALIGN_PBMM2               } from './pacbio_align_pbmm2/main'
 include { PACBIO_SPLIT_STRAND_PBCPG_PILEUP } from './pacbio_split_strand_pbcpg_pileup/main'
 include { BED2BEDGRAPH                     } from './shared_bed2bedgraph/main'
 include { INDEX_MODKIT_PILEUP              } from './shared_modkit_pileup/main'
-include { PACBIO_MODCALL_JASMINE           } from './pacbio_modcall_jasmine/main'
-include { PACBIO_MODCALL_CCSMETH           } from './pacbio_modcall_ccsmeth/main'
-include { PACBIO_M6ACALL                   } from './pacbio_m6acall/main'
-include { SHARED_FIBERTOOLS_EXTRACT        } from './shared_fibertools_extract/main'
+include { PACBIO_FIBERSEQ                  } from './pacbio_fiberseq/main'
 
 /*
 ===========================================
@@ -36,50 +43,39 @@ workflow PACBIO {
 
     if (params.pacbio_modcall){
 
+        ch_input
+                .map { meta, bam, _ref -> [meta, bam] }
+                .set { ch_bam_in }
+
         if (params.pacbio_modcaller == "ccsmeth") {
 
-            PACBIO_MODCALL_CCSMETH(ch_input)
+            CCSMETH_CALLMODS(ch_bam_in)
 
-            pacbio_versions = pacbio_versions.mix(PACBIO_MODCALL_CCSMETH.out.versions)
+            pacbio_versions = pacbio_versions.mix(CCSMETH_CALLMODS.out.versions.first())
 
-            PACBIO_MODCALL_CCSMETH.out.ch_pile_in.set{ input_modbam }
+            ch_modbam = CCSMETH_CALLMODS.out.modbam
 
         } else {
 
             // default modcaller is jasmine
 
-            PACBIO_MODCALL_JASMINE(ch_input)
+            PBJASMINE(ch_bam_in)
 
-            pacbio_versions = pacbio_versions.mix(PACBIO_MODCALL_JASMINE.out.versions)
+            pacbio_versions = pacbio_versions.mix(PBJASMINE.out.versions.first())
 
-            PACBIO_MODCALL_JASMINE.out.ch_pile_in.set{ input_modbam }
-
-        }
-
-    }
-
-    // m6acall
-
-    if (params.m6a) {
-
-        if (params.pacbio_modcall) {
-
-            PACBIO_M6ACALL(input_modbam)
-
-        } else {
-
-            PACBIO_M6ACALL(ch_input)
+            ch_modbam = PBJASMINE.out.bam
 
         }
 
-        pacbio_versions = pacbio_versions.mix(PACBIO_M6ACALL.out.versions)
+        ch_input
+            .join(ch_modbam)
+            .map { meta, _bam, ref, modbam -> [meta, modbam, ref] }
+            .set { input_modbam }
 
-        PACBIO_M6ACALL.out.ch_modbam.set{ input_modbam }
+    } else {
 
-    }
-
-    if (!params.pacbio_modcall && !params.m6a) {
         ch_input.set { input_modbam }
+
     }
 
     // fastq and gunzip
@@ -175,11 +171,26 @@ workflow PACBIO {
 
     }
 
-    if (params.m6a) {
+    if (params.pacbio_modcaller == "ccsmeth") {
 
-        SHARED_FIBERTOOLS_EXTRACT(ch_pile_in)
+        ch_pile_in
+            .multiMap { meta, bam, _bai, ref ->
+                    bam_in: [meta, bam]
+                    ref_in: [meta, ref]
+            }
+            .set { ch_ccsmeth_in }
 
-        pacbio_versions = pacbio_versions.mix(SHARED_FIBERTOOLS_EXTRACT.out.versions)
+        CCSMETH_CALLFREQB( ch_ccsmeth_in.bam_in, ch_ccsmeth_in.ref_in )
+
+        pacbio_versions = pacbio_versions.mix(CCSMETH_CALLFREQB.out.versions.first())
+
+    }
+
+    if (params.fiberseq) {
+
+        PACBIO_FIBERSEQ(ch_pile_in)
+
+        pacbio_versions = pacbio_versions.mix(PACBIO_FIBERSEQ.out.versions)
 
     }
 
