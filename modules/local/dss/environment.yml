@@ -5,3 +5,4 @@ channels:
   - bioconda
 dependencies:
   - bioconductor-dss=2.54.0
+  - conda-forge::r-base=4.4.2
