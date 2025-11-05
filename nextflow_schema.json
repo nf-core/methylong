@@ -167,8 +167,8 @@
                 },
                 "dorado_modification": {
                     "type": "string",
-                    "default": "5mCG_5hmCG",
-                    "description": "Specify dorado modification, default is 5mCG_5hmCG, other available modifications can be found on Dorado's GitHub repository."
+                    "default": "5mC_5hmC",
+                    "description": "Specify dorado modification, default is 5mC_5hmC, other available modifications can be found on Dorado's GitHub repository."
                 },
                 "pacbio_modcall": {
                     "type": "boolean",
