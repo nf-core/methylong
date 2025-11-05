@@ -7,7 +7,7 @@
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/nf-core/methylong)
 [![GitHub Actions CI Status](https://github.com/nf-core/methylong/actions/workflows/nf-test.yml/badge.svg)](https://github.com/nf-core/methylong/actions/workflows/nf-test.yml)
-[![GitHub Actions Linting Status](https://github.com/nf-core/methylong/actions/workflows/linting.yml/badge.svg)](https://github.com/nf-core/methylong/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/methylong/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![GitHub Actions Linting Status](https://github.com/nf-core/methylong/actions/workflows/linting.yml/badge.svg)](https://github.com/nf-core/methylong/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/methylong/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.15366449)
 [![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
 
 [![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.04.0-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
@@ -31,7 +31,7 @@
 ### ONT workflow:
 
 1. modcalling (optional)
-   - basecall pod5 reads to modBam - `dorado basecaller`
+   - basecall pod5 reads to modBam - `dorado basecaller sup --modified-bases 5mC_5hmC` (default)
 2. trim and repair tags of input modBam
    - trim and repair workflow:
      1. sort modBam - `samtools sort`
@@ -42,7 +42,6 @@
 3. align to reference (plus sorting and indexing) - `dorado aligner`( default) / `minimap2`
    - optional: remove previous alignment information before running `dorado aligner` using `samtools reset`
    - include alignment summary - `samtools flagstat`
-
 4. create bedMethyl - `modkit pileup`, 5x base coverage minimum.
 5. create bedgraphs (optional)
 

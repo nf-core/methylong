@@ -162,13 +162,13 @@
             "properties": {
                 "dorado_model": {
                     "type": "string",
-                    "default": "hac",
-                    "description": "Specify dorado model, default is hac, other available models can be found on Dorado's GitHub repository."
+                    "default": "sup",
+                    "description": "Specify dorado model, default is sup, other available models can be found on Dorado's GitHub repository."
                 },
                 "dorado_modification": {
                     "type": "string",
-                    "default": "5mCG_5hmCG",
-                    "description": "Specify dorado modification, default is 5mCG_5hmCG, other available modifications can be found on Dorado's GitHub repository."
+                    "default": "5mC_5hmC",
+                    "description": "Specify dorado modification, default is 5mC_5hmC, other available modifications can be found on Dorado's GitHub repository."
                 },
                 "pacbio_modcall": {
                     "type": "boolean",
