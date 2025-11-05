@@ -162,8 +162,8 @@
             "properties": {
                 "dorado_model": {
                     "type": "string",
-                    "default": "hac",
-                    "description": "Specify dorado model, default is hac, other available models can be found on Dorado's GitHub repository."
+                    "default": "sup",
+                    "description": "Specify dorado model, default is sup, other available models can be found on Dorado's GitHub repository."
                 },
                 "dorado_modification": {
                     "type": "string",

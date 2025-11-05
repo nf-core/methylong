@@ -31,7 +31,7 @@
 ### ONT workflow:
 
 1. modcalling (optional)
-   - basecall pod5 reads to modBam - `dorado basecaller`
+   - basecall pod5 reads to modBam - `dorado basecaller sup --modified-bases 5mC_5hmC` (default)
 2. trim and repair tags of input modBam
    - trim and repair workflow:
      1. sort modBam - `samtools sort`
@@ -42,7 +42,6 @@
 3. align to reference (plus sorting and indexing) - `dorado aligner`( default) / `minimap2`
    - optional: remove previous alignment information before running `dorado aligner` using `samtools reset`
    - include alignment summary - `samtools flagstat`
-
 4. create bedMethyl - `modkit pileup`, 5x base coverage minimum.
 5. create bedgraphs (optional)
 
