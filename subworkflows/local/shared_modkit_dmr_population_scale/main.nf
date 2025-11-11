@@ -18,6 +18,8 @@ include { MODKIT_DMRPAIR as DMR_POPULATION_SCALE                 } from '../../.
 workflow MODKIT_DMR_POPULATION_SCALE {
     take:
     input
+    dmr_a
+    dmr_b
 
     main:
 
@@ -25,19 +27,18 @@ workflow MODKIT_DMR_POPULATION_SCALE {
 
     // Split input into two groups: dmr_a and dmr_b
     input
-        .filter { meta, _bam, _bai, _ref -> meta.group == params.dmr_a }
-        .set { ch_dmr_a }
-
-    input
-        .filter { meta, _bam, _bai, _ref -> meta.group == params.dmr_b }
-        .set { ch_dmr_b }
+        .branch { 
+            dmr_a: {meta, _bam, _bai, _ref -> meta.group == dmr_a}
+            dmr_b: {meta, _bam, _bai, _ref -> meta.group == dmr_b}
+        }
+        .set { branched_input }
 
     // Preprocess
-    PREPROCESS_A(ch_dmr_a)
+    PREPROCESS_A(branched_input.dmr_a)
 
     versions = versions.mix(PREPROCESS_A.out.versions.first())
 
-    PREPROCESS_B(ch_dmr_b)
+    PREPROCESS_B(branched_input.dmr_b)
 
     versions = versions.mix(PREPROCESS_B.out.versions.first())
 
@@ -62,7 +63,7 @@ workflow MODKIT_DMR_POPULATION_SCALE {
             [metas, beds, tbis]
         }
         .set{ dmr_b }
-    PREPROCESS_A.out.ch_ref_in.take(1).set{ ch_ref }
+    PREPROCESS_A.out.ch_pileup_in.ref.take(1).set{ ch_ref }
 
     // Modkit dmr
     DMR_POPULATION_SCALE(dmr_a, dmr_b, ch_ref)

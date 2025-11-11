@@ -67,7 +67,7 @@ workflow DOWNSTREAM {
 
             if (params.population_dmrer == 'modkit') {
 
-                MODKIT_DMR_POPULATION_SCALE(pileups)
+                MODKIT_DMR_POPULATION_SCALE(pileups, params.dmr_a, params.dmr_b)
 
                 versions = versions.mix(MODKIT_DMR_POPULATION_SCALE.out.versions)
 
@@ -76,7 +76,7 @@ workflow DOWNSTREAM {
             else {
                 // default setting when dmrer is dss
 
-                DSS_DMR_POPULATION_SCALE(pileups)
+                DSS_DMR_POPULATION_SCALE(pileups, params.dmr_a, params.dmr_b)
 
                 versions = versions.mix(DSS_DMR_POPULATION_SCALE.out.versions)
 

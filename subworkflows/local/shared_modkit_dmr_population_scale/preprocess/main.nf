@@ -34,16 +34,14 @@ workflow MODKIT_DMR_POPULATION_SCALE_PREPROCESS {
     // Prepare inputs for modkit pileup
     input
         .join(SAMTOOLS_FAIDX.out.fai)
-        .map { meta, bam, bai, _ref, _fai -> [meta, bam, bai] }
-        .set { ch_bam_in }
-
-    input
-        .join(SAMTOOLS_FAIDX.out.fai)
-        .map { meta, _bam, _bai, ref, fai -> [meta, ref, fai] }
-        .set { ch_ref_in }
+        .multiMap { meta, bam, bai, ref, fai -> 
+                bam: [meta, bam, bai]
+                ref: [meta, ref, fai]
+        }
+        .set { ch_pileup_in }
 
     // modkit pileup
-    MODKIT_PILEUP_POPULATION_SCALE(ch_bam_in, ch_ref_in, [[], []])
+    MODKIT_PILEUP_POPULATION_SCALE(ch_pileup_in.bam, ch_pileup_in.ref, [[], []])
 
     versions = versions.mix(MODKIT_PILEUP_POPULATION_SCALE.out.versions.first())
 
@@ -55,7 +53,7 @@ workflow MODKIT_DMR_POPULATION_SCALE_PREPROCESS {
     TABIX_BGZIPTABIX.out.gz_tbi.set { bed_gz }
 
     emit:
-    ch_ref_in
+    ch_pileup_in
     bed_gz
     versions
 }
