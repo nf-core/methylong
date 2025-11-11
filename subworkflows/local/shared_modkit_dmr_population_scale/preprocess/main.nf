@@ -45,6 +45,8 @@ workflow MODKIT_DMR_POPULATION_SCALE_PREPROCESS {
 
     versions = versions.mix(MODKIT_PILEUP_POPULATION_SCALE.out.versions.first())
 
+    ch_pileup_in.ref.set { ch_ref_in }
+
     // bgzip and tabix
     TABIX_BGZIPTABIX(MODKIT_PILEUP_POPULATION_SCALE.out.bed)
 
@@ -53,7 +55,7 @@ workflow MODKIT_DMR_POPULATION_SCALE_PREPROCESS {
     TABIX_BGZIPTABIX.out.gz_tbi.set { bed_gz }
 
     emit:
-    ch_pileup_in
+    ch_ref_in
     bed_gz
     versions
 }

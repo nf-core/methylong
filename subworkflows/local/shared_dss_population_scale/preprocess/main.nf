@@ -53,7 +53,6 @@ workflow DSS_POPULATION_SCALE_PREPROCESS {
     GAWK_FOR_DSS.out.output.set { bed_preprocessed }
 
     emit:
-    ch_pileup_in
     bed_preprocessed
     versions
 }

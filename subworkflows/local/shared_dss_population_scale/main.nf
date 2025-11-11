@@ -18,8 +18,8 @@ include { DSS        as DSS_POPULATION_SCALE                  } from '../../../m
 workflow DSS_DMR_POPULATION_SCALE {
     take:
     input
-    dmr_a
-    dmr_b
+    group_a
+    group_b
 
     main:
 
@@ -27,9 +27,9 @@ workflow DSS_DMR_POPULATION_SCALE {
 
     // Split input into two groups: dmr_a and dmr_b
     input
-        .branch {
-            dmr_a: {meta, _bam, _bai, _ref -> meta.group == dmr_a}
-            dmr_b: {meta, _bam, _bai, _ref -> meta.group == dmr_b}
+        .branch { meta, _bam, _bai, _ref ->
+            dmr_a: meta.group == group_a
+            dmr_b: meta.group == group_b
         }
     .set { branched_input }
 
