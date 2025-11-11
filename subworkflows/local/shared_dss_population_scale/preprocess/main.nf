@@ -34,7 +34,7 @@ workflow DSS_POPULATION_SCALE_PREPROCESS {
     // Prepare inputs for modkit pileup
     input
         .join(SAMTOOLS_FAIDX.out.fai)
-        .multiMap { meta, bam, bai, ref, fai -> 
+        .multiMap { meta, bam, bai, ref, fai ->
                 bam: [meta, bam, bai]
                 ref:  [meta, ref, fai]
         }

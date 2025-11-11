@@ -27,7 +27,7 @@ workflow DSS_DMR_POPULATION_SCALE {
 
     // Split input into two groups: dmr_a and dmr_b
     input
-        .branch { 
+        .branch {
             dmr_a: {meta, _bam, _bai, _ref -> meta.group == dmr_a}
             dmr_b: {meta, _bam, _bai, _ref -> meta.group == dmr_b}
         }
