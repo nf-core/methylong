@@ -5,14 +5,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v2.0.0 - [2025-08-25]
 
+### `Updated`
+
+- Update the input samplesheet structure
+
 ### `Added`
 
-- Add `DMR_haplotype_level` subworkflow for DMR analysis in haplotype level
-- Add `DMR_population_scale` subworkflow for DMR analysis in population scale
-- Add `dorado basecaller` module to basecall pod5 reads
-- Add `jasmine` and `ccsmeth` module to modcall raw PacBio HiFi bam reads
-- Add `fibertools` modules for m6A call
-- Change the input samplesheet structure
+| New Content                        | Description                              |
+| ---------------------------------- | ---------------------------------------- |
+| `dorado basecaller` module         | basecalling for pod5 reads               |
+| `jasmine` and `ccsmeth` module     | modcalling for raw PacBio HiFi bam reads |
+| `fibertools` modules               | m6A modification calling                 |
+| `DMR_haplotype_level` subworkflow  | haplotype-level DMR analysis             |
+| `DMR_population_scale` subworkflow | population-scale DMR analysis            |
 
 ### `Dependencies`
 
@@ -39,8 +44,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
-- Add `clair3` module to call germline small variant
-- Add `whatshap` module to phase genomic variant
+| New Content       | Description                    |
+| ----------------- | ------------------------------ |
+| `clair3` module   | germline small variant calling |
+| `whatshap` module | genomic variant phasing        |
 
 ### `Fixed`
 

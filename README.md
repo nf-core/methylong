@@ -267,7 +267,7 @@ bedgraph outputs all have min. 5x base coverage.
 
 ## Credits
 
-nf-core/methylong was originally written by [Jin Yan Khoo](https://github.com/jkh00), from the Faculty of Biology of the Ludwig-Maximilians University (LMU) in Munich, Germany, further contributions were made by [Yi Jin Xiong](https://github.com/YiJin-Xiong), from Central South University (CSU) in Changsha, China.
+nf-core/methylong was originally written by [Jin Yan Khoo](https://github.com/jkh00), from the Faculty of Biology of the Ludwig-Maximilians University (LMU) in Munich, Germany. Further significant contributions were made by [YiJin Xiong](https://github.com/YiJin-Xiong), from Central South University (CSU) in Changsha, China.
 
 I thank the following people for their extensive assistance in the development of this pipeline:
 

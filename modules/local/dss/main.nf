@@ -28,8 +28,7 @@ process DSS {
     def out_dir         = "--out_dir ./"
 
     """
-    python \\
-        $projectDir/bin/call_dss.py \\
+    call_dss.py \\
         $args \\
         $out_prefix \\
         $case_sample \\

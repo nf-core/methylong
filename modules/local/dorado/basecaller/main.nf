@@ -7,6 +7,8 @@ process DORADO_BASECALLER {
 
     input:
     tuple val(meta), path(pod5_path)
+    val(dorado_model)
+    val(dorado_modification)
 
     output:
     tuple val(meta), path("*.bam")  , emit: bam
@@ -18,8 +20,7 @@ process DORADO_BASECALLER {
     script:
     def args          = task.ext.args ?: ''
     def prefix        = task.ext.prefix ?: "${meta.id}"
-    def dorado_model  = params.dorado_model
-    def modification  = "--modified-bases $params.dorado_modification"
+    def modification  = "--modified-bases $dorado_modification"
     def use_gpu       = task.ext.use_gpu ? "--device cuda:all" : ""
 
     """

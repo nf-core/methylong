@@ -38,7 +38,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 
 ### Modcalling
 
-Modcalling includes basecall for ONT pod5 reads and modcall.
+Modification calling (`modcalling`) includes basecall for ONT pod5 reads and modcall.
 
 <details markdown="1">
 <summary>Output files</summary>
