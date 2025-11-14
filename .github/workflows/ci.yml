@@ -36,7 +36,7 @@ jobs:
           - "--no_trim"
           - "--pacbio_aligner minimap2"
           - "--pileup_method modkit"
-          - "--pileup_count count"
+          - "--pileup_count"
           - "--denovo"
           - "--reset"
           - "--skip_snvs"

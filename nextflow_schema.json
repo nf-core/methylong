@@ -247,10 +247,9 @@
                     "description": "Pileup method in PacBio workflow, default is pbcpgtools, specify modkit to switch"
                 },
                 "pileup_count": {
-                    "type": "string",
-                    "enum": ["model", "count"],
+                    "type": "boolean",
                     "default": "model",
-                    "description": "Specify pbcpgtools pileup mode, default is using model mode, specify to switch to count mode"
+                    "description": "Specify pbcpgtools pileup mode, default is using model mode, specify this parameter to switch to count mode"
                 },
                 "denovo": {
                     "type": "boolean",
