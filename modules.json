@@ -5,9 +5,59 @@
         "https://github.com/nf-core/modules.git": {
             "modules": {
                 "nf-core": {
+                    "clair3": {
+                        "branch": "master",
+                        "git_sha": "ce30f336d78afcc8a90ade385eda62848d8c15f3",
+                        "installed_by": ["modules"]
+                    },
                     "fastqc": {
                         "branch": "master",
                         "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
+                        "installed_by": ["modules"]
+                    },
+                    "fibertoolsrs/addnucleosomes": {
+                        "branch": "master",
+                        "git_sha": "b29fd980347bbb0c0d6abb332c83a2be114b4b89",
+                        "installed_by": ["modules"]
+                    },
+                    "fibertoolsrs/extract": {
+                        "branch": "master",
+                        "git_sha": "b29fd980347bbb0c0d6abb332c83a2be114b4b89",
+                        "installed_by": ["modules"]
+                    },
+                    "fibertoolsrs/predictm6a": {
+                        "branch": "master",
+                        "git_sha": "b29fd980347bbb0c0d6abb332c83a2be114b4b89",
+                        "installed_by": ["modules"]
+                    },
+                    "gawk": {
+                        "branch": "master",
+                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
+                        "installed_by": ["modules"]
+                    },
+                    "gunzip": {
+                        "branch": "master",
+                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
+                        "installed_by": ["modules"]
+                    },
+                    "minimap2/align": {
+                        "branch": "master",
+                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
+                        "installed_by": ["modules"]
+                    },
+                    "modkit/callmods": {
+                        "branch": "master",
+                        "git_sha": "f274c188ef81409164a74178d15ee3359eeb39d7",
+                        "installed_by": ["modules"]
+                    },
+                    "modkit/pileup": {
+                        "branch": "master",
+                        "git_sha": "208c242320433d6d32ea7bf5212ee9577c6baa3d",
+                        "installed_by": ["modules"]
+                    },
+                    "modkit/repair": {
+                        "branch": "master",
+                        "git_sha": "f274c188ef81409164a74178d15ee3359eeb39d7",
                         "installed_by": ["modules"]
                     },
                     "multiqc": {

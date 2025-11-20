@@ -8,7 +8,7 @@
         "input_output_options": {
             "title": "Input/output options",
             "type": "object",
-            "fa_icon": "fas fa-terminal",
+            "fa_icon": "fas fa-clipboard-list",
             "description": "Define where the pipeline should find input data and save output data.",
             "required": ["input", "outdir"],
             "properties": {
@@ -18,7 +18,6 @@
                     "exists": true,
                     "schema": "assets/schema_input.json",
                     "mimetype": "text/csv",
-                    "pattern": "^\\S+\\.csv$",
                     "description": "Path to comma-separated file containing information about the samples in the experiment.",
                     "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://nf-co.re/methylong/usage#samplesheet-input).",
                     "fa_icon": "fas fa-file-csv"
@@ -127,14 +126,6 @@
                     "fa_icon": "fas fa-remove-format",
                     "hidden": true
                 },
-                "max_multiqc_email_size": {
-                    "type": "string",
-                    "description": "File size limit when attaching MultiQC reports to summary emails.",
-                    "pattern": "^\\d+(\\.\\d+)?\\.?\\s*(K|M|G|T)?B$",
-                    "default": "25.MB",
-                    "fa_icon": "fas fa-file-upload",
-                    "hidden": true
-                },
                 "monochrome_logs": {
                     "type": "boolean",
                     "description": "Do not use coloured log outputs.",
@@ -148,6 +139,193 @@
                     "help_text": "Incoming hook URL for messaging service. Currently, MS Teams and Slack are supported.",
                     "hidden": true
                 },
+                "validate_params": {
+                    "type": "boolean",
+                    "description": "Boolean whether to validate parameters against the schema at runtime",
+                    "default": true,
+                    "fa_icon": "fas fa-check-square",
+                    "hidden": true
+                },
+                "pipelines_testdata_base_path": {
+                    "type": "string",
+                    "fa_icon": "far fa-check-circle",
+                    "description": "Base URL or local path to location of pipeline test dataset files",
+                    "default": "https://raw.githubusercontent.com/nf-core/test-datasets/",
+                    "hidden": true
+                }
+            }
+        },
+        "mod_calling_options": {
+            "title": "Mod calling options",
+            "type": "object",
+            "default": "",
+            "properties": {
+                "dorado_model": {
+                    "type": "string",
+                    "default": "sup",
+                    "description": "Specify dorado model, default is sup, other available models can be found on Dorado's GitHub repository."
+                },
+                "dorado_modification": {
+                    "type": "string",
+                    "default": "5mC_5hmC",
+                    "description": "Specify dorado modification, default is 5mC_5hmC, other available modifications can be found on Dorado's GitHub repository."
+                },
+                "pacbio_modcall": {
+                    "type": "boolean",
+                    "description": "Indicate if required modcalling in PacBio workflow"
+                },
+                "pacbio_modcaller": {
+                    "type": "string",
+                    "enum": ["jasmine", "ccsmeth"],
+                    "default": "jasmine",
+                    "description": "Modcaller option in PacBio workflow, default is jasmine, specify ccsmeth to switch"
+                },
+                "ccsmeth_cm_model": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Ccsmeth call mods model.",
+                    "default": "${projectDir}/bin/ccsmeth_models/model_ccsmeth_5mCpG_call_mods_attbigru2s_b21.v3.ckpt"
+                },
+                "ccsmeth_ag_model": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Ccsmeth call freqb model.",
+                    "default": "${projectDir}/bin/ccsmeth_models/model_ccsmeth_5mCpG_aggregate_attbigru_b11.v2p.ckpt"
+                }
+            },
+            "fa_icon": "fas fa-search"
+        },
+        "preprocessing_options": {
+            "title": "Preprocessing options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "fa_icon": "fas fa-cut",
+            "properties": {
+                "reset": {
+                    "type": "boolean",
+                    "description": "Removes the alignment information added by aligners and updates flags accordingly"
+                },
+                "no_trim": {
+                    "type": "boolean",
+                    "description": "Skip trimming in ONT workflow, will directly start from alignment step"
+                }
+            }
+        },
+        "alignment_options": {
+            "title": "Alignment options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "ont_aligner": {
+                    "type": "string",
+                    "enum": ["dorado", "minimap2"],
+                    "default": "dorado",
+                    "description": "Aligner option in ONT workflow, default is dorado aligner, specify minimap2 to switch"
+                },
+                "pacbio_aligner": {
+                    "type": "string",
+                    "enum": ["pbmm2", "minimap2"],
+                    "default": "pbmm2",
+                    "description": "Aligner option in PacBio workflow, default is pbmm2, specify minimap2 to switch"
+                }
+            },
+            "fa_icon": "fas fa-newspaper",
+            "help_text": ""
+        },
+        "mod_pileup_options": {
+            "title": "Mod pileup options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "pileup_method": {
+                    "type": "string",
+                    "enum": ["pbcpgtools", "modkit"],
+                    "default": "pbcpgtools",
+                    "description": "Pileup method in PacBio workflow, default is pbcpgtools, specify modkit to switch"
+                },
+                "pileup_count": {
+                    "type": "boolean",
+                    "default": "model",
+                    "description": "Specify pbcpgtools pileup mode, default is using model mode, specify this parameter to switch to count mode"
+                },
+                "denovo": {
+                    "type": "boolean",
+                    "description": "This option will identify and output all CG sites found in the consensus sequence from the reads in the `pb-CpG-tools`pileup (reference free); by default reference sequences are used to identify and output all CG sites."
+                },
+                "bedgraph": {
+                    "type": "boolean",
+                    "description": "Indicate if required bedgraphs as output"
+                },
+                "all_contexts": {
+                    "type": "boolean",
+                    "description": "Specify pileup context"
+                },
+                "m6a": {
+                    "type": "boolean",
+                    "description": "Indicate if pileup m6a motif"
+                }
+            },
+            "fa_icon": "fab fa-buffer"
+        },
+        "fiberseq_options": {
+            "title": "Fiberseq options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "fiberseq": {
+                    "type": "boolean",
+                    "description": "Indicate if required m6a calling for fiberseq data"
+                }
+            },
+            "fa_icon": "far fa-chart-bar"
+        },
+        "dmr_options": {
+            "title": "DMR options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "skip_snvs": {
+                    "type": "boolean",
+                    "description": "Indicate if to skip snvcall and phase"
+                },
+                "haplotype_dmrer": {
+                    "type": "string",
+                    "enum": ["dss", "modkit"],
+                    "default": "dss",
+                    "description": "DMRer option in DMR analysis for haplotype level, default is dss, specify modkit to switch"
+                },
+                "dmr_population_scale": {
+                    "type": "boolean",
+                    "description": "Indicate if required DMR analysis for population scale"
+                },
+                "population_dmrer": {
+                    "type": "string",
+                    "enum": ["dss", "modkit"],
+                    "default": "dss",
+                    "description": "DMRer option in DMR analysis for population scale, default is dss, specify modkit to switch"
+                },
+                "dmr_a": {
+                    "type": "string",
+                    "description": "One of the group of DMR analysis in population scale"
+                },
+                "dmr_b": {
+                    "type": "string",
+                    "description": "Another group of DMR analysis in population scale"
+                }
+            },
+            "fa_icon": "fas fa-chart-area"
+        },
+        "multiqc": {
+            "title": "Multiqc",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
                 "multiqc_config": {
                     "type": "string",
                     "format": "file-path",
@@ -166,18 +344,12 @@
                     "description": "Custom MultiQC yaml file containing HTML including a methods description.",
                     "fa_icon": "fas fa-cog"
                 },
-                "validate_params": {
-                    "type": "boolean",
-                    "description": "Boolean whether to validate parameters against the schema at runtime",
-                    "default": true,
-                    "fa_icon": "fas fa-check-square",
-                    "hidden": true
-                },
-                "pipelines_testdata_base_path": {
+                "max_multiqc_email_size": {
                     "type": "string",
-                    "fa_icon": "far fa-check-circle",
-                    "description": "Base URL or local path to location of pipeline test dataset files",
-                    "default": "https://raw.githubusercontent.com/nf-core/test-datasets/",
+                    "description": "File size limit when attaching MultiQC reports to summary emails.",
+                    "pattern": "^\\d+(\\.\\d+)?\\.?\\s*(K|M|G|T)?B$",
+                    "default": "25.MB",
+                    "fa_icon": "fas fa-file-upload",
                     "hidden": true
                 },
                 "trace_report_suffix": {
@@ -198,7 +370,8 @@
                     "type": "boolean",
                     "description": "Display hidden parameters in the help message (only works when --help or --help_full are provided)."
                 }
-            }
+            },
+            "fa_icon": "fas fa-glass-cheers"
         }
     },
     "allOf": [
@@ -210,6 +383,27 @@
         },
         {
             "$ref": "#/$defs/generic_options"
+        },
+        {
+            "$ref": "#/$defs/mod_calling_options"
+        },
+        {
+            "$ref": "#/$defs/preprocessing_options"
+        },
+        {
+            "$ref": "#/$defs/alignment_options"
+        },
+        {
+            "$ref": "#/$defs/mod_pileup_options"
+        },
+        {
+            "$ref": "#/$defs/fiberseq_options"
+        },
+        {
+            "$ref": "#/$defs/dmr_options"
+        },
+        {
+            "$ref": "#/$defs/multiqc"
         }
     ]
 }
