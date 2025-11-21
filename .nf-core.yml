@@ -2,11 +2,16 @@ lint:
   files_exist:
     - conf/igenomes.config
     - conf/igenomes_ignored.config
+  nextflow_config:
+    - config_defaults:
+        - params.ccsmeth_cm_model
+        - params.ccsmeth_ag_model
+  nf_test_content: false
   template_strings: false
-nf_core_version: 3.2.1
+nf_core_version: 3.5.1
 repository_type: pipeline
 template:
-  author: Jin Yan Khoo
+  author: Jin Yan Khoo, Yi Jin Xiong
   description: Extract methylation calls from long reads
   force: false
   is_nfcore: true
@@ -15,4 +20,4 @@ template:
   outdir: .
   skip_features:
     - igenomes
-  version: 1.0.0
+  version: 2.0.0

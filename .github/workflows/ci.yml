@@ -29,17 +29,19 @@ jobs:
     strategy:
       matrix:
         NXF_VER:
-          - "24.04.2"
+          - "25.04.0"
           - "latest-everything"
         PARAMETERS:
           - "--bedgraph"
           - "--no_trim"
           - "--pacbio_aligner minimap2"
           - "--pileup_method modkit"
-          - "--pileup_count count"
+          - "--pileup_count"
           - "--denovo"
           - "--reset"
           - "--skip_snvs"
+          - "--haplotype_dmrer dss"
+          - "--fiberseq"
         profile:
           #- "conda"
           - "docker"

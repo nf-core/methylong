@@ -39,10 +39,11 @@ input:
         type: file
         description: BAM index file
         pattern: "*.bai"
+        ontologies: []
     - packaged_model:
         type: string
-        description: string containing the name of a prepackaged Clair3 model
-          full list of models and their descriptions is provided at https://github.com/HKU-BAL/Clair3?tab=readme-ov-file#pre-trained-models
+        description: string containing the name of a prepackaged Clair3 model full list
+          of models and their descriptions is provided at https://github.com/HKU-BAL/Clair3?tab=readme-ov-file#pre-trained-models
     - user_model:
         type: directory
         description: directory containing Clair3 model files
@@ -59,6 +60,7 @@ input:
         type: file
         description: reference fasta file
         pattern: "*.fasta"
+        ontologies: []
   - - meta3:
         type: map
         description: |
@@ -68,55 +70,89 @@ input:
         type: file
         description: reference index file
         pattern: "*.fai"
+        ontologies: []
 output:
-  - vcf:
-      - meta:
+  vcf:
+    - - meta:
           type: map
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'sample1' ]`
           pattern: "*.{vcf,vcf.gz}"
-      - "*merge_output.vcf.gz":
+      - "${prefix}merge_output.vcf.gz":
           type: map
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'sample1' ]`
           pattern: "*.{vcf,vcf.gz}"
-  - tbi:
-      - meta:
+  tbi:
+    - - meta:
           type: map
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'sample1' ]`
-      - "*merge_output.vcf.gz.tbi":
+          pattern: "*.{vcf,vcf.gz}"
+      - "${prefix}merge_output.vcf.gz.tbi":
           type: file
           description: index for vcf files
           pattern: "*.{vcf.tbi,vcf.tbi.gz}"
-  - phased_vcf:
-      - meta:
+          ontologies: []
+  phased_vcf:
+    - - meta:
           type: map
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'sample1' ]`
-      - "*phased_merge_output.vcf.gz":
+          pattern: "*.{vcf,vcf.gz}"
+      - "${prefix}phased_merge_output.vcf.gz":
           type: file
           description: phased vcf
           pattern: "*.{vcf,vcf.gz}"
-  - phased_tbi:
-      - meta:
+          ontologies: []
+  phased_tbi:
+    - - meta:
           type: map
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'sample1' ]`
-      - "*phased_merge_output.vcf.gz.tbi":
+          pattern: "*.{vcf,vcf.gz}"
+      - "${prefix}phased_merge_output.vcf.gz.tbi":
           type: file
           description: index for vcf files
           pattern: "*.{vcf.tbi,vcf.tbi.gz}"
-  - versions:
-      - versions.yml:
+          ontologies: []
+  gvcf:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          pattern: "*.{vcf,vcf.gz}"
+      - "${prefix}merge_output.gvcf.gz":
           type: file
-          description: File containing software versions
-          pattern: "versions.yml"
+          description: gvcf file
+          pattern: "*.{gvcf,gvcf.gz}"
+          ontologies: []
+  gtbi:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+          pattern: "*.{gvcf.tbi,gvcf.gz.tbi}"
+      - "${prefix}merge_output.gvcf.gz.tbi":
+          type: file
+          description: index for gvcf file
+          pattern: "*.{vcf.tbi,vcf.tbi.gz}"
+          ontologies: []
+
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: "versions.yml"
+        ontologies:
+          - edam: http://edamontology.org/format_3750 # YAML
 authors:
   - "@robert-a-forsyth"
 maintainers:

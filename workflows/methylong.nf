@@ -6,7 +6,6 @@
 
 include { PACBIO                 } from '../subworkflows/local/Pacbio_main'
 include { ONT                    } from '../subworkflows/local/ONT_main'
-include { FASTQ_UNZIP            } from '../subworkflows/local/shared_fastqc_unzip/main'
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
 include { paramsSummaryMap       } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -33,20 +32,13 @@ workflow METHYLONG {
 
     samplesheet.set { ch_samples }
 
-
-    FASTQ_UNZIP(ch_samples)
-
-
-    ch_versions = ch_versions.mix(FASTQ_UNZIP.out.versions)
-    ch_multiqc_files = ch_multiqc_files.mix(FASTQ_UNZIP.out.fastqc_log.collect { it[1] }.ifEmpty([]))
-
     // Split the channel based on method
 
-    FASTQ_UNZIP.out.unzip_input
+    ch_samples
         .filter { it[0].method == "pacbio" }
         .set { ch_pacbio }
 
-    FASTQ_UNZIP.out.unzip_input
+    ch_samples
         .filter { it[0].method == "ont" }
         .set { ch_ont }
 
@@ -91,31 +83,25 @@ workflow METHYLONG {
     //
     // MODULE: MultiQC
     //
-    ch_multiqc_config = Channel.fromPath(
-        "${projectDir}/assets/multiqc_config.yml",
-        checkIfExists: true
-    )
-    ch_multiqc_custom_config = params.multiqc_config
-        ? Channel.fromPath(params.multiqc_config, checkIfExists: true)
-        : Channel.empty()
-    ch_multiqc_logo = params.multiqc_logo
-        ? Channel.fromPath(params.multiqc_logo, checkIfExists: true)
-        : Channel.empty()
+    ch_multiqc_config        = channel.fromPath(
+        "$projectDir/assets/multiqc_config.yml", checkIfExists: true)
+    ch_multiqc_custom_config = params.multiqc_config ?
+        channel.fromPath(params.multiqc_config, checkIfExists: true) :
+        channel.empty()
+    ch_multiqc_logo          = params.multiqc_logo ?
+        channel.fromPath(params.multiqc_logo, checkIfExists: true) :
+        channel.empty()
 
-    summary_params = paramsSummaryMap(
-        workflow,
-        parameters_schema: "nextflow_schema.json"
-    )
-    ch_workflow_summary = Channel.value(paramsSummaryMultiqc(summary_params))
+    summary_params      = paramsSummaryMap(
+        workflow, parameters_schema: "nextflow_schema.json")
+    ch_workflow_summary = channel.value(paramsSummaryMultiqc(summary_params))
     ch_multiqc_files = ch_multiqc_files.mix(
-        ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml')
-    )
-    ch_multiqc_custom_methods_description = params.multiqc_methods_description
-        ? file(params.multiqc_methods_description, checkIfExists: true)
-        : file("${projectDir}/assets/methods_description_template.yml", checkIfExists: true)
-    ch_methods_description = Channel.value(
-        methodsDescriptionText(ch_multiqc_custom_methods_description)
-    )
+        ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'))
+    ch_multiqc_custom_methods_description = params.multiqc_methods_description ?
+        file(params.multiqc_methods_description, checkIfExists: true) :
+        file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
+    ch_methods_description                = channel.value(
+        methodsDescriptionText(ch_multiqc_custom_methods_description))
 
     ch_multiqc_files = ch_multiqc_files.mix(ch_collated_versions)
     ch_multiqc_files = ch_multiqc_files.mix(

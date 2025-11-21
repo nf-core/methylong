@@ -11,10 +11,15 @@ The directories listed below will be created in the results directory after the 
 The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data using the following steps:
 
 - [FastQC](#fastqc) - Raw read QC
+- [Modcalling](#modcalling) - basecall and modcall
 - [Preprocessing reads](#preprocessing-reads) - Adapters and Barcodes removal
 - [Alignment](#alignment) - alignment to reference genome
 - [Methylation calling](#pileup) - pile up of methylation calls
 - [Bed to bedgraph conversion](#bedgraph) - convert bed to bedgraph
+- [SNV calling](#snv-calling) - germline small variant calls
+- [Phasing](#phasing) - phase genomic variant
+- [DMR analysis](#dmr-analysis) - DMR results
+- [Fiberseq](#fiberseq) - fiberseq results
 - [MultiQC](#multiqc) - Aggregate report describing triming and alignment results and QC from the whole pipeline
 - [Pipeline information](#pipeline-information) - Report metrics generated during the workflow execution
 
@@ -31,6 +36,21 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 
 [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) gives general quality metrics about your sequenced reads. It provides information about the quality score distribution across your reads, per base sequence content (%A/T/G/C), adapter contamination and overrepresented sequences. For further reading and documentation see the [FastQC help pages](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/).
 
+### Modcalling
+
+Modification calling (`modcalling`) includes basecall for ONT pod5 reads and modcall.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `basecall/`
+  - `*_calls.bam`: reads after basecalling.
+- `modcall/`
+  - `*_modbam.bam`: reads after modcalling with MM/ML tags, if pacbio_modcaller is jasmine.
+  - `*_ccsmeth_modbam.bam`: reads after modcalling with MM/ML tags, if pacbio_modcaller is ccsmeth.
+
+</details>
+
 ### Preprocessing reads
 
 Preprocessing of reads are only available for ONT reads. Reads are trimmed, then MM/ML tags are repaired.
@@ -39,13 +59,11 @@ Preprocessing of reads are only available for ONT reads. Reads are trimmed, then
 <summary>Output files</summary>
 
 - `trim/`
-
   - `*_fastq.gz`: reads after trimming.
   - `*.log`: trimming log
-
 - `repair/`
-  - `*_repaired_.bam`: reads after repairing MM/ML tags.
-  - `*.log`: repair log
+  - `*_repaired.bam`: reads after repairing MM/ML tags.
+  - `*_repaired.log`: repair log
 
 </details>
 
@@ -93,7 +111,7 @@ Methylation pile up for PacBio data can be preformed by either modkit or pb-CpG-
 
 </details>
 
-### SNVcall
+### SNV calling
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -101,11 +119,11 @@ Methylation pile up for PacBio data can be preformed by either modkit or pb-CpG-
 - `snvcall/`
   - `*.vcf.gz`: snv calls
   - `*.vcf.gz.tbi`: snv-call index
-  - `*SNV_PASS.vcf`: pass-filtered snv calls
+  - `*_SNV_PASS.vcf`: pass-filtered snv calls
 
 </details>
 
-### Phase
+### Phasing
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -114,6 +132,48 @@ Methylation pile up for PacBio data can be preformed by either modkit or pb-CpG-
   - `*phased.vcf`: phased vcf
   - `*.bam`: haplotagged bam
   - `*.readlist`: haplotagged readlist
+
+</details>
+
+### DMR analysis
+
+DMR analysis includes haplotype level and population scale, and can be preformed by either DSS or modkit.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+#### DSS output:
+
+- `dmr_haplotype_level/dss/`
+  - `*_preprocessed_<1|2|etc>.bed`: partitioned reads based on HP tag
+  - `*_DSS_DMLtest.txt`: DML test results
+  - `*_DSS_callDML.txt`: DML
+  - `*_DSS_callDMR.txt`: DMR
+  - `*_DSS.log`: DSS log
+
+#### modkit dmr output:
+
+- `dmr_haplotype_level/modkit/`
+  - `*_<1|2|etc>.bed`: partitioned reads based on HP tag
+  - `*_modkit_dmr_haplotype_level.bed`: differential methylation output
+
+- `dmr_population_scale/`
+  - `*_DSS_DMLtest.txt`: DML test results
+  - `*_DSS_callDML.txt`: DML
+  - `*_DSS_callDMR.txt`: DMR
+  - `*_DSS.log`: DSS log
+
+</details>
+
+### Fiberseq
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `fiberseq/`
+  - `*_m6a_predicted.bam`: PacBio reads after m6a calling.
+  - `*_m6acall.bam`: ONT reads after m6a calling.
+  - `*_m6a.bed`: pileup of m6a calls.
 
 </details>
 

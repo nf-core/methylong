@@ -6,11 +6,124 @@
 
 ## Introduction
 
-<!-- TODO nf-core: Add documentation about anything specific to running your pipeline. For general topics, please point to (and add to) the main nf-core website. -->
+The nf-core/methylong pipeline provides long-read specific workflows for DNA methylation analysis. It supports multiple input data types, various basecallers and aligners, and includes downstream analyses such as Fiber-seq, SNV calling, haplotype phasing, and DMR analysis.
+
+```mermaid
+---
+config:
+  theme: mc
+  layout: elk
+  look: classic
+---
+flowchart TD
+ subgraph Stage1["Input data"]
+        A1["ONT"]
+        A2["PacBio"]
+  end
+ subgraph Stage2a["ONT"]
+        B3["Dorado"]
+  end
+ subgraph Stage2b["PacBio"]
+        B1["Jasmine (default)"]
+        B2["Ccsmeth"]
+  end
+ subgraph Stage2["Mod calling (optional)"]
+        Stage2a
+        Stage2b
+  end
+ subgraph Stage3["QC"]
+        C1["Fastqc"]
+  end
+ subgraph Stage4a["ONT"]
+        D1["Porechop"]
+        D2["Modkit repair"]
+  end
+ subgraph Stage4["Preprocessing (optional)"]
+        Stage4a
+  end
+ subgraph Stage5a["ONT"]
+        E1["Dorado aligner (default)"]
+        E2["Minimap2 -x lr:hq"]
+  end
+ subgraph Stage5b["PacBio"]
+        E4["Minimap2 -x map-hifi"]
+        E3["Pbmm2 (default)"]
+  end
+ subgraph Stage5["Genome Alignment"]
+        Stage5a
+        Stage5b
+  end
+ subgraph Stage6["Methylation calling"]
+      subgraph Stage6a["Pacbio"]
+        F2["Pb-CpG-tools"]
+        F3["Ccsmeth call_freqb"]
+      end
+      subgraph Stage6b["ONT"]
+        F1["Modkit pileup"]
+      end
+        F4["Bed2bedgraph"]
+  end
+ subgraph Stage7a["DMR population (optional)"]
+        G1["Modkit pileup"]
+        G2["Modkit DMR pair"]
+        G3["DSS DMR"]
+  end
+ subgraph Stage7b["DMR haplotype"]
+        H1["Clair3"]
+        H2["WhatsHap phase"]
+        H3["WhatsHap haplotag"]
+        H4["Modkit pileup"]
+        H5["Modkit DMR pair"]
+        H6["DSS DMR (default)"]
+  end
+ subgraph Stage7["DMR calling"]
+        Stage7a
+        Stage7b
+  end
+ subgraph Stage8a["ONT"]
+        I1["Modkit callmods"]
+        I2["Fibertools-rs add-nucleosomes"]
+        I3["Fibertools-rs extract"]
+  end
+ subgraph Stage8b["PacBio"]
+        J1["Fibertools-rs predict-m6a"]
+        J2["Fibertools-rs extract"]
+  end
+ subgraph Stage8["Fiberseq (optional)"]
+        Stage8a
+        Stage8b
+  end
+ subgraph Stage9["Final QC"]
+        Stage9a["MultiQC"]
+  end
+    A2 -- ".bam" --> Stage2b
+    A1 -- ".pod5" --> Stage2a
+    Stage2a & Stage2b --> Stage3
+    Stage3 --> Stage4 & Stage9 & Stage5a & Stage5b
+    Stage4 ---> Stage5a
+    Stage5 --> Stage6 & Stage7 & Stage8 & Stage9
+    F2 --> F4
+    F1 --> F4
+    D1 --> D2
+    G1 --> G2 & G3
+    H1 --> H2
+    H2 --> H3
+    H3 --> H4
+    H4 --> H5 & H6
+    I1 --> I2
+    I2 --> I3
+    J1 --> J2
+    A2 -- ".bam" --> Stage3
+    A1 -- ".bam" --> Stage3
+    A1@{ shape: cyl}
+    A2@{ shape: cyl}
+    G1@{ shape: procs}
+    H4@{ shape: procs}
+```
 
 ## Samplesheet input
 
-You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row as shown in the examples below.
+You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 5 columns, and a header row as shown in the examples below.
 
 ```bash
 --input '[path to samplesheet file]'
@@ -18,19 +131,20 @@ You will need to create a samplesheet with information about the samples you wou
 
 ### Full samplesheet
 
-The samplesheet required 4 columns, as defined in the table below. Sample name can be repeated if the corresponding sample has both ONT and PacBio HiFi data.
+The samplesheet required 5 columns, as defined in the table below. Sample name can be repeated if the corresponding sample has both ONT and PacBio HiFi data. One group can contain multiple samples.
 
 ```csv title="samplesheet.csv"
-sample,modbam,ref,method
-sample1,sample1.bam,sample1.fasta,pacbio
-sample2,sample2.bam,sample2.fasta,pacbio
-sample3,sample3.bam,sample3.fasta,pacbio
-sample3,sample3.bam,sample3.fasta,ont
-sample4,sample4.bam,sample4.fasta,ont
+group,sample,path,ref,method
+group1,sample1,sample1.bam,sample1.fasta,pacbio
+group2,sample2,sample2.bam,sample2.fasta,pacbio
+group3,sample3,sample3.bam,sample3.fasta,pacbio
+group3,sample3,sample3.bam,sample3.fasta,ont
+group3,sample4,sample4.bam,sample4.fasta,ont
 ```
 
 | Column   | Description                                                                                                                                                     |
 | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `group`  | Custom sample group name.                                                                                                                                       |
 | `sample` | Custom sample name.                                                                                                                                             |
 | `modbam` | Full path to modification basecalled bam file. This bam file has to be unaligned bam file. File has to have the extension ".bam".                               |
 | `ref`    | Full path to reference genome file . File can be either gzipped or not. File has to have the extension '.fa', '.fasta', '.fna' or their equivalent gzip format. |
@@ -40,13 +154,41 @@ An [example samplesheet](../assets/test_data/test_samplesheet.csv) has been prov
 
 ## Running the pipeline
 
-The typical command for running the pipeline is as follows:
+**The typical command for running the pipeline is as follows:**
 
 ```bash
 nextflow run nf-core/methylong --input ./samplesheet.csv --outdir ./results -profile docker
 ```
 
 This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
+
+default workflow is:
+
+```
+preprocessing (ONT) --> genome alignment --> methylation calling --> SNV calling --> haplotype phasing --> DMR calling
+```
+
+**Example command for PacBio unmodified BAM inputs is as follows:**
+
+```bash
+nextflow run nf-core/methylong --input ./samplesheet_unmodified_bam.csv --outdir ./results -profile docker --pacbio_modcall
+```
+
+**Example command for fiberseq-m6a-calling is as follows:**
+
+```bash
+nextflow run nf-core/methylong --input ./samplesheet_dorado.csv --outdir ./results -profile docker --dorado_modification 5mCG_5hmCG 6mA --fiberseq
+```
+
+```bash
+nextflow run nf-core/methylong --input ./samplesheet_pacbio.csv --outdir ./results -profile docker --fiberseq
+```
+
+**Example command for DMR population scale is as follows:**
+
+```bash
+nextflow run nf-core/methylong --input ./samplesheet_dmr.csv --outdir ./results -profile docker --dmr_population_scale --dmr_a group_name_1 --dmr_b group_name_2
+```
 
 Note that the pipeline will create the following files in your working directory:
 
@@ -134,13 +276,15 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
 - `shifter`
   - A generic configuration profile to be used with [Shifter](https://nersc.gitlab.io/development/shifter/how-to-use/)
 - `charliecloud`
-  - A generic configuration profile to be used with [Charliecloud](https://hpc.github.io/charliecloud/)
+  - A generic configuration profile to be used with [Charliecloud](https://charliecloud.io/)
 - `apptainer`
   - A generic configuration profile to be used with [Apptainer](https://apptainer.org/)
 - `wave`
   - A generic configuration profile to enable [Wave](https://seqera.io/wave/) containers. Use together with one of the above (requires Nextflow ` 24.03.0-edge` or later).
 - `conda`
   - A generic configuration profile to be used with [Conda](https://conda.io/docs/). Please only use Conda as a last resort i.e. when it's not possible to run the pipeline with Docker, Singularity, Podman, Shifter, Charliecloud, or Apptainer.
+- `gpu`
+  - A generic configuration profile for enabling GPU execution for modules that have `process_gpu` label.
 
 ### `-resume`
 
