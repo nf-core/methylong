@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Fixed`
 
-- fixed caching issue in `WHATSHAP_HAPLOTAG` process 
+- fixed caching issue in `WHATSHAP_HAPLOTAG` workflow 
+- fixed caching issue in `MODKIT_DMR_POPULATION_SCALE` workflow 
 
 ### Removed
 
