@@ -43,8 +43,18 @@ workflow WHATSHAP {
 
     versions = versions.mix(TABIX_BGZIPTABIX.out.versions.first())
 
+    // join inputs before piping into whatshap_haplotag 
+    input
+        .join(TABIX_BGZIPTABIX.out.gz_tbi)
+        .multiMap { meta, bam, bai, ref, fai, vcf, gz, tbi ->
+                bam_in: [meta, bam, bai]
+                ref_in: [meta, ref, fai]
+                phase_in: [meta, gz, tbi]
+        }
+        .set {ch_haplotag }
+
     // WhatsHap haplotag
-    WHATSHAP_HAPLOTAG(ch_input.bam_in, ch_input.ref_in, TABIX_BGZIPTABIX.out.gz_tbi)
+    WHATSHAP_HAPLOTAG(ch_haplotag.bam_in, ch_haplotag.ref_in, ch_haplotag.phase_in)
 
     versions = versions.mix(WHATSHAP_HAPLOTAG.out.versions.first())
 
