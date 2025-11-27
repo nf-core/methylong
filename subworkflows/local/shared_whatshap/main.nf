@@ -43,7 +43,7 @@ workflow WHATSHAP {
 
     versions = versions.mix(TABIX_BGZIPTABIX.out.versions.first())
 
-    // join inputs before piping into whatshap_haplotag 
+    // join inputs before piping into whatshap_haplotag
     input
         .join(TABIX_BGZIPTABIX.out.gz_tbi)
         .multiMap { meta, bam, bai, ref, fai, vcf, gz, tbi ->

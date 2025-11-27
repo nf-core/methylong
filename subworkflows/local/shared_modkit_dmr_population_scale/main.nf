@@ -65,7 +65,7 @@ workflow MODKIT_DMR_POPULATION_SCALE {
         .set{ dmr_b }
     PREPROCESS_A.out.ch_ref_in.take(1).set{ ch_ref }
 
-    // define inputs to avoid caching error 
+    // define inputs to avoid caching error
     dmr_a
         .join(dmr_b)
         .join(ch_ref)

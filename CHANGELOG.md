@@ -7,17 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Fixed`
 
-- fixed caching issue in `WHATSHAP_HAPLOTAG` workflow 
-- fixed caching issue in `MODKIT_DMR_POPULATION_SCALE` workflow 
+- fixed caching issue in `WHATSHAP_HAPLOTAG` workflow
+- fixed caching issue in `MODKIT_DMR_POPULATION_SCALE` workflow
 
 ### Removed
 
 - remove `--combine-strands` in `modkit pileup`
 
-### `Updated` 
+### `Updated`
 
-- when `--all-contexts` parameter is used, default DMR analysis will be conducted using `modkit dmr pair`, because DSS could only perform DMR analysis for CG context.  
-- update zenodo link in `README.md` 
+- when `--all-contexts` parameter is used, default DMR analysis will be conducted using `modkit dmr pair`, because DSS could only perform DMR analysis for CG context.
+- update zenodo link in `README.md`
 
 ## v2.0.0 - [2025-08-25]
 
