@@ -40,7 +40,7 @@ workflow DOWNSTREAM {
 
             versions = versions.mix(WHATSHAP.out.versions)
 
-            if (params.haplotype_dmrer=='modkit') {
+            if (params.haplotype_dmrer=='modkit' || params.all_contexts) {
 
                 MODKIT_DMR_HAPLOTYPE_LEVEL(WHATSHAP.out.ch_whatshap_out)
 
@@ -65,7 +65,7 @@ workflow DOWNSTREAM {
                 error "When --dmr_population_scale is enabled, both --dmr_a and --dmr_b must be specified"
             }
 
-            if (params.population_dmrer == 'modkit') {
+            if (params.population_dmrer == 'modkit' || params.all_contexts) {
 
                 MODKIT_DMR_POPULATION_SCALE(pileups, params.dmr_a, params.dmr_b)
 
