@@ -65,19 +65,8 @@ workflow MODKIT_DMR_POPULATION_SCALE {
         .set{ dmr_b }
     PREPROCESS_A.out.ch_ref_in.take(1).set{ ch_ref }
 
-    // define inputs to avoid caching error
-    dmr_a
-        .join(dmr_b)
-        .join(ch_ref)
-        .multiMap { meta, beds_a, tbis_a, beds_b, tbis_b, ref, fai ->
-                dmr_a: [meta, beds_a, tbis_a]
-                dmr_b: [meta, beds_b, tbis_b]
-                ref_in: [meta, ref, fai]
-        }
-        .set { ch_dmr }
-
     // Modkit dmr
-    DMR_POPULATION_SCALE(ch_dmr.dmr_a, ch_dmr.dmr_b, ch_dmr.ref_in)
+    DMR_POPULATION_SCALE(dmr_a, dmr_b, ch_ref)
 
     versions = versions.mix(DMR_POPULATION_SCALE.out.versions.first())
 
