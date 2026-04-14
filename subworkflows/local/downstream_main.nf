@@ -22,7 +22,6 @@ include { DSS_DMR_POPULATION_SCALE         } from './shared_dss_population_scale
 workflow DOWNSTREAM {
     take:
     pileups
-    versions
 
     main:
 
@@ -30,30 +29,19 @@ workflow DOWNSTREAM {
 
             SNVCALL_CLAIR3(pileups)
 
-            versions = versions.mix(SNVCALL_CLAIR3.out.versions)
-
             GUNZIP_AWK(SNVCALL_CLAIR3.out.ch_clair3_out)
-
-            versions = versions.mix(GUNZIP_AWK.out.versions)
 
             WHATSHAP(GUNZIP_AWK.out.ch_awk_out)
 
-            versions = versions.mix(WHATSHAP.out.versions)
-
-            if (params.haplotype_dmrer=='modkit') {
+            if (params.haplotype_dmrer=='modkit' || params.all_contexts) {
 
                 MODKIT_DMR_HAPLOTYPE_LEVEL(WHATSHAP.out.ch_whatshap_out)
-
-                versions = versions.mix(MODKIT_DMR_HAPLOTYPE_LEVEL.out.versions)
-
             }
 
             else {
                 // default setting when dmrer is dss
 
                 DSS_HAPLOTYPE_LEVEL(WHATSHAP.out.ch_whatshap_out)
-
-                versions = versions.mix(DSS_HAPLOTYPE_LEVEL.out.versions)
 
             }
 
@@ -65,11 +53,9 @@ workflow DOWNSTREAM {
                 error "When --dmr_population_scale is enabled, both --dmr_a and --dmr_b must be specified"
             }
 
-            if (params.population_dmrer == 'modkit') {
+            if (params.population_dmrer == 'modkit' || params.all_contexts) {
 
                 MODKIT_DMR_POPULATION_SCALE(pileups, params.dmr_a, params.dmr_b)
-
-                versions = versions.mix(MODKIT_DMR_POPULATION_SCALE.out.versions)
 
             }
 
@@ -78,12 +64,8 @@ workflow DOWNSTREAM {
 
                 DSS_DMR_POPULATION_SCALE(pileups, params.dmr_a, params.dmr_b)
 
-                versions = versions.mix(DSS_DMR_POPULATION_SCALE.out.versions)
-
             }
 
         }
 
-    emit:
-    versions
 }

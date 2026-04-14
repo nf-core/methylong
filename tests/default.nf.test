@@ -8,7 +8,10 @@ nextflow_pipeline {
     def test_scenario = [
         [
             name: "-profile test",
-            params: []
+            params: [
+                input       : "https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/methylong/v2.0.0/test_data/test_samplesheet.csv",
+                ont_aligner : "minimap2",
+            ]
         ],
     ]
 

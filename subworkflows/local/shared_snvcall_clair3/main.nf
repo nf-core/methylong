@@ -20,18 +20,14 @@ workflow SNVCALL_CLAIR3 {
 
     main:
 
-    versions = Channel.empty()
-
     // Prepare inputs for clair3
 
     input
-        .map { meta, _bam, _bai, ref -> [meta, ref] }
+        .map { meta, _bam, _bai, ref -> [meta, ref, []] }
         .set { ch_ref_in }
 
     // Index ref
-    SAMTOOLS_FAIDX(ch_ref_in, [[], []], [])
-
-    versions = versions.mix(SAMTOOLS_FAIDX.out.versions.first())
+    SAMTOOLS_FAIDX(ch_ref_in, [])
 
     input
         .join(SAMTOOLS_FAIDX.out.fai)
@@ -56,8 +52,6 @@ workflow SNVCALL_CLAIR3 {
     // Clair3
     CLAIR3(ch_bam_in, ch_ref, ch_index)
 
-    versions = versions.mix(CLAIR3.out.versions.first())
-
     input
         .join(SAMTOOLS_FAIDX.out.fai)
         .join(CLAIR3.out.vcf)
@@ -65,5 +59,4 @@ workflow SNVCALL_CLAIR3 {
 
     emit:
     ch_clair3_out
-    versions
 }

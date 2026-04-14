@@ -274,7 +274,6 @@
             "title": "Fiberseq options",
             "type": "object",
             "description": "",
-            "default": "",
             "properties": {
                 "fiberseq": {
                     "type": "boolean",

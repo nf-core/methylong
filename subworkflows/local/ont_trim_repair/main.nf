@@ -26,7 +26,7 @@ workflow ONT_TRIM_REPAIR {
 
     main:
 
-    versions = Channel.empty()
+    versions = channel.empty()
 
     // Create samtools sort input
     input
@@ -46,17 +46,13 @@ workflow ONT_TRIM_REPAIR {
         SAMTOOLS_RESET.out.unaligned_bam
                             . set { ch_reset_bam }
 
-        versions = versions.mix(SAMTOOLS_RESET.out.versions.first())
-
-        SAMTOOLS_SORT(ch_reset_bam, [[],[]], 'bai')
+        SAMTOOLS_SORT(ch_reset_bam, [[],[],[]], 'bai')
 
     } else {
 
-        SAMTOOLS_SORT(ch_sort_in, [[],[]], 'bai')
+        SAMTOOLS_SORT(ch_sort_in, [[],[],[]], 'bai')
 
     }
-
-    versions = versions.mix(SAMTOOLS_SORT.out.versions.first())
 
     // set input to samtools fastq
     SAMTOOLS_SORT.out.bam
@@ -64,8 +60,6 @@ workflow ONT_TRIM_REPAIR {
         .set { fastq_input }
 
     SAMTOOLS_FASTQ(fastq_input, [])
-
-    versions = versions.mix(SAMTOOLS_FASTQ.out.versions.first())
 
     RENAME_FASTQ(SAMTOOLS_FASTQ.out.other)
 
@@ -76,8 +70,6 @@ workflow ONT_TRIM_REPAIR {
 
     SAMTOOLS_IMPORT(PORECHOP_PORECHOP.out.reads)
 
-    versions = versions.mix(SAMTOOLS_IMPORT.out.versions.first())
-
     // Prepare input for modkit repair
     SAMTOOLS_SORT.out.bam
         .join(SAMTOOLS_IMPORT.out.bam)
@@ -86,10 +78,7 @@ workflow ONT_TRIM_REPAIR {
 
     MODKIT_REPAIR(ch_repair_in)
 
-    versions = versions.mix(MODKIT_REPAIR.out.versions.first())
-
     // Prepare input for alignment step
-
 
     MODKIT_REPAIR.out.bam
         .join(ch_ref_in)

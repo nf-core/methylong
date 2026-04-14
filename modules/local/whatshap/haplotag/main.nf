@@ -15,7 +15,8 @@ process WHATSHAP_HAPLOTAG {
     output:
     tuple val(meta), path("*.bam")      , emit: bam
     tuple val(meta), path("*.readlist") , emit: readlist
-    path "versions.yml"                 , emit: versions
+    tuple val("${task.process}"), val('whatshap'), eval("whatshap --version"), topic: versions, emit: versions_whatshap
+
 
     when:
     task.ext.when == null || task.ext.when
@@ -37,10 +38,6 @@ process WHATSHAP_HAPLOTAG {
         $vcfgz \\
         $bam
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        whatshap: \$(whatshap --version )
-    END_VERSIONS
     """
 
     stub:
@@ -52,9 +49,5 @@ process WHATSHAP_HAPLOTAG {
     touch ${prefix}.bam
     touch ${prefix}.readlist
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        whatshap: \$(whatshap --version )
-    END_VERSIONS
     """
 }

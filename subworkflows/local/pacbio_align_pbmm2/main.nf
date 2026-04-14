@@ -25,7 +25,7 @@ workflow PACBIO_ALIGN_PBMM2 {
 
     main:
 
-    versions = Channel.empty()
+    versions = channel.empty()
 
     input
         .multiMap { meta, modbam, ref ->
@@ -41,23 +41,20 @@ workflow PACBIO_ALIGN_PBMM2 {
 
     SAMTOOLS_INDEX(PBMM2_ALIGN.out.bam)
 
-    versions = versions.mix(SAMTOOLS_INDEX.out.versions.first())
-
     // Prepare input for samtool flagstat and modkit pileup
     PBMM2_ALIGN.out.bam
-        .join(SAMTOOLS_INDEX.out.bai)
+        .join(SAMTOOLS_INDEX.out.index)
         .set { ch_flagstat_in }
 
     PBMM2_ALIGN.out.bam
-        .join(SAMTOOLS_INDEX.out.bai)
+        .join(SAMTOOLS_INDEX.out.index)
         .join(ch_pbmm_in.ref_in)
-        .map { meta, bam, bai, ref -> [meta, bam, bai, ref] }
+        .map { meta, bam, index, ref -> [meta, bam, index, ref] }
         .set { ch_pile_in }
 
     // check alignment stat
     SAMTOOLS_FLAGSTAT(ch_flagstat_in)
 
-    versions = versions.mix(SAMTOOLS_FLAGSTAT.out.versions.first())
     SAMTOOLS_FLAGSTAT.out.flagstat.set { flagstat_out }
 
     emit:

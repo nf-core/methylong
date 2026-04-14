@@ -6,8 +6,8 @@
 
 include { WHATSHAP_PHASE    } from '../../../modules/local/whatshap/phase/main'
 include { WHATSHAP_HAPLOTAG } from '../../../modules/local/whatshap/haplotag/main'
-include { TABIX_BGZIPTABIX  } from '../../../modules/nf-core/tabix/bgziptabix/main'
-include { SAMTOOLS_INDEX } from '../../../modules/nf-core/samtools/index/main'
+include { TABIX_TABIX  as TABIX_TABIX_PHASE  } from '../../../modules/nf-core/tabix/tabix/main'
+include { SAMTOOLS_INDEX as SAMTOOLS_INDEX_PHASE } from '../../../modules/nf-core/samtools/index/main'
 
 /*
 ===========================================
@@ -22,8 +22,6 @@ workflow WHATSHAP {
 
     main:
 
-    versions = Channel.empty()
-
     // Prepare inputs for whatshap
 
     input
@@ -37,28 +35,30 @@ workflow WHATSHAP {
     // WhatsHap phase
     WHATSHAP_PHASE(ch_input.bam_in, ch_input.ref_in, ch_input.vcf_in )
 
-    versions = versions.mix(WHATSHAP_PHASE.out.versions.first())
+    TABIX_TABIX_PHASE(WHATSHAP_PHASE.out.vcfgz)
 
-    TABIX_BGZIPTABIX(WHATSHAP_PHASE.out.vcf)
-
-    versions = versions.mix(TABIX_BGZIPTABIX.out.versions.first())
+    // join inputs before piping into whatshap_haplotag
+    input
+        .join(WHATSHAP_PHASE.out.vcfgz)
+        .join(TABIX_TABIX_PHASE.out.index)
+        .multiMap { meta, bam, bai, ref, fai, _vcf, vcfgz, tbi ->
+                bam_in: [meta, bam, bai]
+                ref_in: [meta, ref, fai]
+                phase_in: [meta, vcfgz, tbi]
+        }
+        .set {ch_haplotag }
 
     // WhatsHap haplotag
-    WHATSHAP_HAPLOTAG(ch_input.bam_in, ch_input.ref_in, TABIX_BGZIPTABIX.out.gz_tbi)
+    WHATSHAP_HAPLOTAG(ch_haplotag.bam_in, ch_haplotag.ref_in, ch_haplotag.phase_in)
 
-    versions = versions.mix(WHATSHAP_HAPLOTAG.out.versions.first())
-
-    SAMTOOLS_INDEX(WHATSHAP_HAPLOTAG.out.bam)
-
-    versions = versions.mix(SAMTOOLS_INDEX.out.versions.first())
+    SAMTOOLS_INDEX_PHASE(WHATSHAP_HAPLOTAG.out.bam)
 
     input
         .join(WHATSHAP_HAPLOTAG.out.bam)
-        .join(SAMTOOLS_INDEX.out.bai)
-        .map { meta, _bam, _bai, ref, fai, _vcf, newbam, newbai -> [meta, newbam, newbai, ref, fai] }
+        .join(SAMTOOLS_INDEX_PHASE.out.index)
+        .map { meta, _bam, _bai, ref, fai, _vcf, newbam, index -> [meta, newbam, index, ref, fai] }
         .set { ch_whatshap_out }
 
     emit:
     ch_whatshap_out
-    versions
 }

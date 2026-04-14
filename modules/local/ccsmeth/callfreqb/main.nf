@@ -13,7 +13,9 @@ process CCSMETH_CALLFREQB {
 
     output:
     tuple val(meta), path("*.bed.gz")  , emit: bed
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('ccsmeth'), eval("ccsmeth --version | sed 's/ccsmeth version: //'"),
+    topic: versions,
+    emit: versions_ccsmeth
 
     when:
     task.ext.when == null || task.ext.when
@@ -33,11 +35,6 @@ process CCSMETH_CALLFREQB {
         --output ${prefix} \\
         --threads ${task.cpus}
 
-    cat <<-END_VERSIONS > versions.yml
-
-    "${task.process}":
-        ccsmeth: "\$(ccsmeth --version | sed 's/ccsmeth version: //')"
-    END_VERSIONS
     """
 
     stub:
@@ -47,10 +44,5 @@ process CCSMETH_CALLFREQB {
     """
     echo $args
     echo "" | gzip > ${prefix}.bed.gz
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        ccsmeth: "\$(ccsmeth --version | sed 's/ccsmeth version: //')"
-    END_VERSIONS
     """
 }

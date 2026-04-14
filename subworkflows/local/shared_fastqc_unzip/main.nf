@@ -19,15 +19,13 @@ workflow FASTQ_UNZIP {
 
     main:
 
-    versions = Channel.empty()
-    fastqc_log = Channel.empty()
+    fastqc_log = channel.empty()
 
     input
         .map { meta, modbam, _ref -> [meta, modbam] }
         .set { fastqc_in }
 
     FASTQC(fastqc_in)
-    versions = versions.mix(FASTQC.out.versions.first())
     fastqc_log = fastqc_log.mix(FASTQC.out.zip.collect { it[1] }.ifEmpty([]))
 
     input
@@ -44,8 +42,6 @@ workflow FASTQ_UNZIP {
 
     GUNZIP.out.gunzip.set { unzip_ref }
 
-    versions = versions.mix(GUNZIP.out.versions.first())
-
     // merge into one channel
     unzip_ref
         .concat(ch_no_gz_in)
@@ -59,6 +55,5 @@ workflow FASTQ_UNZIP {
 
     emit:
     unzip_input
-    versions
     fastqc_log
 }

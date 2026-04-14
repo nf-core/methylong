@@ -7,10 +7,10 @@
 
 [![Open in GitHub Codespaces](https://img.shields.io/badge/Open_In_GitHub_Codespaces-black?labelColor=grey&logo=github)](https://github.com/codespaces/new/nf-core/methylong)
 [![GitHub Actions CI Status](https://github.com/nf-core/methylong/actions/workflows/nf-test.yml/badge.svg)](https://github.com/nf-core/methylong/actions/workflows/nf-test.yml)
-[![GitHub Actions Linting Status](https://github.com/nf-core/methylong/actions/workflows/linting.yml/badge.svg)](https://github.com/nf-core/methylong/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/methylong/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.15366449)
+[![GitHub Actions Linting Status](https://github.com/nf-core/methylong/actions/workflows/linting.yml/badge.svg)](https://github.com/nf-core/methylong/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/methylong/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.15366448-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.15366448)
 [![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
 
-[![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.04.0-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
+[![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.10.4-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
 [![nf-core template version](https://img.shields.io/badge/nf--core_template-3.5.1-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/3.5.1)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
@@ -80,8 +80,8 @@
    - includes DMR haplotype level and population scale:
      1. tag reads by haplotype - `whatshap haplotype`
      2. create bedMethyl - `modkit pileup`
-     3. DMR - `DSS` (default) or `modkit dmr`
-        - in `DSS` , regions with statistically significant CpG sites will be detected as DMRs.
+     3. DMR - `DSS` (default) or `modkit dmr` (default when `--all-context` is set)
+        - in `DSS` , only regions with statistically significant CpG sites will be detected as DMRs.
 
 ### Fiberseq workflow:
 
@@ -183,29 +183,42 @@ Folder stuctures of the outputs:
 │   │   └── SNV_PASS.vcf
 │   │
 │   ├── phase
-│   │   ├── phased.vcf
+│   │   ├── phased.vcf.gz
 │   │   ├── haplotagged.bam
 │   │   └── haplotagged.readlist
 │   │
-│   ├── pileup/modkit
+│   ├── pileup
 │   │   ├── pileup.bed.gz
 │   │   └── pileup.log
 │   │
 │   ├── bedgraph
-│   │   └── bedgraphs
+│   │   └── <CG|CHG|CHH|A>.bedgraph.gz
 │   │
-│   ├── dmr_haplotype_level/dss
-│   │   ├── preprocessed_<1|2|etc>.bed
-│   │   ├── DSS_DMLtest.txt
-│   │   ├── DSS_callDML.txt
-│   │   ├── DSS_callDMR.txt
-│   │   └── DSS.log
+│   ├── dmr_haplotype_level
+│   │   ├── phased_pileup
+│   │   │   ├── hp1.bed.gz
+│   │   │   ├── hp2.bed.gz
+│   │   │   └── combined.bed.gz
+│   │   └── dmr:modkit/dss
+│   │       ├── preprocessed_<1|2|etc>.bed
+│   │       ├── DSS_DMLtest.txt
+│   │       ├── DSS_callDML.txt
+│   │       ├── DSS_callDMR.txt
+│   │       └── DSS.log
+│   │       ├── group1_group2_modkit.bed.gz
+│   │       └── group1_group2_modkit_dmr.log
 │   │
 │   └── dmr_population_scale
-│       ├── population_scale_DMLtest.txt
-│       ├── population_scale_callDML.txt
-│       ├── population_scale_callDMR.txt
-│       └── population_scale.log
+│       ├── group_pileup
+│       │   ├── group1.bed.gz
+│       │   └── group2.bed.gz
+│       └── group1_group2:dmr:modkit/dss
+│           ├── population_scale_DMLtest.txt
+│           ├── population_scale_callDML.txt
+│           ├── population_scale_callDMR.txt
+│           └── population_scale.log
+│           ├── group1_group2_modkit.bed.gz
+│           └── group1_group2_modkit_dmr.log
 │
 │
 ├── pacbio/sampleName
@@ -219,7 +232,7 @@ Folder stuctures of the outputs:
 │   │   ├── m6a_predicted.bam
 │   │   └── m6a.bed
 │   │
-│   ├── aligned_minimap2/ aligned_pbmm2
+│   ├── alignment
 │   │   ├── aligned.bam
 │   │   ├── aligned.bai/csi
 │   │   └── aligned.flagstat
@@ -234,27 +247,38 @@ Folder stuctures of the outputs:
 │   │   └── SNV_PASS.vcf
 │   │
 │   ├── phase
-│   │   ├── phased.vcf
+│   │   ├── phased.vcf.gz
 │   │   ├── haplotagged.bam
 │   │   └── haplotagged.readlist
 │   │
 │   ├── bedgraph
 │   │   └── bedgraphs
 │   │
-│   ├── dmr_haplotype_level/dss
-│   │   ├── preprocessed_1.bed
-│   │   ├── preprocessed_2.bed
-│   │   ├── DSS_DMLtest.txt
-│   │   ├── DSS_callDML.txt
-│   │   ├── DSS_callDMR.txt
-│   │   └── DSS.log
+│   ├── dmr_haplotype_level
+│   │   ├── phased_pileup
+│   │   │   ├── hp1.bed.gz
+│   │   │   ├── hp2.bed.gz
+│   │   │   └── combined.bed.gz
+│   │   └── dmr:modkit/dss
+│   │       ├── preprocessed_<1|2|etc>.bed
+│   │       ├── DSS_DMLtest.txt
+│   │       ├── DSS_callDML.txt
+│   │       ├── DSS_callDMR.txt
+│   │       └── DSS.log
+│   │       ├── group1_group2_modkit.bed.gz
+│   │       └── group1_group2_modkit_dmr.log
 │   │
 │   └── dmr_population_scale
-│       ├── population_scale_DMLtest.txt
-│       ├── population_scale_callDML.txt
-│       ├── population_scale_callDMR.txt
-│       └── population_scale.log
-│
+│       ├── group_pileup
+│       │   ├── group1.bed.gz
+│       │   └── group2.bed.gz
+│       └── group1_group2:dmr:modkit/dss
+│           ├── population_scale_DMLtest.txt
+│           ├── population_scale_callDML.txt
+│           ├── population_scale_callDMR.txt
+│           └── population_scale.log
+│           ├── group1_group2_modkit.bed.gz
+│           └── group1_group2_modkit_dmr.log
 │
 └── multiqc
     │
@@ -267,9 +291,9 @@ bedgraph outputs all have min. 5x base coverage.
 
 ## Credits
 
-nf-core/methylong was originally written by [Jin Yan Khoo](https://github.com/jkh00), from the Faculty of Biology of the Ludwig-Maximilians University (LMU) in Munich, Germany. Further significant contributions were made by [YiJin Xiong](https://github.com/YiJin-Xiong), from Central South University (CSU) in Changsha, China.
+nf-core/methylong was originally written by [Jin Yan Khoo](https://github.com/jkh00), from the Faculty of Biology of the Ludwig-Maximilians University (LMU) in Munich, Germany, funded by in part via TRR356 (DFG Grant Number, 491090170, Project A05 to Niklas Schandry). Further significant contributions were made by [YiJin Xiong](https://github.com/YiJin-Xiong), from Central South University (CSU) in Changsha, China.
 
-I thank the following people for their extensive assistance in the development of this pipeline:
+We thank the following people for their extensive assistance in the development of this pipeline:
 
 - [Felix Lenner](https://github.com/fellen31)
 - [Júlia Mir Pedrol](https://github.com/mirpedrol)

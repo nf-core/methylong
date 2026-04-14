@@ -23,8 +23,6 @@ workflow DSS_DMR_POPULATION_SCALE {
 
     main:
 
-    versions = Channel.empty()
-
     // Split input into two groups: dmr_a and dmr_b
     input
         .branch { meta, _bam, _bai, _ref ->
@@ -36,11 +34,7 @@ workflow DSS_DMR_POPULATION_SCALE {
     // Preprocess
     PREPROCESS_A(branched_input.dmr_a)
 
-    versions = versions.mix(PREPROCESS_A.out.versions.first())
-
     PREPROCESS_B(branched_input.dmr_b)
-
-    versions = versions.mix(PREPROCESS_B.out.versions.first())
 
     // Prepare inputs for dss
     PREPROCESS_A.out.bed_preprocessed
@@ -64,11 +58,8 @@ workflow DSS_DMR_POPULATION_SCALE {
     // dss
     DSS_POPULATION_SCALE( dmr_a, dmr_b )
 
-    versions = versions.mix(DSS_POPULATION_SCALE.out.versions.first())
-
     DSS_POPULATION_SCALE.out.txt.set { dmr_out }
 
     emit:
     dmr_out
-    versions
 }

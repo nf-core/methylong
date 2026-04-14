@@ -22,8 +22,6 @@ workflow PACBIO_SPLIT_STRAND_PBCPG_PILEUP {
     input
 
     main:
-
-    versions = Channel.empty()
     // prepare input
 
     input
@@ -37,15 +35,11 @@ workflow PACBIO_SPLIT_STRAND_PBCPG_PILEUP {
 
     SAMTOOLS_SPLIT_STRAND(ch_split_in)
 
-    versions = versions.mix(SAMTOOLS_SPLIT_STRAND.out.versions.first())
-
     SAMTOOLS_SPLIT_STRAND.out.forwardbam
         .join(SAMTOOLS_SPLIT_STRAND.out.reversebam)
         .set { stranded_out }
 
     SAMTOOLS_MERGE(stranded_out)
-
-    versions = versions.mix(SAMTOOLS_MERGE.out.versions.first())
 
     // Prepare inputs for pbcpgtools
     SAMTOOLS_MERGE.out.bam
@@ -61,13 +55,10 @@ workflow PACBIO_SPLIT_STRAND_PBCPG_PILEUP {
 
     PB_CPG_TOOLS(cpg_tools_in.bams, cpg_tools_in.refs)
 
-    versions = versions.mix(PB_CPG_TOOLS.out.versions.first())
-
     PB_CPG_TOOLS.out.forwardbed
         .join(PB_CPG_TOOLS.out.reversebed)
         .set { pile_out }
 
     emit:
     pile_out
-    versions
 }

@@ -13,7 +13,9 @@ process PB_CPG_TOOLS {
     tuple val(meta), path("*negative.bed.gz"), emit: reversebed
     tuple val(meta), path("*.bw")            , emit: bw
     tuple val(meta), path("*.log")           , emit: log
-    path "versions.yml"                      , emit: versions
+    tuple val("${task.process}"), val('aligned_bam_to_cpg_scores'), eval("aligned_bam_to_cpg_scores --version | sed 's/aligned_bam_to_cpg_scores //'"),
+    topic: versions,
+    emit: versions_aligned_bam_to_cpg_scores
 
     script:
 
@@ -33,10 +35,6 @@ process PB_CPG_TOOLS {
     mv ${meta.id}.hap1.bed.gz ${meta.id}_positive.bed.gz
     mv ${meta.id}.hap2.bed.gz ${meta.id}_negative.bed.gz
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        aligned_bam_to_cpg_scores: \$( aligned_bam_to_cpg_scores --version | sed 's/aligned_bam_to_cpg_scores //')
-    END_VERSIONS
     """
 
     stub:
@@ -48,11 +46,6 @@ process PB_CPG_TOOLS {
     touch ${prefix}_negative.bed.gz
     touch ${prefix}.bw
     touch ${prefix}.log
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        aligned_bam_to_cpg_scores: \$( aligned_bam_to_cpg_scores --version | sed 's/aligned_bam_to_cpg_scores //')
-    END_VERSIONS
 
     """
 }

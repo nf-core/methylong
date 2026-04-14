@@ -20,15 +20,13 @@ workflow ONT_FIBERSEQ {
 
     main:
 
-    versions = Channel.empty()
+    versions = channel.empty()
 
     input
         .map { meta, bam, _bai, _ref -> [meta, bam] }
         .set { ch_bam_in }
 
     MODKIT_CALLMODS(ch_bam_in)
-
-    versions = versions.mix(MODKIT_CALLMODS.out.versions.first())
 
     FIBERTOOLSRS_ADDNUCLEOSOMES(MODKIT_CALLMODS.out.bam)
 

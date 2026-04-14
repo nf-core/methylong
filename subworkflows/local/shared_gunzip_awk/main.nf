@@ -19,8 +19,6 @@ workflow GUNZIP_AWK {
 
     main:
 
-    versions = Channel.empty()
-
     input
         .map { meta, _bam, _bai, _ref, _fai, vcf -> [meta, vcf] }
         .filter { it[1] =~ /\.vcf\.gz$/ }
@@ -30,11 +28,7 @@ workflow GUNZIP_AWK {
 
     GUNZIP.out.gunzip.set { ch_gz_out }
 
-    versions = versions.mix(GUNZIP.out.versions.first())
-
     GAWK(ch_gz_out, [], [])
-
-    versions = versions.mix(GAWK.out.versions.first())
 
     input
         .join(GAWK.out.output)
@@ -43,5 +37,4 @@ workflow GUNZIP_AWK {
 
     emit:
     ch_awk_out
-    versions
 }

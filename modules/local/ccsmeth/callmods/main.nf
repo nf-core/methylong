@@ -12,7 +12,9 @@ process CCSMETH_CALLMODS {
 
     output:
     tuple val(meta), path("*.bam")  , emit: modbam
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('ccsmeth'), eval("ccsmeth --version | sed 's/ccsmeth version: //'"),
+    topic: versions,
+    emit: versions_ccsmeth
 
     when:
     task.ext.when == null || task.ext.when
@@ -31,11 +33,6 @@ process CCSMETH_CALLMODS {
         --output ${prefix} \\
         --threads ${task.cpus}
 
-    cat <<-END_VERSIONS > versions.yml
-
-    "${task.process}":
-        ccsmeth: "\$(ccsmeth --version | sed 's/ccsmeth version: //')"
-    END_VERSIONS
     """
 
     stub:
@@ -46,9 +43,5 @@ process CCSMETH_CALLMODS {
     echo $args
     touch ${prefix}/${prefix}.bam
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        ccsmeth: "\$(ccsmeth --version | sed 's/ccsmeth version: //')"
-    END_VERSIONS
     """
 }

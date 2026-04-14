@@ -14,7 +14,6 @@ include { samplesheetToList         } from 'plugin/nf-schema'
 include { paramsHelp                } from 'plugin/nf-schema'
 include { completionEmail           } from '../../nf-core/utils_nfcore_pipeline'
 include { completionSummary         } from '../../nf-core/utils_nfcore_pipeline'
-include { imNotification            } from '../../nf-core/utils_nfcore_pipeline'
 include { UTILS_NFCORE_PIPELINE     } from '../../nf-core/utils_nfcore_pipeline'
 include { UTILS_NEXTFLOW_PIPELINE   } from '../../nf-core/utils_nextflow_pipeline'
 
@@ -147,11 +146,6 @@ workflow PIPELINE_COMPLETION {
                 monochrome_logs,
                 multiqc_report.toList(),
             )
-        }
-
-        completionSummary(monochrome_logs)
-        if (hook_url) {
-            imNotification(summary_params, hook_url)
         }
     }
 

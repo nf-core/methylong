@@ -14,7 +14,9 @@ process DSS {
     output:
     tuple val(meta), path("*.txt"), optional: true, emit: txt
     tuple val(meta), path("*.log"), emit: log
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('R'), eval("R --version 2>&1 | grep -i '^R version' | head -1 | cut -d' ' -f3"),
+    topic: versions,
+    emit: versions_r
 
     when:
     task.ext.when == null || task.ext.when
@@ -36,12 +38,7 @@ process DSS {
         $out_dir \\
         > ${prefix}.log 2>&1
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        R: \$( R --version 2>&1 | grep -i '^R version' | head -1 | cut -d' ' -f3 )
-    END_VERSIONS
     """
-
     stub:
     def args   = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
@@ -51,9 +48,5 @@ process DSS {
     touch ${prefix}.txt
     touch ${prefix}.log
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        R: \$( R --version 2>&1 | grep -i '^R version' | head -1 | cut -d' ' -f3 )
-    END_VERSIONS
     """
 }

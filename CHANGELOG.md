@@ -3,6 +3,34 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.0.1 - [2025-11-27]
+
+### `Fixed`
+
+- fixed caching issue in `WHATSHAP_HAPLOTAG` workflow
+
+### Removed
+
+- remove `--combine-strands` in `modkit pileup`
+
+### `Updated`
+
+- when `--all-contexts` parameter is used, default DMR analysis will be conducted using `modkit dmr pair`, because DSS could only perform DMR analysis for CG context.
+- update zenodo link in `README.md`
+- update `dorado` version
+- update `modkit` version
+- compressed output of `whatshap phase`, `modkit dmr pair` and `modkit pileup`
+
+### `Dependencies`
+
+| Dependency | Old version | New version |
+| ---------- | ----------- | ----------- |
+| `dorado`   | 1.1.1       | 1.4.0       |
+| `modkit`   | 0.5.0       | 0.6.1       |
+| `clair3`   | 1.2.0       | 2.0.0       |
+| `gawk`     | 5.3.0       | 5.3.1       |
+| `samtools` | 1.22.1      | 1.23.1      |
+
 ## v2.0.0 - [2025-08-25]
 
 ### `Updated`

@@ -17,7 +17,7 @@ process MODKIT_BEDGRAPH {
 
     output:
     tuple val(meta), path("*.bedgraph.gz"), emit: bedgraph
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('pigz'), eval('pigz --version 2>&1 | sed "s/^.*pigz[[:space:]]*//"'), emit: versions_pigz, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -47,11 +47,6 @@ process MODKIT_BEDGRAPH {
             | pigz -p ${task.cpus} -c > ${meta.id}_\${out_file}.gz
         done
     done
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        pigz: \$(pigz --version)
-    END_VERSIONS
     """
 
     stub:
@@ -61,10 +56,5 @@ process MODKIT_BEDGRAPH {
     """
     touch ${prefix}.bedgraph.gz
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        pigz: \$(pigz --version)
-
-    END_VERSIONS
     """
 }

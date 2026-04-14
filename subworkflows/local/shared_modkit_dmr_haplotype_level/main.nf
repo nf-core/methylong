@@ -6,8 +6,8 @@
 
 include { MODKIT_PILEUP as MODKIT_PILEUP_HAPLOTYPE_LEVEL } from '../../../modules/nf-core/modkit/pileup/main'
 include { MODKIT_DMRPAIR    as DMR_HAPLOTYPE_LEVEL       } from '../../../modules/local/modkit/dmrpair/main'
-include { TABIX_BGZIPTABIX as TABIX_BGZIPTABIX_1         } from '../../../modules/nf-core/tabix/bgziptabix/main'
-include { TABIX_BGZIPTABIX as TABIX_BGZIPTABIX_2         } from '../../../modules/nf-core/tabix/bgziptabix/main'
+include { TABIX_TABIX as TABIX_TABIX_1                   } from '../../../modules/nf-core/tabix/tabix/main'
+include { TABIX_TABIX as TABIX_TABIX_2                   } from '../../../modules/nf-core/tabix/tabix/main'
 
 /*
 ===========================================
@@ -15,14 +15,11 @@ include { TABIX_BGZIPTABIX as TABIX_BGZIPTABIX_2         } from '../../../module
 ===========================================
  */
 
-
 workflow MODKIT_DMR_HAPLOTYPE_LEVEL {
     take:
     input
 
     main:
-
-    versions = Channel.empty()
 
     input
         .multiMap { meta, bam, bai, ref, fai  ->
@@ -34,9 +31,7 @@ workflow MODKIT_DMR_HAPLOTYPE_LEVEL {
     // Modkit pileup
     MODKIT_PILEUP_HAPLOTYPE_LEVEL(ch_input.bam_in, ch_input.ref_in, [[], []])
 
-    versions = versions.mix(MODKIT_PILEUP_HAPLOTYPE_LEVEL.out.versions.first())
-
-    MODKIT_PILEUP_HAPLOTYPE_LEVEL.out.bed
+    MODKIT_PILEUP_HAPLOTYPE_LEVEL.out.bedgz
         .flatMap { meta, files ->
             files.collect { file ->
                 [meta, file]
@@ -45,22 +40,24 @@ workflow MODKIT_DMR_HAPLOTYPE_LEVEL {
         .set { pileup_out }
 
     // segment haplotype bed files
-    bed_hp1 = pileup_out.filter { _meta, file -> file.toString().endsWith('_1.bed') }
+    bed_hp1 = pileup_out.filter { _meta, file -> file.toString().endsWith('_1.bed.gz') }
 
-    bed_hp2 = pileup_out.filter { _meta, file -> file.toString().endsWith('_2.bed') }
+    bed_hp2 = pileup_out.filter { _meta, file -> file.toString().endsWith('_2.bed.gz') }
 
-    // bgzip and tabix
-    TABIX_BGZIPTABIX_1(bed_hp1)
+    //tabix
+    TABIX_TABIX_1(bed_hp1)
 
-    versions = versions.mix(TABIX_BGZIPTABIX_1.out.versions.first())
+    TABIX_TABIX_2(bed_hp2)
 
-    TABIX_BGZIPTABIX_2(bed_hp2)
+    bed_hp1
+    .join(TABIX_TABIX_1.out.index)
+    .map { meta, bedgz, index -> [meta, bedgz, index] }
+    .set { bed_hp1_gz }
 
-    versions = versions.mix(TABIX_BGZIPTABIX_2.out.versions.first())
-
-    TABIX_BGZIPTABIX_1.out.gz_tbi.set { bed_hp1_gz }
-
-    TABIX_BGZIPTABIX_2.out.gz_tbi.set { bed_hp2_gz }
+    bed_hp2
+    .join(TABIX_TABIX_2.out.index)
+    .map { meta, bedgz, index -> [meta, bedgz, index] }
+    .set { bed_hp2_gz }
 
     // Merge bed files with the same [meta]
     bed_hp1_gz
@@ -76,12 +73,9 @@ workflow MODKIT_DMR_HAPLOTYPE_LEVEL {
     // Modkit dmr
     DMR_HAPLOTYPE_LEVEL( bed.bed_hp1_gz, bed.bed_hp2_gz, bed.ch_ref )
 
-    versions = versions.mix(DMR_HAPLOTYPE_LEVEL.out.versions.first())
-
-    DMR_HAPLOTYPE_LEVEL.out.bed.set { dmr_out }
+    DMR_HAPLOTYPE_LEVEL.out.bedgz.set { dmr_out }
 
     emit:
     pileup_out
     dmr_out
-    versions
 }

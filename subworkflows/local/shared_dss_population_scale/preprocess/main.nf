@@ -20,16 +20,12 @@ workflow DSS_POPULATION_SCALE_PREPROCESS {
 
     main:
 
-    versions = Channel.empty()
-
     input
-        .map { meta, _bam, _bai, ref -> [meta, ref] }
+        .map { meta, _bam, _bai, ref -> [meta, ref, []] }
         .set { ch_ref }
 
     // Index ref
-    SAMTOOLS_FAIDX(ch_ref, [[], []], [])
-
-    versions = versions.mix(SAMTOOLS_FAIDX.out.versions.first())
+    SAMTOOLS_FAIDX(ch_ref, [])
 
     // Prepare inputs for modkit pileup
     input
@@ -43,16 +39,11 @@ workflow DSS_POPULATION_SCALE_PREPROCESS {
     // modkit pileup
     MODKIT_PILEUP_POPULATION_SCALE(ch_pileup_in.bam, ch_pileup_in.ref, [[], []])
 
-    versions = versions.mix(MODKIT_PILEUP_POPULATION_SCALE.out.versions.first())
-
     // gawk
-    GAWK_FOR_DSS(MODKIT_PILEUP_POPULATION_SCALE.out.bed, [], [])
-
-    versions = versions.mix(GAWK_FOR_DSS.out.versions.first())
+    GAWK_FOR_DSS(MODKIT_PILEUP_POPULATION_SCALE.out.bedgz, [], [])
 
     GAWK_FOR_DSS.out.output.set { bed_preprocessed }
 
     emit:
     bed_preprocessed
-    versions
 }

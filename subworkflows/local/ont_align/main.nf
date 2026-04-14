@@ -22,8 +22,6 @@ workflow ONT_ALIGN {
 
     main:
 
-    versions = Channel.empty()
-
     align_in
         .multiMap { meta, modbam, ref ->
             bam_in: [meta, modbam]
@@ -34,7 +32,6 @@ workflow ONT_ALIGN {
     if (params.ont_aligner == "minimap2") {
 
         ONT_MINIMAP2_ALIGN(ch_mini_in.bam_in, ch_mini_in.ref_in, "bam_format", "bai", [], [])
-        versions = versions.mix(ONT_MINIMAP2_ALIGN.out.versions.first())
 
         ONT_MINIMAP2_ALIGN.out.bam
             .join(ONT_MINIMAP2_ALIGN.out.index)
@@ -53,8 +50,6 @@ workflow ONT_ALIGN {
                 SAMTOOLS_RESET.out.unaligned_bam
                                     . set { ch_reset_bam }
 
-                versions = versions.mix(SAMTOOLS_RESET.out.versions.first())
-
                 ch_mini_in.ref_in.set{ch_ref_in}
                 ch_reset_bam
                         .join(ch_ref_in)
@@ -71,7 +66,6 @@ workflow ONT_ALIGN {
                 DORADO_ALIGNER(ch_mini_in.bam_in, ch_mini_in.ref_in)
             }
 
-        versions = versions.mix(DORADO_ALIGNER.out.versions.first())
         // Preapre inputs for downstream
         DORADO_ALIGNER.out.bam
             .join(DORADO_ALIGNER.out.bai)
@@ -88,11 +82,9 @@ workflow ONT_ALIGN {
     // check alignment stat
     SAMTOOLS_FLAGSTAT(ch_flagstat_in)
 
-    versions = versions.mix(SAMTOOLS_FLAGSTAT.out.versions.first())
     SAMTOOLS_FLAGSTAT.out.flagstat.set { flagstat_out }
 
     emit:
     ch_pile_in
-    versions
     flagstat_out
 }

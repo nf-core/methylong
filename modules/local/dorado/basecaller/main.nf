@@ -3,7 +3,7 @@ process DORADO_BASECALLER {
     label 'process_high'
     label 'process_gpu'
 
-    container "docker.io/nanoporetech/dorado:shae423e761540b9d08b526a1eb32faf498f32e8f22"
+    container "docker.io/nanoporetech/dorado:shac8f356489fa8b44b31beba841b84d2879de2088e"
 
     input:
     tuple val(meta), path(pod5_path)
@@ -12,7 +12,9 @@ process DORADO_BASECALLER {
 
     output:
     tuple val(meta), path("*.bam")  , emit: bam
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('dorado'), eval("dorado --version 2>&1 | head -n1"),
+    topic: versions,
+    emit: versions_dorado
 
     when:
     task.ext.when == null || task.ext.when
@@ -35,11 +37,6 @@ process DORADO_BASECALLER {
         $use_gpu \\
         > ${prefix}.bam
 
-    cat <<-END_VERSIONS > versions.yml
-
-    "${task.process}":
-        dorado: "\$(dorado --version 2>&1 | head -n1)"
-    END_VERSIONS
     """
 
     stub:
@@ -50,9 +47,5 @@ process DORADO_BASECALLER {
     echo $args
     touch ${prefix}/${prefix}.bam
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        dorado: "\$(dorado --version 2>&1 | head -n1)"
-    END_VERSIONS
     """
 }

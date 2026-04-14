@@ -15,5 +15,5 @@ multiqc/multiqc_report.html
 {ont,pacbio}/*/*/dss/*.log
 {ont,pacbio}/*/snvcall/*.{bcf,vcf,vcf.gz,vcf.gz.tbi}
 {ont,pacbio}/*/alignment/*.{bam,bam.bai}
-{ont,pacbio}/*/phase/*.{bam,bam.bai,vcf,readlist}
+{ont,pacbio}/*/phase/*.{bam,bam.bai,vcf,vcf.gz,vcf.gz.tbi,readlist}
 pipeline_info/*.{html,json,txt,yml}

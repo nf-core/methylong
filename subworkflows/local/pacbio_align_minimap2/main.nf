@@ -23,8 +23,6 @@ workflow PACBIO_ALIGN_MINI {
 
     main:
 
-    versions = Channel.empty()
-
     input
         .multiMap { meta, modbam, ref ->
             mini_in: [meta, modbam]
@@ -33,9 +31,6 @@ workflow PACBIO_ALIGN_MINI {
         .set { ch_mini_in }
 
     PACBIO_MINIMAP2_ALIGN(ch_mini_in.mini_in, ch_mini_in.ref_in, "bam_format", "bai", [], [])
-
-    versions = versions.mix(PACBIO_MINIMAP2_ALIGN.out.versions.first())
-
 
     // Prepare input for samtool flagstat and modkit pileup
     PACBIO_MINIMAP2_ALIGN.out.bam
@@ -51,11 +46,9 @@ workflow PACBIO_ALIGN_MINI {
 
     SAMTOOLS_FLAGSTAT(ch_flagstat_in)
 
-    versions = versions.mix(SAMTOOLS_FLAGSTAT.out.versions.first())
     SAMTOOLS_FLAGSTAT.out.flagstat.set { flagstat_out }
 
     emit:
     ch_pile_in
-    versions
     flagstat_out
 }
