@@ -8,7 +8,7 @@ lint:
         - params.ccsmeth_ag_model
   nf_test_content: false
   template_strings: false
-nf_core_version: 4.0.3
+nf_core_version: 4.1.0
 repository_type: pipeline
 template:
   author: Jin Yan Khoo, Yi Jin Xiong
