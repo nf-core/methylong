@@ -39,7 +39,7 @@
      3. trim barcode and adapters - `porechop`
      4. convert trimmed modfastq to modBam - `samtools import`
      5. repair MM/ML tags of trimmed modBam - `modkit repair`
-3. align to reference (plus sorting and indexing) - `dorado aligner`( default) / `minimap2`
+3. align to reference (plus sorting and indexing) - `dorado aligner`(default) / `minimap2`
    - optional: remove previous alignment information before running `dorado aligner` using `samtools reset`
    - include alignment summary - `samtools flagstat`
 4. create bedMethyl - `modkit pileup`, 5x base coverage minimum.
@@ -87,61 +87,130 @@
 
 - ONT alignedBAM
   1. filtering m6A calls - `modkit call-mods`
-  2. infer nucleosomes and MSPs - `ft add-nuleosomes`
+  2. infer nucleosomes and MSPs - `ft add-nucleosomes`
   3. create bedMethyl - `ft extract`
 - PacBio alignedBAM
   1. predict m6a and infer nucleosomes - `ft predict-m6a`
   2. create bedMethyl - `ft extract`
 
-## Usage
+## Installation
 
-> [!NOTE]
-> Currently no support of `dorado` and `pb-CpG-tools` through conda.
+Before running nf-core/methylong, make sure that [Nextflow](https://www.nextflow.io/) and a supported software environment such as Docker, Singularity/Apptainer, or Conda are installed. If you are new to Nextflow or nf-core, see the [nf-core installation documentation](https://nf-co.re/docs/usage/installation).
 
-> [!NOTE]
-> The pipeline can identify whether ONT reads are in pod5 or bam format, and automatically determine whether to perform `basecalling`.
+There are two ways to obtain and run nf-core/methylong.
 
-> [!NOTE]
-> If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
+### Option 1: Run directly with Nextflow
 
-### Required input:
-
-- ONT or PacBio HiFi reads
-  - unaligned modification basecalled bam (modBam)
-  - if input modBam was aligned, remove previous alignment information using `--reset`
-  - raw ONT pod5
-  - raw bam
-- reference genome
-
-First, prepare a samplesheet with your input data that looks as follows:
-
-```csv title="samplesheet.csv"
-group,sample,path,ref,method
-test,Col_0,ont_modbam.bam,Col_0.fasta,ont
-
-```
-
-| Column   | Content                        |
-| -------- | ------------------------------ |
-| `group`  | Group of the sample            |
-| `sample` | Name of the sample             |
-| `path`   | Path to sample file            |
-| `ref`    | Path to assembly fasta/fa file |
-| `method` | specify ont / pacbio           |
-
-Now, you can run the pipeline using:
+nf-core/methylong can be launched directly from the remote nf-core repository:
 
 ```bash
 nextflow run nf-core/methylong \
-   -profile <docker/singularity/.../institute> \
-   --input samplesheet.csv \
-   --outdir <OUTDIR>
+    -profile <docker/singularity/conda/...> \
+    --input samplesheet.csv \
+    --outdir results
 ```
+
+This method requires Nextflow to access the GitHub API. If GitHub credentials are not configured, unauthenticated requests may reach the GitHub API rate limit and result in:
+
+```text
+API rate limit exceeded
+```
+
+If this occurs, either configure GitHub authentication for Nextflow using a GitHub Personal Access Token (see the [Nextflow Git documentation](https://www.nextflow.io/docs/latest/git.html)) or use the local installation below.
+
+### Option 2: Clone and run locally (recommended)
+
+For routine use, we recommend cloning the methylong repository and running the pipeline locally:
+
+```bash
+git clone https://github.com/nf-core/methylong.git
+cd methylong
+```
+
+Then run:
+
+```bash
+nextflow run main.nf \
+    -profile <docker/singularity/conda/...> \
+    --input samplesheet.csv \
+    --outdir results
+```
+
+## Usage
+
+> [!NOTE]
+> `dorado` and `pb-CpG-tools` are currently not supported through Conda.
+
+### Supported input types
+
+nf-core/methylong supports different input types for ONT and PacBio data. The input type determines the starting point of the workflow.
+
+| Platform | Input type                                     | Workflow starting point            |
+| -------- | ---------------------------------------------- | ---------------------------------- |
+| ONT      | POD5                                           | Basecalling                        |
+| ONT      | modBAM (unaligned modification basecalled BAM) | Read preprocessing and alignment   |
+| PacBio   | HiFi BAM (raw BAM)                             | Modification calling and alignment |
+| PacBio   | modBAM (unaligned modification basecalled BAM) | Alignment and methylation calling  |
+
+> [!NOTE]
+>
+> - For ONT data, methylong automatically distinguishes POD5 from BAM input and determines whether basecalling is required.
+> - For PacBio data, raw BAM and modBAM inputs should not be included in the same samplesheet because they enter the workflow at different starting points.
+
+### Samplesheet
+
+All supported input types use the same five-column samplesheet format:
+
+```csv
+group,sample,path,ref,method
+```
+
+Example:
+
+```csv title="samplesheet.csv"
+group,sample,path,ref,method
+test1,ONT_Col_0_pod5,/absolute/path/to/ont_reads.pod5,/absolute/path/to/Col_0.fasta,ont
+test2,ONT_Col_0_bam,/absolute/path/to/ont_modbam.bam,/absolute/path/to/Col_0.fasta,ont
+test3,PacBio_Col_0_bam,/absolute/path/to/pacbio_bam.bam,/absolute/path/to/Col_0.fasta,pacbio
+```
+
+| Column   | Description                                |
+| -------- | ------------------------------------------ |
+| `group`  | Sample group                               |
+| `sample` | Sample name                                |
+| `path`   | Path to the input BAM or POD5 data         |
+| `ref`    | Path to the reference genome FASTA/FA file |
+| `method` | Sequencing platform: `ont` or `pacbio`     |
+
+> [!IMPORTANT]
+>
+> Absolute paths are recommended. Relative paths are also supported and are resolved relative to the methylong project directory.
+
+### Detailed usage examples
+
+Please refer to [`docs/usage.md`](docs/usage.md) for commands corresponding to different input types and analysis scenarios. For a complete list of available parameters, see the [parameter documentation](https://nf-co.re/methylong/parameters).
 
 > [!WARNING]
 > Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files).
 
-For more details and further functionality, please refer to the [usage documentation](https://nf-co.re/methylong/usage) and the [parameter documentation](https://nf-co.re/methylong/parameters).
+## Testing
+
+A minimal built-in test can be run after cloning the repository:
+
+```bash
+nextflow run main.nf --outdir ./results -profile test,singularity
+```
+
+We recommend running this test to verify the Nextflow setup, software environment, and basic methylong workflow.
+
+Representative test datasets for the following supported input scenarios are available in the [nf-core test-datasets repository](https://github.com/nf-core/test-datasets/tree/methylong/v2.0.0/test_data):
+
+| Scenario              | Demo samplesheet                                                                                                                                      |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ONT BAM               | [`test_samplesheet.csv`](https://github.com/nf-core/test-datasets/blob/methylong/v2.0.0/test_data/test_samplesheet.csv)                               |
+| ONT POD5              | [`test_samplesheet_pod5.csv`](https://github.com/nf-core/test-datasets/blob/methylong/v2.0.0/test_data/test_samplesheet_pod5.csv)                     |
+| PacBio modBAM         | [`full_test_samplesheet.csv`](https://github.com/nf-core/test-datasets/blob/methylong/v2.0.0/test_data/full_test_samplesheet.csv)                     |
+| PacBio unmodified BAM | [`test_samplesheet_unmodified_bam.csv`](https://github.com/nf-core/test-datasets/blob/methylong/v2.0.0/test_data/test_samplesheet_unmodified_bam.csv) |
 
 ## Pipeline output
 
@@ -219,7 +288,6 @@ Folder stuctures of the outputs:
 │           └── population_scale.log
 │           ├── group1_group2_modkit.bed.gz
 │           └── group1_group2_modkit_dmr.log
-│
 │
 ├── pacbio/sampleName
 │   │
