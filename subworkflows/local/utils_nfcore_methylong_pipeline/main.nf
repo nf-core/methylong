@@ -102,8 +102,9 @@ workflow PIPELINE_INITIALISATION {
             meta.group = row.group
             meta.id = row.sample
             meta.method = row.method
-            def modbam  = row.path
-            return [meta, modbam, row.ref]
+            def modbam = file(row.path, checkIfExists: true)
+            def ref = file(row.ref, checkIfExists: true)
+            return [meta, modbam, ref]
         }
         .set { ch_samplesheet }
 
