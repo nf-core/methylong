@@ -145,12 +145,12 @@ nextflow run main.nf \
 
 nf-core/methylong supports different input types for ONT and PacBio data. The input type determines the starting point of the workflow.
 
-| Platform | Input type | Workflow starting point |
-| -------- | ---------- | ----------------------- |
-| ONT | POD5 | Basecalling |
-| ONT | modBAM (unaligned modification basecalled BAM) | Read preprocessing and alignment |
-| PacBio | HiFi BAM (raw BAM) | Modification calling and alignment |
-| PacBio | modBAM (unaligned modification basecalled BAM) | Alignment and methylation calling |
+| Platform | Input type                                     | Workflow starting point            |
+| -------- | ---------------------------------------------- | ---------------------------------- |
+| ONT      | POD5                                           | Basecalling                        |
+| ONT      | modBAM (unaligned modification basecalled BAM) | Read preprocessing and alignment   |
+| PacBio   | HiFi BAM (raw BAM)                             | Modification calling and alignment |
+| PacBio   | modBAM (unaligned modification basecalled BAM) | Alignment and methylation calling  |
 
 > [!NOTE]
 >
@@ -174,13 +174,13 @@ test2,ONT_Col_0_bam,/absolute/path/to/ont_modbam.bam,/absolute/path/to/Col_0.fas
 test3,PacBio_Col_0_bam,/absolute/path/to/pacbio_bam.bam,/absolute/path/to/Col_0.fasta,pacbio
 ```
 
-| Column | Description |
-| ------ | ----------- |
-| `group` | Sample group |
-| `sample` | Sample name |
-| `path` | Path to the input BAM or POD5 data |
-| `ref` | Path to the reference genome FASTA/FA file |
-| `method` | Sequencing platform: `ont` or `pacbio` |
+| Column   | Description                                |
+| -------- | ------------------------------------------ |
+| `group`  | Sample group                               |
+| `sample` | Sample name                                |
+| `path`   | Path to the input BAM or POD5 data         |
+| `ref`    | Path to the reference genome FASTA/FA file |
+| `method` | Sequencing platform: `ont` or `pacbio`     |
 
 > [!IMPORTANT]
 >
@@ -205,11 +205,11 @@ We recommend running this test to verify the Nextflow setup, software environmen
 
 Representative test datasets for the following supported input scenarios are available in the [nf-core test-datasets repository](https://github.com/nf-core/test-datasets/tree/methylong/v2.0.0/test_data):
 
-| Scenario              | Demo samplesheet                                             |
-| --------------------- | ------------------------------------------------------------ |
-| ONT BAM               | [`test_samplesheet.csv`](https://github.com/nf-core/test-datasets/blob/methylong/v2.0.0/test_data/test_samplesheet.csv) |
-| ONT POD5              | [`test_samplesheet_pod5.csv`](https://github.com/nf-core/test-datasets/blob/methylong/v2.0.0/test_data/test_samplesheet_pod5.csv) |
-| PacBio modBAM         | [`full_test_samplesheet.csv`](https://github.com/nf-core/test-datasets/blob/methylong/v2.0.0/test_data/full_test_samplesheet.csv) |
+| Scenario              | Demo samplesheet                                                                                                                                      |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ONT BAM               | [`test_samplesheet.csv`](https://github.com/nf-core/test-datasets/blob/methylong/v2.0.0/test_data/test_samplesheet.csv)                               |
+| ONT POD5              | [`test_samplesheet_pod5.csv`](https://github.com/nf-core/test-datasets/blob/methylong/v2.0.0/test_data/test_samplesheet_pod5.csv)                     |
+| PacBio modBAM         | [`full_test_samplesheet.csv`](https://github.com/nf-core/test-datasets/blob/methylong/v2.0.0/test_data/full_test_samplesheet.csv)                     |
 | PacBio unmodified BAM | [`test_samplesheet_unmodified_bam.csv`](https://github.com/nf-core/test-datasets/blob/methylong/v2.0.0/test_data/test_samplesheet_unmodified_bam.csv) |
 
 ## Pipeline output
