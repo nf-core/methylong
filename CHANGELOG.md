@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Fixed`
 
 - Fix a caching issue in the `WHATSHAP_HAPLOTAG` workflow.
+- Fix haplotype-level DMR input matching for Modkit 0.6.x phased pileups in the DSS and Modkit workflows.
 - Honor the DSS `--smoothing_flag` setting in `DMLtest()`. Smoothing is now applied by default.
 - Check that the input data (`path`) and reference genome (`ref`) in the samplesheet exist when the workflow starts.
 
