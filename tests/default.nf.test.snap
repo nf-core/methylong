@@ -1,7 +1,7 @@
 {
     "-profile test": {
         "content": [
-            22,
+            25,
             {
                 
             },
@@ -37,6 +37,13 @@
                 "ont/homo_sapiens/alignment/homo_sapiens_aligned.bam",
                 "ont/homo_sapiens/alignment/homo_sapiens_aligned.bam.bai",
                 "ont/homo_sapiens/dmr_haplotype_level",
+                "ont/homo_sapiens/dmr_haplotype_level/dmr_dss",
+                "ont/homo_sapiens/dmr_haplotype_level/dmr_dss/homo_sapiens_DSS.log",
+                "ont/homo_sapiens/dmr_haplotype_level/dmr_dss/homo_sapiens_DSS_DMLtest.txt",
+                "ont/homo_sapiens/dmr_haplotype_level/dmr_dss/homo_sapiens_DSS_callDML.txt",
+                "ont/homo_sapiens/dmr_haplotype_level/dmr_dss/homo_sapiens_DSS_callDMR.txt",
+                "ont/homo_sapiens/dmr_haplotype_level/dmr_dss/homo_sapiens_preprocessed_1.gz",
+                "ont/homo_sapiens/dmr_haplotype_level/dmr_dss/homo_sapiens_preprocessed_2.gz",
                 "ont/homo_sapiens/dmr_haplotype_level/phased_pileup",
                 "ont/homo_sapiens/dmr_haplotype_level/phased_pileup/homo_sapiens.5mC_combined.bed.gz",
                 "ont/homo_sapiens/dmr_haplotype_level/phased_pileup/homo_sapiens.5mC_hp1.bed.gz",
@@ -74,6 +81,11 @@
                 "samtools-flagstat-pct-table.txt:md5,2b206e73550707faea58fd0c762ce9a2",
                 "samtools-flagstat-table.txt:md5,d85b96e27bcf53c9a7ad885e6b280ab3",
                 "homo_sapiens_ont.flagstat:md5,8664205b2167ad7783211565ee87d71c",
+                "homo_sapiens_DSS_DMLtest.txt:md5,cd525e216c71118bfaffacab5c7e8aee",
+                "homo_sapiens_DSS_callDML.txt:md5,6abca78e492354d0c41c111bf4c8c4b3",
+                "homo_sapiens_DSS_callDMR.txt:md5,baf900054aa02783b073fa2ca883fb0d",
+                "homo_sapiens_preprocessed_1.gz:md5,ecca02af0e123d477e4d61af233ca0b5",
+                "homo_sapiens_preprocessed_2.gz:md5,d8cd2baea29c39a3f3ae3cc637831bee",
                 "homo_sapiens.5mC_combined.bed.gz:md5,8dcfe40349d6f177c3b19d2f5c3d4002",
                 "homo_sapiens.5mC_hp1.bed.gz:md5,8d41528c6e9554309ddffce2fe9e1807",
                 "homo_sapiens.5mC_hp2.bed.gz:md5,6af3623f4a9e429de3b4ba8dbce64d78",
@@ -101,14 +113,19 @@
                 ],
                 [
                     "homo_sapiensmerge_output.vcf.gz",
-                    "VcfFile [chromosomes=[chr22], sampleCount=1, variantCount=81, phased=false, phasedAutodetect=false]"
+                    {
+                        "chromosomes": [
+                            "chr22"
+                        ],
+                        "sampleCount": 1
+                    }
                 ]
             ]
         ],
-        "timestamp": "2026-06-07T22:21:05.620283304",
         "meta": {
-            "nf-test": "0.9.5",
-            "nextflow": "26.04.3"
-        }
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-11-19T20:38:37.050112199"
     }
 }

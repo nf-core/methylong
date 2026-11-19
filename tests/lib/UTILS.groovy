@@ -59,8 +59,17 @@ class UTILS {
                     return file.getName() + ":exists,size=" + size }
                     )
 
-            assertion.add(vcf_files.isEmpty() ? 'No VCF files' : vcf_files.collect { file -> [ file.getName(), path(file.toString()).vcf.summary ] })
-
+            def vcf_summaries = vcf_files.collect { file ->
+                def vcf = path(file.toString()).vcf
+                if (file.getName().endsWith('merge_output.vcf.gz')) {
+                    return [file.getName(), [
+                        chromosomes: vcf.chromosomes.toList().sort(),
+                        sampleCount: vcf.sampleCount
+                    ]]
+                }
+                [file.getName(), vcf.summary]
+            }
+            assertion.add(vcf_summaries.isEmpty() ? 'No VCF files' : vcf_summaries)
         }
 
         return assertion
