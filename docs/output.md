@@ -114,7 +114,7 @@ Use `--bedgraph` to request compressed bedGraph tracks.
 <summary>Output files</summary>
 
 - `bedgraphs/*.bedgraph.gz` contains tracks derived from the Modkit or pb-CpG-tools pileup.
-- `pacbio/<sample>/bedgraphs/ccsmeth/*.bedgraph.gz` is the output path for the additional ccsmeth conversion when `--pacbio_modcaller ccsmeth` is selected.
+- `pacbio/<sample>/bedgraphs/ccsmeth/*_CG.bedgraph.gz` is the four-column track from the aggregate ccsmeth pileup when `--pacbio_modcaller ccsmeth` is selected. Its fourth column is the methylation percentage.
 
 </details>
 

@@ -43,6 +43,6 @@ process CCSMETH_CALLFREQB {
 
     """
     echo $args
-    echo "" | gzip > ${prefix}.bed.gz
+    echo "" | gzip > ${prefix}.aggregate.all.bed.gz
     """
 }
