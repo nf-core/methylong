@@ -23,30 +23,34 @@ process MODKIT_BEDGRAPH {
     task.ext.when == null || task.ext.when
 
     script:
+    def contexts = meta.bedgraph_modification == '6mA' ? 'A' : 'CG CHG CHH'
+
     """
-    set -eu
+    set -euo pipefail
+
+    pigz -p ${task.cpus} -dc -- "${in_bed}" > pileup.bed
 
     for strand in "+" "-"
     do
-        for mod in "C,CHH,0" "C,CHG,0" "C,CG,0" "A,A,0"
+        strand_name=positive
+        if [ "\$strand" = "-" ]; then
+            strand_name=negative
+        fi
+
+        for context in ${contexts}
         do
-            case \$strand in
-                "+")
-            out_file=\$(echo "\$mod" | sed 's/^[AC],//' | sed 's/,0//')_positive.bedgraph
-                ;;
-                "-")
-            out_file=\$(echo "\$mod" | sed 's/^[AC],//' | sed 's/,0//')_negative.bedgraph
-                ;;
-                *)
-            echo "> not a strand"
-                exit 1
-                ;;
-            esac
-            echo "File Path: ${in_bed}"
-            awk -v strand=\$strand -v mod=\$mod 'BEGIN{OFS="\t"} ((\$4==mod) && (\$6==strand)) && (\$5 >= 5) {print \$1,\$2,\$3,\$11,\$12,\$13}' ${in_bed} \
-            | pigz -p ${task.cpus} -c > ${meta.id}_\${out_file}.gz
+            awk -v strand="\$strand" -v context="\$context" '
+                BEGIN { OFS = "\\t" }
+                NF >= 13 && \$5 >= 5 && \$6 == strand &&
+                    (\$4 == "C," context ",0" || (context == "A" && (\$4 == "a" || \$4 == "A,A,0"))) {
+                    print \$1, \$2, \$3, \$11, \$12, \$13
+                }
+            ' pileup.bed \\
+                | pigz -p ${task.cpus} -c > "${meta.id}_\${context}_\${strand_name}.bedgraph.gz"
         done
     done
+
+    rm -f -- pileup.bed
     """
 
     stub:
