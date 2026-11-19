@@ -22,6 +22,10 @@
 
 > Petr Danecek, James K Bonfield, Jennifer Liddle, John Marshall, Valeriu Ohan, Martin O Pollard, Andrew Whitwham, Thomas Keane, Shane A McCarthy, Robert M Davies, Heng Li (2021) Twelve years of SAMtools and BCFtools. GigaScience, Volume 10, Issue 2, February 2021, giab008, https://doi.org/10.1093/gigascience/giab008
 
+- [Tabix](https://www.htslib.org/doc/tabix.html)
+
+> Li H (2011). Tabix: fast retrieval of sequence features from generic TAB-delimited files. _Bioinformatics_ 27, 718–719. [doi:10.1093/bioinformatics/btq671](https://doi.org/10.1093/bioinformatics/btq671).
+
 - [gunzip](https://www.gnu.org/software/gzip/manual/gzip.html)
 
 - [pigz](https://zlib.net/pigz/)
@@ -52,6 +56,8 @@
 
 - [Clair3](https://github.com/HKU-BAL/Clair3)
 
+> Zheng Z, Li S, Su J, Leung AW, Lam TW, Luo R (2022). Symphonizing pileup and full-alignment for deep learning-based long-read variant calling. _Nature Computational Science_ 2, 797–803. [doi:10.1038/s43588-022-00387-x](https://doi.org/10.1038/s43588-022-00387-x).
+
 - [WhatsHap](https://github.com/whatshap/whatshap)
 
 > Marcel Martin, Murray Patterson, Shilpa Garg, Sarah O. Fischer, Nadia Pisanti, Gunnar W. Klau, Alexander Schoenhuth, Tobias Marschall. _WhatsHap: fast and accurate read-based phasing_. bioRxiv 085050; doi: https://doi.org/10.1101/085050
@@ -63,9 +69,13 @@
 >
 > Feng H, Conneely K, Wu H (2014). A bayesian hierarchical model to detect differentially methylated loci from single nucleotide resolution sequencing data. _Nucleic acids research_. [doi:10.1093/nar/gku154](https://doi.org/10.1093/nar/gku154).
 >
-> Wu H, Xu T, Feng H, Chen L, Li B, Yao B, Qin Z, Jin P, Conneely K (2015). Detection of differentially methylated regions from whole-genome bisulfite sequencing data without replicates. _Nucleic acids research_. [doi: 10.1093/nar/gkv715](https://doi.org/ 10.1093/nar/gkv715).
+> Wu H, Xu T, Feng H, Chen L, Li B, Yao B, Qin Z, Jin P, Conneely K (2015). Detection of differentially methylated regions from whole-genome bisulfite sequencing data without replicates. _Nucleic acids research_. [doi:10.1093/nar/gkv715](https://doi.org/10.1093/nar/gkv715).
 >
 > Park Y, Wu H (2016). Differential methylation analysis for BS-seq data under general experimental design. _Bioinformatics_. [doi:10.1093/bioinformatics/btw026](https://doi.org/10.1093/bioinformatics/btw026).
+
+- [NanoMethPhase](https://github.com/vahidAK/NanoMethPhase) (source of the adapted `call_dss.py` script)
+
+> Akbari V, Garant JM, O’Neill K, et al. (2021). Megabase-scale methylation phasing using nanopore long reads and NanoMethPhase. _Genome Biology_ 22, 68. [doi:10.1186/s13059-021-02283-5](https://doi.org/10.1186/s13059-021-02283-5).
 
 - [jasmine](https://github.com/pacificbiosciences/jasmine/)
 - [ccsmeth](https://github.com/PengNi/ccsmeth)

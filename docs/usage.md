@@ -123,46 +123,44 @@ flowchart TD
 
 ## Samplesheet input
 
-You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 5 columns, and a header row as shown in the examples below.
+Pass a CSV samplesheet to `--input`. Include the header row and all five columns shown below.
 
 ```bash
---input '[path to samplesheet file]'
+--input samplesheet.csv
 ```
 
 ### Full samplesheet
 
-The samplesheet required 5 columns, as defined in the table below. Sample name can be repeated if the corresponding sample has both ONT and PacBio HiFi data. One group can contain multiple samples.
+A group can contain multiple samples. A sample name can be repeated for the same sample sequenced on both platforms.
 
 ```csv title="samplesheet.csv"
 group,sample,path,ref,method
-group1,sample1,sample1.bam,sample1.fasta,pacbio
-group2,sample2,sample2.bam,sample2.fasta,pacbio
-group3,sample3,sample3.bam,sample3.fasta,pacbio
-group3,sample3,sample3.bam,sample3.fasta,ont
-group3,sample4,sample4.bam,sample4.fasta,ont
+group1,sample1,/data/sample1.hifi.mod.bam,/refs/reference.fasta,pacbio
+group1,sample2,/data/sample2.ont.mod.bam,/refs/reference.fasta,ont
+group2,sample3,/data/sample3.pod5,/refs/reference.fasta,ont
 ```
 
-| Column   | Description                                                                                                                                                     |
-| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `group`  | Custom sample group name.                                                                                                                                       |
-| `sample` | Custom sample name.                                                                                                                                             |
-| `modbam` | Full path to modification basecalled bam file. This bam file has to be unaligned bam file. File has to have the extension ".bam".                               |
-| `ref`    | Full path to reference genome file . File can be either gzipped or not. File has to have the extension '.fa', '.fasta', '.fna' or their equivalent gzip format. |
-| `method` | Sequencing method has to be specified. Either 'ont' or 'pacbio' can be accepted.                                                                                |
+| Column   | Description                                                                              |
+| -------- | ---------------------------------------------------------------------------------------- |
+| `group`  | Sample group name. Use these names in `--dmr_a` and `--dmr_b` for population-scale DMRs. |
+| `sample` | Sample name.                                                                             |
+| `path`   | Path to an ONT `.bam`, `.pod5` or POD5 directory, or a PacBio HiFi `.bam`.               |
+| `ref`    | Path to the reference FASTA (`.fa`, `.fasta` or `.fna`, optionally `.gz`).               |
+| `method` | Sequencing platform, `ont` or `pacbio`.                                                  |
 
-An [example samplesheet](../assets/test_data/test_samplesheet.csv) has been provided with the pipeline.
+Absolute paths are recommended for `path` and `ref`. The pipeline checks that both paths exist during initialization. ONT POD5 input triggers basecalling automatically. Use `--pacbio_modcall` for PacBio HiFi BAMs that need modification calling.
+
+Example samplesheets are available in the [nf-core test-datasets repository](https://github.com/nf-core/test-datasets/tree/methylong/v2.0.0/test_data).
 
 ## Running the pipeline
 
-**The typical command for running the pipeline is as follows:**
+The pipeline requires Nextflow `25.10.4` or later. A typical run uses the Docker profile.
 
 ```bash
 nextflow run nf-core/methylong --input ./samplesheet.csv --outdir ./results -profile docker
 ```
 
-This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
-
-default workflow is:
+The default workflow follows these steps.
 
 ```
 preprocessing (ONT only) --> genome alignment --> methylation calling --> SNV calling --> haplotype phasing --> haplotype DMR calling
@@ -192,13 +190,15 @@ nextflow run nf-core/methylong --input ./samplesheet_pacbio.csv --outdir ./resul
 nextflow run nf-core/methylong --input ./samplesheet_dmr.csv --outdir ./results -profile docker --dmr_population_scale --dmr_a group_name_1 --dmr_b group_name_2
 ```
 
-> `--dmr_population_scale` must be provided otherwise it will run the haplotype dmr workflow
+Population-scale DMR analysis requires `--dmr_population_scale` and both group names from the samplesheet. Use the same reference genome for the samples in both groups. Haplotype-level DMR analysis runs when SNV calling is enabled. DSS is the default DMR caller. To select Modkit explicitly, use `--haplotype_dmrer modkit` or `--population_dmrer modkit` for the corresponding analysis.
 
 **4. For calling methylation in CG, CHG and CHH contexts:**
 
 ```bash
-nextflow run nf-core/methylong --input ./samplesheet_dmr.csv --outdir ./results -profile docker --all_contexts
+nextflow run nf-core/methylong --input ./samplesheet_ont.csv --outdir ./results -profile docker --all_contexts
 ```
+
+`--all_contexts` includes CG, CHG and CHH in Modkit pileups and selects `modkit dmr pair` for any enabled DMR analysis. For a PacBio methylation pileup across these contexts, also set `--pileup_method modkit`.
 
 Note that the pipeline will create the following files in your working directory:
 

@@ -35,8 +35,11 @@ workflow PACBIO_CALLFREQB_CCSMETH {
     // ccsmeth call_freqb
     CCSMETH_CALLFREQB(ch_pileup_in.bam_in, ch_pileup_in.ref_in)
 
-    CCSMETH_CALLFREQB.out.bed.set { pileup_out }
-    TABIX_TABIX(CCSMETH_CALLFREQB.out.bed)
+    pileup_out = CCSMETH_CALLFREQB.out.bed.flatMap { meta, beds ->
+        def files = beds instanceof Collection ? beds : [beds]
+        files.collect { bed -> [meta, bed] }
+    }
+    TABIX_TABIX(pileup_out)
 
     emit:
     pileup_out

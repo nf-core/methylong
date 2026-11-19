@@ -40,9 +40,9 @@ workflow MODKIT_DMR_HAPLOTYPE_LEVEL {
         .set { pileup_out }
 
     // segment haplotype bed files
-    bed_hp1 = pileup_out.filter { _meta, file -> file.toString().endsWith('_1.bed.gz') }
+    bed_hp1 = pileup_out.filter { _meta, file -> file.toString().endsWith('_hp1.bed.gz') }
 
-    bed_hp2 = pileup_out.filter { _meta, file -> file.toString().endsWith('_2.bed.gz') }
+    bed_hp2 = pileup_out.filter { _meta, file -> file.toString().endsWith('_hp2.bed.gz') }
 
     //tabix
     TABIX_TABIX_1(bed_hp1)
