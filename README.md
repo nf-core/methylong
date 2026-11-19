@@ -377,7 +377,9 @@ For further information or help, don't hesitate to get in touch on the [Slack `#
 
 ## Citations
 
-If you use nf-core/methylong for your analysis, please cite it using the following doi: [10.5281/zenodo.15366448](https://doi.org/10.5281/zenodo.15366448)
+If you use nf-core/methylong for your analysis, please cite it using the following doi: [10.5281/zenodo.15366448](https://doi.org/10.5281/zenodo.15366448) and
+
+> Xiong, Y., Sheng, T., Khoo, J.Y. et al. nf-core/methylong enables reproducible cross-platform analysis of long-read DNA methylation. BMC Bioinformatics (2026). https://doi.org/10.1186/s12859-026-06737-0
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
