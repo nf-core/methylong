@@ -17,3 +17,4 @@ multiqc/multiqc_report.html
 {ont,pacbio}/*/alignment/*.{bam,bam.bai}
 {ont,pacbio}/*/phase/*.{bam,bam.bai,vcf,vcf.gz,vcf.gz.tbi,readlist}
 pipeline_info/*.{html,json,txt,yml}
+{ont,pacbio}/*/dmr_haplotype_level/dmr_dss/*_DSS.log

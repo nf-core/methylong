@@ -6,7 +6,7 @@
 
 include { CCSMETH_CALLMODS                 } from '../../modules/local/ccsmeth/callmods/main'
 include { PBJASMINE                        } from '../../modules/nf-core/pbjasmine/main'
-include { MODKIT_BEDGRAPH as CCSMETH_BEDGRAPH } from '../../modules/local/bed2bedgraphs/modkit_bedgraphs/main'
+include { CCSMETH_BEDGRAPH                 } from '../../modules/local/bed2bedgraphs/ccsmeth_bedgraphs/main'
 
 /*
 ===========================================
@@ -120,9 +120,11 @@ workflow PACBIO {
     if (params.pacbio_modcaller == 'ccsmeth') {
 
         PACBIO_CALLFREQB_CCSMETH(ch_pile_in)
-        ch_ccsmeth_bg_in = PACBIO_CALLFREQB_CCSMETH.out.pileup_out
 
         if (params.bedgraph) {
+            ch_ccsmeth_bg_in = PACBIO_CALLFREQB_CCSMETH.out.pileup_out.filter { _meta, bed ->
+                bed.name.endsWith('.all.bed.gz')
+            }
             CCSMETH_BEDGRAPH(ch_ccsmeth_bg_in)
         }
     }

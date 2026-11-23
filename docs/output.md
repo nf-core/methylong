@@ -4,7 +4,7 @@
 
 This document describes the output produced by the pipeline.
 
-The directories listed below will be created in the results directory after the pipeline has finished. All paths are relative to the top-level results directory.
+Sample-level outputs are under `<platform>/<sample>/`, where `<platform>` is `ont` or `pacbio`. Population-scale comparisons have a separate directory under `<platform>/dmr_population_scale/`. The `multiqc/` and `pipeline_info/` directories are at the top level of the results directory.
 
 ## Pipeline overview
 
@@ -15,7 +15,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [Preprocessing reads](#preprocessing-reads) - Adapters and Barcodes removal
 - [Alignment](#alignment) - alignment to reference genome
 - [Methylation calling](#pileup) - pile up of methylation calls
-- [Bed to bedgraph conversion](#bedgraph) - convert bed to bedgraph
+- [BedGraphs](#bedgraphs) - methylation tracks derived from pileups
 - [SNV calling](#snv-calling) - germline small variant calls
 - [Phasing](#phasing) - phase genomic variant
 - [DMR analysis](#dmr-analysis) - DMR results
@@ -81,7 +81,7 @@ Preprocessing of reads are only available for ONT reads. Reads are trimmed, then
 
 ### Pileup
 
-Methylation pile up for PacBio data can be preformed by either modkit or pb-CpG-tools.
+The pipeline uses Modkit for ONT pileup. For PacBio, `--pileup_method` selects pb-CpG-tools (default) or Modkit. The PacBio `ccsmeth` branch also writes its own `call_freqb` pileup.
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -90,6 +90,7 @@ Methylation pile up for PacBio data can be preformed by either modkit or pb-CpG-
 
 - `pileup/`
   - `*.bed.gz`: pileup of methylation calls in compressed bed format
+  - `*.bed.gz.tbi` indexes the compressed Modkit pileup.
   - `*_pileup.log`: pileup log
 
 #### pb-CpG-tools output:
@@ -99,15 +100,21 @@ Methylation pile up for PacBio data can be preformed by either modkit or pb-CpG-
   - `*_pileup.log`: pileup log
   - `*.bw`: bigwig format
 
+#### ccsmeth output
+
+- `pileup/` contains the compressed `*_ccsmeth_freqb*.bed.gz` pileup and its `.tbi` index when the ccsmeth branch runs.
+
 </details>
 
 ### Bedgraphs
 
+Use `--bedgraph` to request compressed bedGraph tracks.
+
 <details markdown="1">
 <summary>Output files</summary>
 
-- `bedgraphs/`
-  - `*.bedgraph`: context specific bedgraph output
+- `bedgraphs/*.bedgraph.gz` contains tracks derived from the Modkit or pb-CpG-tools pileup.
+- `pacbio/<sample>/bedgraphs/ccsmeth/*_CG.bedgraph.gz` is the four-column track from the aggregate ccsmeth pileup when `--pacbio_modcaller ccsmeth` is selected. Its fourth column is the methylation percentage.
 
 </details>
 
@@ -129,39 +136,29 @@ Methylation pile up for PacBio data can be preformed by either modkit or pb-CpG-
 <summary>Output files</summary>
 
 - `phase/`
-  - `*phased.vcf`: phased vcf
-  - `*.bam`: haplotagged bam
-  - `*.readlist`: haplotagged readlist
+  - `*_phased.vcf.gz` and `*_phased.vcf.gz.tbi` contain the phased variants and their index.
+  - `*_haplotagged.bam` and `*_haplotagged.bam.bai` contain the haplotagged alignments and their index.
+  - `*_haplotagged.readlist` lists haplotype assignments for reads.
 
 </details>
 
 ### DMR analysis
 
-DMR analysis includes haplotype level and population scale, and can be preformed by either DSS or modkit.
+DMR output paths depend on the analysis level and caller.
 
 <details markdown="1">
 <summary>Output files</summary>
 
-#### DSS output:
+#### Haplotype-level DMRs
 
-- `dmr_haplotype_level/dss/`
-  - `*_preprocessed_<1|2|etc>.bed`: partitioned reads based on HP tag
-  - `*_DSS_DMLtest.txt`: DML test results
-  - `*_DSS_callDML.txt`: DML
-  - `*_DSS_callDMR.txt`: DMR
-  - `*_DSS.log`: DSS log
+- `dmr_haplotype_level/phased_pileup/` contains compressed Modkit pileups, including `*_hp1.bed.gz`, `*_hp2.bed.gz` and `*_combined.bed.gz` for 5mC.
+- `dmr_haplotype_level/dmr_dss/` contains `*_DSS_DMLtest.txt`, `*_DSS_callDML.txt`, `*_DSS_callDMR.txt` and `*_DSS.log` when DSS produces results.
+- `dmr_haplotype_level/dmr_modkit/` contains `*_modkit_dmr_haplotype_level.bed.gz` and the Modkit log when Modkit produces results.
 
-#### modkit dmr output:
+#### Population-scale DMRs
 
-- `dmr_haplotype_level/modkit/`
-  - `*_<1|2|etc>.bed`: partitioned reads based on HP tag
-  - `*_modkit_dmr_haplotype_level.bed`: differential methylation output
-
-- `dmr_population_scale/`
-  - `*_DSS_DMLtest.txt`: DML test results
-  - `*_DSS_callDML.txt`: DML
-  - `*_DSS_callDMR.txt`: DMR
-  - `*_DSS.log`: DSS log
+- `<platform>/dmr_population_scale/group_pileup/` contains the compressed per-sample pileups for the selected groups.
+- `<platform>/dmr_population_scale/<group_a>_<group_b>/` contains `dss_population_scale_DMLtest.txt`, `dss_population_scale_callDML.txt`, `dss_population_scale_callDMR.txt` and `dss_population_scale.log` for DSS, or `*_modkit_dmr_population_scale.bed.gz` and the Modkit log for Modkit.
 
 </details>
 
@@ -199,10 +196,9 @@ Results generated by MultiQC collate pipeline QC from supported tools e.g. FastQ
 <summary>Output files</summary>
 
 - `pipeline_info/`
-  - Reports generated by Nextflow: `execution_report.html`, `execution_timeline.html`, `execution_trace.txt` and `pipeline_dag.dot`/`pipeline_dag.svg`.
-  - Reports generated by the pipeline: `pipeline_report.html`, `pipeline_report.txt` and `software_versions.yml`. The `pipeline_report*` files will only be present if the `--email` / `--email_on_fail` parameter's are used when running the pipeline.
-  - Reformatted samplesheet files used as input to the pipeline: `samplesheet.valid.csv`.
-  - Parameters used by the pipeline run: `params.json`.
+  - Nextflow reports use a run-specific suffix, as in `execution_report_*.html`, `execution_timeline_*.html`, `execution_trace_*.txt` and `pipeline_dag_*.html`.
+  - `nf_core_methylong_software_versions.yml` records the software versions collected during the run.
+  - `pipeline_report.html` and `pipeline_report.txt` are generated when `--email` or `--email_on_fail` is set.
 
 </details>
 

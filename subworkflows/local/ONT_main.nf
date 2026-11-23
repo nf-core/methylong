@@ -78,8 +78,11 @@ workflow ONT {
     if (params.bedgraph) {
 
         if (params.m6a) {
-                ch_bg_in = ch_bg_in.mix(INDEX_MODKIT_PILEUP.out.pileup_6mA_out)
-                }
+            ch_bg_6ma = INDEX_MODKIT_PILEUP.out.pileup_6mA_out.map { meta, bed ->
+                [meta + [bedgraph_modification: '6mA'], bed]
+            }
+            ch_bg_in = ch_bg_in.mix(ch_bg_6ma)
+        }
 
         BED2BEDGRAPH(ch_bg_in)
     }
