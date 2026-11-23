@@ -24,6 +24,7 @@ process MODKIT_BEDGRAPH {
 
     script:
     def contexts = meta.bedgraph_modification == '6mA' ? 'A' : 'CG CHG CHH'
+    def cg_only = params.all_contexts ? 0 : 1
 
     """
     set -euo pipefail
@@ -39,10 +40,12 @@ process MODKIT_BEDGRAPH {
 
         for context in ${contexts}
         do
-            awk -v strand="\$strand" -v context="\$context" '
+            awk -v strand="\$strand" -v context="\$context" -v cg_only=${cg_only} '
                 BEGIN { OFS = "\\t" }
                 NF >= 13 && \$5 >= 5 && \$6 == strand &&
-                    (\$4 == "C," context ",0" || (context == "A" && (\$4 == "a" || \$4 == "A,A,0"))) {
+                    (\$4 == "C," context ",0" ||
+                     (cg_only && context == "CG" && \$4 == "C") ||
+                     (context == "A" && (\$4 == "a" || \$4 == "A,A,0"))) {
                     print \$1, \$2, \$3, \$11, \$12, \$13
                 }
             ' pileup.bed \\
